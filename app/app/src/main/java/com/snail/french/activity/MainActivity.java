@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.snail.french.R;
+import com.snail.french.activity.base.BaseActivity;
+import com.snail.french.view.CommonTitle;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,11 +18,19 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.test)
     TextView textView;
 
+    @Bind(R.id.titlebar)
+    CommonTitle title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+//        if (toolbar != null) {
+//            setSupportActionBar(toolbar);
+//            toolbar.setNavigationIcon(R.mipmap.ic_ab_drawer);
+//        }
     }
 
     @Override

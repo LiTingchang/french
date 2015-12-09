@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.snail.french.model.common.ResponseData;
 import com.snail.french.net.HttpClientUtil;
 import com.snail.french.utils.LogUtil;
 
