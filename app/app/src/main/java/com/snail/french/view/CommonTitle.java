@@ -55,7 +55,7 @@ public class CommonTitle extends RelativeLayout {
         if (bgColor != -1) {
             rootView.setBackgroundResource(bgColor);
         } else {
-            rootView.setBackgroundResource(android.R.color.darker_gray);
+            rootView.setBackgroundResource(android.R.color.transparent);
         }
 
         if (backBtnSrc != -1) {

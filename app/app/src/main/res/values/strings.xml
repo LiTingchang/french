@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">app</string>
+    <string name="app_name">蜗牛法语题库</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="drawer_tcf">TCF</string>
+    <string name="drawer_tef">TEF</string>
+    <string name="drawer_tem_4">专四</string>
+    <string name="drawer_personal_center">个人中心</string>
+    <string name="drawer_guide">考试指导</string>
+
 </resources>

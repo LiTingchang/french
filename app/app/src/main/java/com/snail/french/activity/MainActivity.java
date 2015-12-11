@@ -1,25 +1,42 @@
 package com.snail.french.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.view.CommonTitle;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
 
-    @Bind(R.id.test)
-    TextView textView;
-
     @Bind(R.id.titlebar)
-    CommonTitle title;
+    CommonTitle titlebar;
+    @Bind(R.id.content_main)
+    FrameLayout contentMain;
+    @Bind(R.id.drawer_tcf)
+    TextView drawerTcf;
+    @Bind(R.id.drawer_tef)
+    TextView drawerTef;
+    @Bind(R.id.drawer_tem_4)
+    TextView drawerTem4;
+    @Bind(R.id.drawer_guide)
+    ImageView drawerGuide;
+    @Bind(R.id.drawer_personal)
+    ImageView drawerPersonal;
+
+
+    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,31 +44,30 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        if (toolbar != null) {
-//            setSupportActionBar(toolbar);
-//            toolbar.setNavigationIcon(R.mipmap.ic_ab_drawer);
-//        }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    @OnClick(R.id.drawer_tcf)
+    void tcfSelected() {
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    @OnClick(R.id.drawer_tef)
+    void tefSelected() {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
+
+    @OnClick(R.id.drawer_tem_4)
+    void tem4Selected() {
+
+    }
+
+    @OnClick(R.id.drawer_guide)
+    void guideClicked() {
+
+    }
+    @OnClick(R.id.drawer_personal)
+    void personalClicked() {
+
+    }
+
 }

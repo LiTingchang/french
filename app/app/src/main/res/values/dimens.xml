@@ -7,4 +7,6 @@
     <dimen name="common_title_padding_size">12dp</dimen>
     <dimen name="common_title_btn_size">26dp</dimen>
     <dimen name="common_title_text_size">18sp</dimen>
+
+    <dimen name="drawer_item_height">62dp</dimen>
 </resources>

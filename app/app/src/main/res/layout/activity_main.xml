@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/activity_bg">
 
     <!--<android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,7 +17,9 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        title:titleText="@string/app_name" />
+        title:titleText="@string/app_name"
+        title:titleColor="@android:color/white"
+        title:bgColor="@color/title_bg"/>
 
     <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,38 +30,55 @@
 
         <!-- contain view -->
         <FrameLayout
+            android:id="@+id/content_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <!-- -->
-
-                <TextView android:id="@+id/test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-            </RelativeLayout>
-
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
         <!-- The navigation drawer -->
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/left_drawer"
             android:layout_width="180dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:background="@android:color/white"
+            android:background="@color/drawer_layout_bg"
             android:clickable="true"
             android:orientation="vertical">
+            
+            <TextView android:id="@+id/drawer_tcf"
+                style="@style/DrawerItemText"
+                android:text="@string/drawer_tcf"
+                android:layout_marginTop="34dp" />
 
-        </LinearLayout>
+            <TextView android:id="@+id/drawer_tef"
+                style="@style/DrawerItemText"
+                android:text="@string/drawer_tef"
+                android:layout_below="@id/drawer_tcf" />
+
+            <TextView android:id="@+id/drawer_tem_4"
+                style="@style/DrawerItemText"
+                android:text="@string/drawer_tem_4"
+                android:layout_below="@id/drawer_tef" />
+
+            <ImageView android:id="@+id/drawer_guide"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/drawer_item_height"
+                android:scaleType="center"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/ico_guide_l"
+                android:background="@drawable/drawer_item_bg"
+                android:layout_marginBottom="22dp" />
+
+            <ImageView android:id="@+id/drawer_personal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/drawer_item_height"
+                android:layout_above="@id/drawer_guide"
+                android:scaleType="center"
+                android:src="@mipmap/ico_personal_l"
+                android:background="@drawable/drawer_item_bg" />
+
+
+        </RelativeLayout>
     </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>
