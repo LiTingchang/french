@@ -90,8 +90,7 @@ public class FrenchApp extends Application {
         this.displayMetrics = DisplayMetrics;
     }
 
-    public int dp2px(float f)
-    {
+    public int dp2px(float f) {
         return (int)(0.5F + f * getScreenDensity());
     }
 

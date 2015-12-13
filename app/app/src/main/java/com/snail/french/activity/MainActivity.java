@@ -5,16 +5,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.snail.french.FrenchApp;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
+import com.snail.french.fragment.BaseMainFragment;
 import com.snail.french.fragment.TcfFragment;
 import com.snail.french.fragment.TefFragment;
 import com.snail.french.fragment.Tem4Fragment;
+import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
@@ -27,6 +34,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Bind(R.id.titlebar)
     CommonTitle titlebar;
@@ -52,11 +60,13 @@ public class MainActivity extends BaseActivity {
     private TefFragment tefFragment;
     private Tem4Fragment tem4Fragment;
 
-    private Map<Integer, Fragment> fragmentMap = new HashMap<>();
+    private Map<Integer, BaseMainFragment> fragmentMap = new HashMap<>();
 
     private int currentTabID; //
 
     private int [] titleIDs = {R.string.drawer_tcf, R.string.drawer_tef, R.string.drawer_tem_4};
+
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +89,11 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onRightClicked(View parent, View v) {
+                showPopupWindow();
+            }
+
+            @Override
+            public void onRight2Clicked(View parent, View v) {
 
             }
         });
@@ -93,6 +108,7 @@ public class MainActivity extends BaseActivity {
 
         currentTabID = TAB_ID_TCF;
         selectFragment(TAB_ID_TCF);
+
     }
 
     @OnClick(R.id.drawer_tcf)
@@ -162,8 +178,70 @@ public class MainActivity extends BaseActivity {
         setTitleText(id);
     }
 
+    public BaseMainFragment getCurrentFragment() {
+        return fragmentMap.get(currentTabID);
+    }
+
     private void setTitleText(int id) {
         titlebar.setTitleText(titleIDs[id]);
+    }
+
+    int [] popMenuIds = {R.id.main_popup_window_item_1,
+            R.id.main_popup_window_item_2,
+            R.id.main_popup_window_item_3,
+            R.id.main_popup_window_item_4,
+            R.id.main_popup_window_item_5,
+            R.id.main_popup_window_item_6};
+
+    View.OnClickListener popupWindowItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.main_popup_window_item_1:
+                    break;
+                case R.id.main_popup_window_item_2:
+                    break;
+                case R.id.main_popup_window_item_3:
+                    break;
+                case R.id.main_popup_window_item_4:
+                    break;
+                case R.id.main_popup_window_item_5:
+                    break;
+                case R.id.main_popup_window_item_6:
+                    break;
+                default:
+                    break;
+            }
+            popupWindow.dismiss();
+        }
+    };
+
+    private void showPopupWindow() {
+        if(popupWindow == null) {
+            LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(this)
+                    .inflate(R.layout.main_popup_window,
+                            null);
+            popupWindow = new PopupWindow(linearLayout, ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(
+                    R.color.activity_bg));
+//        popup.setWindowLayoutMode(LayoutParams.MATCH_PARENT,
+//                LayoutParams.WRAP_CONTENT);
+            popupWindow.setFocusable(true);
+            popupWindow.setOutsideTouchable(true);
+        }
+
+        for (int id : popMenuIds) {
+            popupWindow.getContentView().findViewById(id)
+                    .setOnClickListener(popupWindowItemClickListener);
+        }
+
+        try {
+            popupWindow.showAsDropDown(titlebar);
+        } catch (Exception e) {
+            LogUtil.e(TAG, e.toString());
+        }
     }
 
 }
