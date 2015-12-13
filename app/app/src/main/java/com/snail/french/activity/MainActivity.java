@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,14 +45,18 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
-
+    private static final int TAB_ID_TCF = 0;
+    private static final int TAB_ID_TEF = 1;
+    private static final int TAB_ID_TEM4 = 2;
     private TcfFragment tcfFragment;
     private TefFragment tefFragment;
     private Tem4Fragment tem4Fragment;
 
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
 
-    private int currentTabID;
+    private int currentTabID; //
+
+    private int [] titleIDs = {R.string.drawer_tcf, R.string.drawer_tef, R.string.drawer_tem_4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,46 +64,65 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        titlebar.setOnTitleClickListener(new CommonTitle.TitleClickListener() {
+            @Override
+            public void onLeftClicked(View parent, View v) {
+                // TODO 如果PopupWindow弹出，先隐藏PopupWindow
+
+                //
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    drawerLayout.openDrawer(Gravity.LEFT);
+                }
+            }
+
+            @Override
+            public void onRightClicked(View parent, View v) {
+
+            }
+        });
+
         tcfFragment = TcfFragment.newInstance();
         tefFragment = TefFragment.newInstance();
         tem4Fragment = Tem4Fragment.newInstance();
 
-        fragmentMap.put(0, tcfFragment);
-        fragmentMap.put(1, tefFragment);
-        fragmentMap.put(2, tem4Fragment);
+        fragmentMap.put(TAB_ID_TCF, tcfFragment);
+        fragmentMap.put(TAB_ID_TEF, tefFragment);
+        fragmentMap.put(TAB_ID_TEM4, tem4Fragment);
 
-        currentTabID = 0;
-        selectFragment(0);
+        currentTabID = TAB_ID_TCF;
+        selectFragment(TAB_ID_TCF);
     }
 
     @OnClick(R.id.drawer_tcf)
     void tcfSelected() {
         drawerLayout.closeDrawer(Gravity.LEFT);
-        if (currentTabID == 0) {
+        if (currentTabID == TAB_ID_TCF) {
             return;
         }
 
-        selectFragment(0);
+        selectFragment(TAB_ID_TCF);
     }
 
     @OnClick(R.id.drawer_tef)
     void tefSelected() {
         drawerLayout.closeDrawer(Gravity.LEFT);
-        if (currentTabID == 1) {
+        if (currentTabID == TAB_ID_TEF) {
             return;
         }
 
-        selectFragment(1);
+        selectFragment(TAB_ID_TEF);
     }
 
     @OnClick(R.id.drawer_tem_4)
     void tem4Selected() {
         drawerLayout.closeDrawer(Gravity.LEFT);
-        if (currentTabID == 2) {
+        if (currentTabID == TAB_ID_TEM4) {
             return;
         }
 
-        selectFragment(2);
+        selectFragment(TAB_ID_TEM4);
     }
 
     @OnClick(R.id.drawer_guide)
@@ -134,6 +158,12 @@ public class MainActivity extends BaseActivity {
         }
         fragmentTransaction.commit();
         currentTabID = id;
+
+        setTitleText(id);
+    }
+
+    private void setTitleText(int id) {
+        titlebar.setTitleText(titleIDs[id]);
     }
 
 }
