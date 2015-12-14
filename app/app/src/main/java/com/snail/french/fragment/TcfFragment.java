@@ -13,6 +13,5 @@ public class TcfFragment extends BaseMainFragment{
 
     @Override
     public void initData() {
-        test.setText("tcf");
     }
 }

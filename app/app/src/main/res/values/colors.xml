@@ -12,5 +12,6 @@
     <color name="drawer_text_normal">#6ab3ff</color>
     <color name="drawer_text_pressed">#ffd013</color>
 
+    <color name="header_smart_test_bg">#cae4ff</color>
 
 </resources>

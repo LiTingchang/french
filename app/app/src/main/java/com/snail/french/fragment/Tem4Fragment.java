@@ -11,6 +11,5 @@ public class Tem4Fragment extends BaseMainFragment{
 
     @Override
     public void initData() {
-        test.setText("tem 4");
     }
 }

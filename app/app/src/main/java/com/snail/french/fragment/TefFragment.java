@@ -12,6 +12,5 @@ public class TefFragment extends BaseMainFragment{
 
     @Override
     public void initData() {
-        test.setText("tef");
     }
 }

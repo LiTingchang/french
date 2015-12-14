@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:minHeight="200dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="18dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:text="预测分/等级"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp" >
+        <ImageView android:id="@+id/detail_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/header_arrow"/>
+
+
+        <TextView android:id="@+id/detail_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:text="300" />
+
+        <TextView android:id="@+id/detail_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/detail_num"
+            android:layout_marginLeft="36dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:text="B1" />
+    </RelativeLayout>
+
+    <LinearLayout android:id="@+id/counter_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="12dp">
+
+        <TextView android:id="@+id/answered_numbers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"
+            android:text="答题量  1660"/>
+
+        <View
+            style="@style/line_vertical_style"
+            android:layout_height="18dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+
+        <TextView android:id="@+id/practice_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"
+            android:text="练习天数 40"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/smart_test_root"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:background="@color/header_smart_test_bg">
+
+        <TextView android:id="@+id/smart_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header_smart_test"/>
+
+    </LinearLayout>
+
+</LinearLayout>
