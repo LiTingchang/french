@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!--  设置背景色图像资源  -->
+
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="8dip" />
+            <!--<stroke android:color="#fbb0ae" android:width="1dp"/>-->
+            <solid android:color="#ffffff"/>
+        </shape>
+    </item>
+
+    <!--  设置进度条颜色图像资源  -->
+    <item android:id="@android:id/progress">
+        <clip>    
+            <shape android:shape="rectangle">
+                <corners android:radius="8dp"/>
+                <solid android:color="#a4c8ff"/>
+            </shape>
+        </clip>
+    </item>
+</layer-list>

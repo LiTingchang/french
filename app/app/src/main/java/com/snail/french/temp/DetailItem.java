@@ -7,7 +7,11 @@ import java.util.List;
 public class DetailItem
 {
     public List<OptionItem> optionItemList;
-    public Date date; // 时间
+    public String name;
+    public int total;
+    public int test;
+    public int level;
+    public float progress;
     
     public DetailItem() {
         optionItemList = new ArrayList<OptionItem>();

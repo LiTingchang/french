@@ -1,31 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="62dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:id="@+id/option_child_root_view" >
 
     <TextView
-        android:id="@+id/option_child_name"
+        android:id="@+id/child_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true" 
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="12dp"/>
-    
-    <TextView
-        android:id="@+id/option_child_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp" />
-    
-    <TextView
-        android:id="@+id/option_child_suggest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/option_child_value"/>
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:text="A"/>
 
+    <ImageView android:id="@+id/child_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/child_title"
+        android:layout_marginLeft="12dp"
+        android:layout_alignBottom="@id/child_title"
+        android:src="@drawable/btn_write_list_active_l"/>
+
+    <RatingBar android:id="@+id/child_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/child_title"
+        android:layout_marginRight="12dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:stepSize="1"
+        android:progressDrawable="@drawable/rating"/>
+
+    <ProgressBar
+        android:id="@+id/child_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:max="100"
+        android:progress="40"
+        android:progressDrawable="@drawable/progressbar"/>
+
+    <View style="@style/line_horizontal_style"
+        android:layout_marginLeft="12dp"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

@@ -9,18 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.RelativeLayout;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.snail.french.FrenchApp;
 import com.snail.french.R;
 import com.snail.french.temp.DetailItem;
 import com.snail.french.temp.DetailManager;
 import com.snail.french.temp.OptionItem;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -60,14 +58,41 @@ public abstract class BaseMainFragment extends Fragment {
 
         detailItems = new ArrayList<DetailItem>();
 
-        for ( int i = 0; i < 20; i++ )
-        {
-            DetailItem detailItem = new DetailItem();
-            detailItem.date = new Date();
-            detailItem.optionItemList = DetailManager.getBodyOptionItem();
+//        for ( int i = 0; i < 4; i++ )
+//        {
+//            DetailItem detailItem = new DetailItem();
+//            detailItem.date = new Date();
+//            detailItem.optionItemList = DetailManager.getBodyOptionItem();
+//
+//            detailItems.add(detailItem);
+//        }
 
-            detailItems.add(detailItem);
-        }
+        DetailItem detailItem = new DetailItem();
+        detailItem.name = "听力";
+        detailItem.total = 300;
+        detailItem.test = 39;
+        detailItem.level = 5;
+        detailItem.progress = 0.5f;
+        detailItem.optionItemList = DetailManager.getBodyOptionItem();
+        detailItems.add(detailItem);
+
+        DetailItem detailItem2 = new DetailItem();
+        detailItem2.name = "语法";
+        detailItem2.total = 200;
+        detailItem2.test = 77;
+        detailItem2.level = 3;
+        detailItem2.progress = 0.5f;
+        detailItem2.optionItemList = DetailManager.getBodyOptionItem();
+        detailItems.add(detailItem2);
+
+        DetailItem detailItem3 = new DetailItem();
+        detailItem3.name = "阅读";
+        detailItem3.total = 270;
+        detailItem3.test = 30;
+        detailItem3.level = 4;
+        detailItem3.progress = 0.5f;
+        detailItem3.optionItemList = DetailManager.getBodyOptionItem();
+        detailItems.add(detailItem3);
 
         adapter = new DetailAdapter(getContext(), detailItems);
 
@@ -107,13 +132,16 @@ public abstract class BaseMainFragment extends Fragment {
 
 
     private static class GroupViewHolder {
-        TextView timeTextView;
+        TextView title;
+        RatingBar ratingBar;
+        ProgressBar progressBar;
+        TextView count;
     }
 
     private static class ChildViewHolder {
-        TextView nameTextView;
-        TextView valueTextView;
-        TextView suggestTextView;
+        TextView title;
+        RatingBar ratingBar;
+        ProgressBar progressBar;
     }
 
     class DetailAdapter extends BaseExpandableListAdapter {
@@ -150,9 +178,9 @@ public abstract class BaseMainFragment extends Fragment {
 
                 childViewHolder = new ChildViewHolder();
 
-                childViewHolder.nameTextView= (TextView) convertView.findViewById(R.id.option_child_name);
-                childViewHolder.valueTextView= (TextView) convertView.findViewById(R.id.option_child_value);
-                childViewHolder.suggestTextView= (TextView) convertView.findViewById(R.id.option_child_suggest);
+                childViewHolder.title= (TextView) convertView.findViewById(R.id.child_title);
+                childViewHolder.ratingBar= (RatingBar) convertView.findViewById(R.id.child_rating);
+                childViewHolder.progressBar= (ProgressBar) convertView.findViewById(R.id.child_progress);
 
                 convertView.setTag(childViewHolder);
             } else {
@@ -160,10 +188,9 @@ public abstract class BaseMainFragment extends Fragment {
             }
 
             final OptionItem optionItem = (OptionItem) getChild(groupPosition, childPosition);
-            childViewHolder.nameTextView.setText(optionItem.name);
-            // TODO string formate
-            childViewHolder.valueTextView.setText(optionItem.value + optionItem.units);
-            childViewHolder.suggestTextView.setText(optionItem.suggest);
+            childViewHolder.title.setText(optionItem.name);
+            childViewHolder.ratingBar.setRating(optionItem.level);
+            childViewHolder.progressBar.setProgress((int) (100 * optionItem.test / optionItem.total));
 
             return convertView;
         }
@@ -203,17 +230,21 @@ public abstract class BaseMainFragment extends Fragment {
 
                 convertView = inflater.inflate(R.layout.list_item_parent, parent, false);
 
-                groupViewHolder.timeTextView = (TextView) convertView.findViewById(R.id.option_group_date);
+                groupViewHolder.title = (TextView) convertView.findViewById(R.id.parent_title);
+                groupViewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.parent_rating);
+                groupViewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.parent_progress);
+                groupViewHolder.count = (TextView) convertView.findViewById(R.id.parent_count);
 
                 convertView.setTag(groupViewHolder);
             } else {
                 groupViewHolder = (GroupViewHolder) convertView.getTag();
             }
 
-            final Date date = ((DetailItem) getGroup(groupPosition)).date;
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            groupViewHolder.timeTextView.setText(dateFormat.format(date));
+            final DetailItem item = (DetailItem) getGroup(groupPosition);
+            groupViewHolder.title.setText(item.name);
+            groupViewHolder.ratingBar.setRating(item.level);
+            groupViewHolder.progressBar.setProgress((int) (100 * item.test / item.total));
+            groupViewHolder.count.setText(item.test + "/" + item.total);
 
             return convertView;
         }
