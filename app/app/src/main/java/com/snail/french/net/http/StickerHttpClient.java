@@ -2,10 +2,10 @@ package com.snail.french.net.http;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.snail.french.model.common.ResponseData;
-import com.snail.french.net.HttpClientUtil;
 import com.snail.french.utils.LogUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -20,38 +20,58 @@ public class StickerHttpClient {
 
     private static final String TAG = StickerHttpClient.class.getSimpleName();
 
-    private static String HOST = "http://101.201.169.77/YouryeahApi";
+    private static String HOST = "http://woniufr.com/api/";
 
-    public static <T> void get(String action, RequestParams requestParams, Type type,
+    private static StickerHttpClient stickerHttpClient;
+    private AsyncHttpClient asyncHttpClient;
+
+    private StickerHttpClient() {
+        asyncHttpClient = new AsyncHttpClient();
+        asyncHttpClient.setTimeout(30000);
+    }
+
+    public static StickerHttpClient getInstance() {
+        if(stickerHttpClient == null) {
+            synchronized (StickerHttpClient.class) {
+                if (stickerHttpClient == null) {
+                    stickerHttpClient = new StickerHttpClient();
+                }
+            }
+        }
+
+        return stickerHttpClient;
+    }
+
+    public StickerHttpClient addHeader(String key, String value) {
+        asyncHttpClient.addHeader(key, value);
+        return stickerHttpClient;
+    }
+
+    public <T> void get(String action, RequestParams requestParams, Type type,
                                StickerHttpResponseHandler<T> responseHandler) {
-
-        LogUtil.d(TAG, "get -> action:" + action + " \n->requestParams:" + requestParams.toString());
-
-
-        HttpClientUtil.getHttpClient().get(HOST + action,
+        LogUtil.d(TAG, "get -> action:" + action + " \n->requestParams:" + (requestParams != null ? requestParams.toString() : "null"));
+        asyncHttpClient.get(HOST + action,
                 requestParams, getAsyncHttpResponseHandler(type, responseHandler));
     }
 
-    public static <T> void post(String action, RequestParams requestParams, Type type,
+    public <T> void post(String action, RequestParams requestParams, Type type,
                                StickerHttpResponseHandler<T> responseHandler) {
-
-        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + requestParams.toString());
-
-        HttpClientUtil.getHttpClient().post(HOST + action,
+        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + (requestParams != null ? requestParams.toString() : "null"));
+        asyncHttpClient.post(HOST + action,
                 requestParams, getAsyncHttpResponseHandler(type, responseHandler));
     }
 
 
-    public static <T> void postSync(String action, RequestParams requestParams, Type type,
-                                StickerHttpResponseHandler<T> responseHandler) {
+//    public <T> void postSync(String action, RequestParams requestParams, Type type,
+//                                StickerHttpResponseHandler<T> responseHandler) {
+//
+//        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + requestParams.toString());
+//
+//        HttpClientUtil.getSyncHttpClient().post(HOST + action,
+//                requestParams, getAsyncHttpResponseHandler(type, responseHandler));
+//    }
 
-        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + requestParams.toString());
-
-        HttpClientUtil.getSyncHttpClient().post(HOST + action,
-                requestParams, getAsyncHttpResponseHandler(type, responseHandler));
-    }
-
-    private static <T> AsyncHttpResponseHandler getAsyncHttpResponseHandler(final Type type, final StickerHttpResponseHandler<T> responseHandler){
+    private <T> AsyncHttpResponseHandler getAsyncHttpResponseHandler(final Type type, final StickerHttpResponseHandler<T> responseHandler){
         return new AsyncHttpResponseHandler() {
 
             @Override
@@ -77,7 +97,7 @@ public class StickerHttpClient {
 
                 LogUtil.d(TAG, "onSuccess -> " + "response:" + responseString);
 
-                ResponseData<T> responseData = null;
+                T responseData = null;
                 try {
                     // api 返回的data字段 在请求错误的情况下会返回字符串。
                     responseData = JSON.parseObject(responseString, type);
@@ -93,13 +113,13 @@ public class StickerHttpClient {
                     return;
                 }
 
-                if (!responseData.isResult()) {
-                    LogUtil.e(TAG, "onSuccess -> responseData isResult false");
-                    responseHandler.onFailure(responseData.getMessage());
-                    return;
-                }
+//                if (!responseData.isResult()) {
+//                    LogUtil.e(TAG, "onSuccess -> responseData isResult false");
+//                    responseHandler.onFailure(responseData.getMessage());
+//                    return;
+//                }
 
-                responseHandler.onSuccess(responseData.getData());
+                responseHandler.onSuccess(responseData);
             }
 
             @Override
@@ -131,5 +151,4 @@ public class StickerHttpClient {
             }
         };
     }
-
 }

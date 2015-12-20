@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.snail.french" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +11,29 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.TestActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.TestGuideActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.setting.SettingActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.FeedbackActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.setting.AboutActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

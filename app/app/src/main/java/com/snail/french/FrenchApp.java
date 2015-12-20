@@ -44,6 +44,7 @@ public class FrenchApp extends Application {
 
         mInstance = this;
     }
+
     private void initImageLoader() {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(false)
