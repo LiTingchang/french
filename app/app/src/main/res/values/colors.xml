@@ -8,6 +8,7 @@
     <color name="title_bg">#30547A</color>
     <color name="activity_bg">#294869</color>
     <color name="drawer_layout_bg">#2A334A</color>
+    <color name="login_text">#2B5DEF</color>
 
     <color name="drawer_text_normal">#6ab3ff</color>
     <color name="drawer_text_pressed">#ffd013</color>

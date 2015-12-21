@@ -1,5 +1,7 @@
 package com.snail.french.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -272,6 +274,11 @@ public class MainActivity extends BaseActivity {
         } catch (Exception e) {
             LogUtil.e(TAG, e.toString());
         }
+    }
+
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 
 }

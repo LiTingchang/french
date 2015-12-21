@@ -8,7 +8,7 @@ import com.snail.french.activity.base.BaseActivity;
 /**
  * Created by litingchang on 15-12-9.
  */
-public class TestGuideActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

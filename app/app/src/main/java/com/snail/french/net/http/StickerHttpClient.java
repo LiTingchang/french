@@ -1,17 +1,24 @@
 package com.snail.french.net.http;
 
+import android.content.Context;
+import android.content.Entity;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.snail.french.model.common.ResponseData;
 import com.snail.french.utils.LogUtil;
+
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
+import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * Created by litingchang on 15-10-5.
@@ -27,6 +34,7 @@ public class StickerHttpClient {
 
     private StickerHttpClient() {
         asyncHttpClient = new AsyncHttpClient();
+//        asyncHttpClient.addHeader("Content-Type", "application/json");
         asyncHttpClient.setTimeout(30000);
     }
 
@@ -59,6 +67,23 @@ public class StickerHttpClient {
         LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + (requestParams != null ? requestParams.toString() : "null"));
         asyncHttpClient.post(HOST + action,
                 requestParams, getAsyncHttpResponseHandler(type, responseHandler));
+    }
+
+    public <T> void postJson(Context context, String action, JSONObject jsonParams, Type type,
+                         StickerHttpResponseHandler<T> responseHandler) {
+        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + (jsonParams != null ? jsonParams.toString() : "null"));
+
+        if (jsonParams == null) {
+            return;
+        }
+
+        try {
+            StringEntity entity = new StringEntity(jsonParams.toString());
+            asyncHttpClient.post(context, HOST + action,
+                    entity, "application/json", getAsyncHttpResponseHandler(type, responseHandler));
+        } catch (Exception e) {
+
+        }
     }
 
 

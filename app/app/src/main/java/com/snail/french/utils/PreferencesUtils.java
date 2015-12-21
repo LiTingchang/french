@@ -30,7 +30,7 @@ import android.content.SharedPreferences;
  */
 public class PreferencesUtils {
 
-    public static String PREFERENCE_NAME = "Yeah";
+    public static String PREFERENCE_NAME = "French";
 
     private PreferencesUtils() {
         throw new AssertionError();
