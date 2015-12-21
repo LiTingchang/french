@@ -5,6 +5,9 @@
     <color name="common_title_btn_normal">#00000000</color>
     <color name="common_title_btn_pressed">#50000000</color>
 
+    <color name="text_red">@android:color/holo_red_light</color>
+    <color name="text_gray">@android:color/darker_gray</color>
+
     <color name="title_bg">#30547A</color>
     <color name="activity_bg">#294869</color>
     <color name="drawer_layout_bg">#2A334A</color>

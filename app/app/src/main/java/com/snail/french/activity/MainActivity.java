@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity {
     void personalClicked() {
         drawerLayout.closeDrawer(Gravity.LEFT);
 
-        ToastUtil.shortToast(this, "personal");
+        SettingActivity.launch(MainActivity.this);
     }
 
     private void selectFragment(int id) {
@@ -277,6 +277,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public static void launch(Context context) {
+        FrenchApp.getApp().cleanActivityStack();
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }

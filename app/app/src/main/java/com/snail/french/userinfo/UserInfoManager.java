@@ -17,6 +17,10 @@ public class UserInfoManager {
         return !TextUtils.isEmpty(getAccessToken(context));
     }
 
+    public static void logout(Context context)  {
+        saveAccessToken(context, "");
+    }
+
 //    public static String getAccessToken() {
 //        return "f0d10a1ca71a11e5a899525400587ef4";
 //    }

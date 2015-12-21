@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity {
 
         final String phoneNumber = StringUtils.deleteWhitespace(loginInputName.getText().toString());
         if (StringUtils.isEmpty(phoneNumber)) {
-            ToastUtil.shortToast(this, "请输入用户名，不可包含空格");
+            ToastUtil.shortToast(this, "请输入手机号，不可包含空格");
             return;
         }
 
@@ -118,17 +118,18 @@ public class LoginActivity extends BaseActivity {
                         new StickerHttpResponseHandler<LoginResponse>() {
                             @Override
                             public void onStart() {
-
+                                showProgressDialog("登录中。。。");
                             }
 
                             @Override
                             public void onSuccess(LoginResponse response) {
 
-                                if (response.getError_code() == 0 && response.getAccess_token() != null) {
+                                if (response.error_code == 0 && response.access_token != null) {
 
-                                    UserInfoManager.saveAccessToken(LoginActivity.this, response.getAccess_token());
+                                    UserInfoManager.saveAccessToken(LoginActivity.this, response.access_token);
 
                                     MainActivity.launch(LoginActivity.this);
+                                    LoginActivity.this.finish();
                                 } else {
                                     ToastUtil.shortToast(LoginActivity.this, "登录失败，请检查手机号码或密码是否正确");
                                 }
@@ -141,18 +142,18 @@ public class LoginActivity extends BaseActivity {
 
                             @Override
                             public void onFinish() {
-
+                                dismissProgressDialog();
                             }
                         });
     }
     @OnClick(R.id.new_user)
     void onNewUserClocked() {
-
+        RegistActivity.launch(LoginActivity.this);
     }
 
     @OnClick(R.id.forget_password)
     void onForgetPassword() {
-
+        ForgetPasswordActivity.launch(LoginActivity.this);
     }
 
     public static void launch(Context context) {

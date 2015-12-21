@@ -1,5 +1,6 @@
 package com.snail.french;
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.DisplayMetrics;
 
@@ -14,6 +15,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.snail.french.utils.Constants;
 
+import java.util.Stack;
+
 /**
  * Created by litingchang on 15-12-7.
  */
@@ -21,6 +24,8 @@ public class FrenchApp extends Application {
 
     protected static FrenchApp mInstance;
     private DisplayMetrics displayMetrics = null;
+
+    private Stack<Activity> activityStack = new Stack<Activity>();
 
     public FrenchApp(){
         mInstance = this;
@@ -39,7 +44,7 @@ public class FrenchApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initImageLoader();
+//        initImageLoader();
 //        Fresco.initialize(this);
 
         mInstance = this;
@@ -99,5 +104,24 @@ public class FrenchApp extends Application {
         return (int) (pxValue / getScreenDensity() + 0.5f);
     }
 
+
+    public void addActivity(Activity activity) {
+        activityStack.add(activity);
+    }
+
+    public void removeActivity(Activity act) {
+        activityStack.remove(act);
+    }
+
+    public void cleanActivityStack() {
+        for (Activity act : activityStack) {
+            try {
+                act.finish();
+            } catch (Exception e) {
+
+            }
+        }
+        activityStack.clear();
+    }
 
 }

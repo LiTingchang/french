@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.snail.french.FrenchApp;
 import com.snail.french.activity.helper.ActivityHelper;
 import com.snail.french.activity.impl.IBaseActivity;
 
@@ -17,9 +18,16 @@ public class BaseActivity extends AppCompatActivity implements IBaseActivity{
     private ActivityHelper mActivityHelper;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mActivityHelper = new ActivityHelper(this);
+        FrenchApp.getApp().addActivity(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FrenchApp.getApp().removeActivity(this);
     }
 
     @Override

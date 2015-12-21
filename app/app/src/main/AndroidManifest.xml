@@ -26,13 +26,16 @@
             android:screenOrientation="portrait" />
 
         <activity android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.RegistActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.ForgetPasswordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.TestActivity"
@@ -45,6 +48,7 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.FeedbackActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.AboutActivity"
