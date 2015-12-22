@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ public abstract class BaseMainFragment extends Fragment {
     private TextView exerciseDays; // 联系天数
     private TextView levael; //预测等级
     private View smartTest;
+
+    private String kind;
 
 
     @Override
@@ -85,7 +88,9 @@ public abstract class BaseMainFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-    public void setData(StatusResponse statusResponse) {
+    public void setData(final String kind, final StatusResponse statusResponse) {
+
+        this.kind = kind;
 
         forcastScore.setText(String.valueOf(statusResponse.forcast_score));
         exerciseQuestionNumber.setText(getResources().getString(R.string.exercise_question_number, statusResponse.exercise_question_number));
@@ -100,8 +105,35 @@ public abstract class BaseMainFragment extends Fragment {
         });
 
         listView.setAdapter(new DetailAdapter(getContext(), statusResponse));
-    }
 
+//        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//            @Override
+//            public boolean onGroupClick(ExpandableListView expandableListView, View view,
+//                                        int groupPosition, long id) {
+//
+//                Log.e("eeee", "g:" + groupPosition);
+//                String path = kind + "/" + statusResponse.pItemList.get(groupPosition).name;
+//                Log.e("eeee", "path:" + path);
+//                return false;
+//            }
+//        });
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view,
+                                        int groupPosition, int childPosition, long id) {
+
+                Log.e("eeee", "g:" + groupPosition + "    child:" + childPosition);
+                PItem pItem = statusResponse.pItemList.get(groupPosition);
+                Status status = pItem.statusList.get(childPosition);
+                String path = kind + "/" + pItem.name +
+                        "/" + status.type;
+                Log.e("eeee", "path:" + path);
+                Log.e("eeee", "level:" + status.subType);
+                return false;
+            }
+        });
+    }
 
     abstract public void initData();
 
@@ -111,6 +143,7 @@ public abstract class BaseMainFragment extends Fragment {
         RatingBar ratingBar;
         ProgressBar progressBar;
         TextView count;
+        View doTest;
     }
 
     private static class ChildViewHolder {
@@ -131,21 +164,18 @@ public abstract class BaseMainFragment extends Fragment {
         }
 
         @Override
-        public Object getChild( int groupPosition, int childPosition )
-        {
+        public Object getChild( int groupPosition, int childPosition ) {
             return statusResponses.pItemList.get(groupPosition).statusList.get(childPosition);
         }
 
         @Override
-        public long getChildId( int groupPosition, int childPosition )
-        {
+        public long getChildId( int groupPosition, int childPosition ) {
             return childPosition;
         }
 
         @Override
         public View getChildView( int groupPosition, int childPosition, boolean isLastChild,
-                                  View convertView, ViewGroup parent )
-        {
+                                  View convertView, ViewGroup parent ) {
             ChildViewHolder childViewHolder = null;
 
             if(convertView == null) {
@@ -174,33 +204,30 @@ public abstract class BaseMainFragment extends Fragment {
         }
 
         @Override
-        public int getChildrenCount( int groupPosition )
-        {
+        public int getChildrenCount( int groupPosition ) {
             return statusResponses.pItemList.get(groupPosition).statusList.size();
         }
 
+
+
         @Override
-        public Object getGroup( int groupPosition )
-        {
+        public Object getGroup( int groupPosition ) {
             return statusResponses.pItemList.get(groupPosition);
         }
 
         @Override
-        public int getGroupCount()
-        {
+        public int getGroupCount() {
             return statusResponses.pItemList.size();
         }
 
         @Override
-        public long getGroupId( int groupPosition )
-        {
+        public long getGroupId( int groupPosition ) {
             return groupPosition;
         }
 
         @Override
         public View getGroupView( int groupPosition, boolean isExpanded, View convertView,
-                                  ViewGroup parent )
-        {
+                                  ViewGroup parent )  {
             GroupViewHolder groupViewHolder = null;
 
             if(convertView == null) {
@@ -213,6 +240,9 @@ public abstract class BaseMainFragment extends Fragment {
                 groupViewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.parent_progress);
                 groupViewHolder.count = (TextView) convertView.findViewById(R.id.parent_count);
 
+                groupViewHolder.doTest = convertView.findViewById(R.id.parent_test);
+
+
                 convertView.setTag(groupViewHolder);
             } else {
                 groupViewHolder = (GroupViewHolder) convertView.getTag();
@@ -224,21 +254,27 @@ public abstract class BaseMainFragment extends Fragment {
             groupViewHolder.progressBar.setProgress((int) (100 * item.exercise_question_number / item.total_quesstion_num));
             groupViewHolder.count.setText(item.exercise_question_number + "/" + item.total_quesstion_num);
 
+            groupViewHolder.doTest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String path = kind + "/" + item.name;
+                    Log.e("eeee", "path:" + path);
+                }
+            });
+
             return convertView;
         }
 
         @Override
-        public boolean hasStableIds()
-        {
+        public boolean hasStableIds() {
             // TODO Auto-generated method stub
             return false;
         }
 
         @Override
-        public boolean isChildSelectable( int groupPosition, int childPosition )
-        {
+        public boolean isChildSelectable( int groupPosition, int childPosition ) {
             // TODO Auto-generated method stub
-            return false;
+            return true;
         }
 
     }

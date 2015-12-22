@@ -73,7 +73,7 @@ public class Tem4Fragment extends BaseMainFragment{
                         String [][] subTypes = {{"60"}, {"45","47"}, {"40","41","42"}, {"50"}, {"43","44","46"}};
                         StatusResponse response = JsonParseUtil.parseEResponse(names, subTypes, jsonObject);
 
-                        setData(response);
+                        setData("S", response);
                     }
 
                     @Override
