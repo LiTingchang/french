@@ -40,7 +40,7 @@ public class Tem4Fragment extends BaseMainFragment{
 
         StickerHttpClient.getInstance()
                 .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
-                .get("q/S/exercise_status", new AsyncHttpResponseHandler() {
+                .get("q/S/exercise_status", null, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         String responseString;
