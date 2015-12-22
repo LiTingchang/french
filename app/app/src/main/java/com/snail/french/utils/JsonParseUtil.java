@@ -1,7 +1,7 @@
 package com.snail.french.utils;
 
-import com.snail.french.model.c.CResponse;
-import com.snail.french.model.c.PItem;
+import com.snail.french.model.status.StatusResponse;
+import com.snail.french.model.status.PItem;
 import com.snail.french.model.status.Status;
 
 import org.json.JSONObject;
@@ -92,9 +92,9 @@ public class JsonParseUtil {
         return pItem;
     }
 
-    public static CResponse parseCresponse(String[] pNames, String[] pTypes, String[][] pSubTypes,
+    public static StatusResponse parseCresponse(String[] pNames, String[] pTypes, String[][] pSubTypes,
                                            JSONObject jsonObject) {
-        CResponse cResponse = new CResponse();
+        StatusResponse cResponse = new StatusResponse();
         cResponse.accuracy = jsonObject.optInt("accuracy");
         cResponse.exercise_days = jsonObject.optInt("exercise_days");
         cResponse.exercise_question_number = jsonObject.optInt("exercise_question_number");
@@ -149,9 +149,9 @@ public class JsonParseUtil {
     }
 
 
-    public static CResponse parseEResponse(String[] pNames, String[][] pTypes,
+    public static StatusResponse parseEResponse(String[] pNames, String[][] pTypes,
                                            JSONObject jsonObject) {
-        CResponse cResponse = new CResponse();
+        StatusResponse cResponse = new StatusResponse();
         cResponse.accuracy = jsonObject.optInt("accuracy");
         cResponse.exercise_days = jsonObject.optInt("exercise_days");
         cResponse.exercise_question_number = jsonObject.optInt("exercise_question_number");
