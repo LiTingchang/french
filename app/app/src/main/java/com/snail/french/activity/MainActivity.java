@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +25,19 @@ import com.snail.french.fragment.BaseMainFragment;
 import com.snail.french.fragment.TcfFragment;
 import com.snail.french.fragment.TefFragment;
 import com.snail.french.fragment.Tem4Fragment;
+import com.snail.french.model.c.CResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
+import com.snail.french.utils.JsonParseUtil;
 import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.JarEntry;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -115,31 +121,31 @@ public class MainActivity extends BaseActivity {
         selectFragment(TAB_ID_TCF);
 
 
-        StickerHttpClient.getInstance()
-                .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
-                .get("q/C/exercise_status", null, new TypeReference<Object>() {
-                        }.getType(),
-                        new StickerHttpResponseHandler<Object>() {
-                            @Override
-                            public void onStart() {
-
-                            }
-
-                            @Override
-                            public void onSuccess(Object response) {
-
-                            }
-
-                            @Override
-                            public void onFailure(String message) {
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-                        });
+//        StickerHttpClient.getInstance()
+//                .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
+//                .get("q/C/exercise_status", null, new TypeReference<Object>() {
+//                        }.getType(),
+//                        new StickerHttpResponseHandler<Object>() {
+//                            @Override
+//                            public void onStart() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onSuccess(Object response) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onFailure(String message) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//
+//                            }
+//                        });
 
     }
 

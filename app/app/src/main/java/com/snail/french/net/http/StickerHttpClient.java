@@ -34,7 +34,6 @@ public class StickerHttpClient {
 
     private StickerHttpClient() {
         asyncHttpClient = new AsyncHttpClient();
-//        asyncHttpClient.addHeader("Content-Type", "application/json");
         asyncHttpClient.setTimeout(30000);
     }
 
