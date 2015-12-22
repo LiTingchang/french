@@ -21,4 +21,7 @@
     <string name="drawer_personal_center">个人中心</string>
     <string name="drawer_guide">考试指导</string>
 
+    <string name="exercise_question_number">答题量  %1$s</string>
+    <string name="exercise_days">练习天数  %1$s</string>
+
 </resources>

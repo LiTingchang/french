@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.TypeReference;
 import com.snail.french.FrenchApp;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
@@ -23,6 +24,9 @@ import com.snail.french.fragment.BaseMainFragment;
 import com.snail.french.fragment.TcfFragment;
 import com.snail.french.fragment.TefFragment;
 import com.snail.french.fragment.Tem4Fragment;
+import com.snail.french.net.http.StickerHttpClient;
+import com.snail.french.net.http.StickerHttpResponseHandler;
+import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
@@ -110,34 +114,6 @@ public class MainActivity extends BaseActivity {
 
         currentTabID = TAB_ID_TCF;
         selectFragment(TAB_ID_TCF);
-
-
-//        StickerHttpClient.getInstance()
-//                .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
-//                .get("q/C/exercise_status", null, new TypeReference<Object>() {
-//                        }.getType(),
-//                        new StickerHttpResponseHandler<Object>() {
-//                            @Override
-//                            public void onStart() {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(Object response) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onFailure(String message) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onFinish() {
-//
-//                            }
-//                        });
-
     }
 
     @OnClick(R.id.drawer_tcf)

@@ -14,12 +14,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.snail.french.R;
-import com.snail.french.temp.DetailItem;
-import com.snail.french.temp.DetailManager;
-import com.snail.french.temp.OptionItem;
+import com.snail.french.model.status.PItem;
+import com.snail.french.model.status.Status;
+import com.snail.french.model.status.StatusResponse;
+import com.snail.french.utils.JsonParseUtil;
+import com.snail.french.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,10 +34,12 @@ public abstract class BaseMainFragment extends Fragment {
     @Bind(R.id.list_view)
     ExpandableListView listView;
 
-    View headerView;
-
-    List<DetailItem> detailItems;
-    DetailAdapter adapter;
+    private View headerView;
+    private TextView forcastScore; // 预测分数
+    private TextView exerciseQuestionNumber; //已做题数
+    private TextView exerciseDays; // 联系天数
+    private TextView levael; //预测等级
+    private View smartTest;
 
 
     @Override
@@ -51,66 +54,20 @@ public abstract class BaseMainFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         headerView = LayoutInflater.from(getContext()).inflate(R.layout.main_fragment_header, null, false);
-        listView.addHeaderView(headerView);
-
+        forcastScore = (TextView) headerView.findViewById(R.id.forcast_score); // 预测分数
+        exerciseQuestionNumber = (TextView) headerView.findViewById(R.id.exercise_question_number); //已做题数
+        exerciseDays = (TextView) headerView.findViewById(R.id.exercise_days); // 联系天数
+        levael = (TextView) headerView.findViewById(R.id.level);
+        smartTest = headerView.findViewById(R.id.smart_test);
 
         listView.setGroupIndicator(null);
+        listView.addHeaderView(headerView);
 
-        detailItems = new ArrayList<DetailItem>();
-
-//        for ( int i = 0; i < 4; i++ )
-//        {
-//            DetailItem detailItem = new DetailItem();
-//            detailItem.date = new Date();
-//            detailItem.optionItemList = DetailManager.getBodyOptionItem();
-//
-//            detailItems.add(detailItem);
-//        }
-
-        DetailItem detailItem = new DetailItem();
-        detailItem.name = "听力";
-        detailItem.total = 300;
-        detailItem.test = 39;
-        detailItem.level = 5;
-        detailItem.progress = 0.5f;
-        detailItem.optionItemList = DetailManager.getBodyOptionItem();
-        detailItems.add(detailItem);
-
-        DetailItem detailItem2 = new DetailItem();
-        detailItem2.name = "语法";
-        detailItem2.total = 200;
-        detailItem2.test = 77;
-        detailItem2.level = 3;
-        detailItem2.progress = 0.5f;
-        detailItem2.optionItemList = DetailManager.getBodyOptionItem();
-        detailItems.add(detailItem2);
-
-        DetailItem detailItem3 = new DetailItem();
-        detailItem3.name = "阅读";
-        detailItem3.total = 270;
-        detailItem3.test = 30;
-        detailItem3.level = 4;
-        detailItem3.progress = 0.5f;
-        detailItem3.optionItemList = DetailManager.getBodyOptionItem();
-        detailItems.add(detailItem3);
-
-        adapter = new DetailAdapter(getContext(), detailItems);
-
-        listView.setAdapter(adapter);
-
-//        for ( int i = 0; i < adapter.getGroupCount(); i++ )
-//        {
-//            listView.expandGroup(i);
-//        }
+        initData();
 
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initData();
-    }
 
     @Override
     public void onResume() {
@@ -128,6 +85,24 @@ public abstract class BaseMainFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    public void setData(StatusResponse statusResponse) {
+
+        forcastScore.setText(String.valueOf(statusResponse.forcast_score));
+        exerciseQuestionNumber.setText(getResources().getString(R.string.exercise_question_number, statusResponse.exercise_question_number));
+        exerciseDays.setText(getResources().getString(R.string.exercise_days, statusResponse.exercise_days));
+        levael.setText(statusResponse.level);
+
+        smartTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        listView.setAdapter(new DetailAdapter(getContext(), statusResponse));
+    }
+
+
     abstract public void initData();
 
 
@@ -142,23 +117,23 @@ public abstract class BaseMainFragment extends Fragment {
         TextView title;
         RatingBar ratingBar;
         ProgressBar progressBar;
+        TextView count;
     }
 
     class DetailAdapter extends BaseExpandableListAdapter {
 
-        private List<DetailItem> detailItems;
+        private StatusResponse statusResponses;
         private LayoutInflater inflater;
 
-        public DetailAdapter(Context context, List<DetailItem> detailTtems) {
+        public DetailAdapter(Context context, StatusResponse statusResponse) {
             inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.detailItems = detailTtems;
-
+            this.statusResponses = statusResponse;
         }
 
         @Override
         public Object getChild( int groupPosition, int childPosition )
         {
-            return detailItems.get(groupPosition).optionItemList.get(childPosition);
+            return statusResponses.pItemList.get(groupPosition).statusList.get(childPosition);
         }
 
         @Override
@@ -181,36 +156,39 @@ public abstract class BaseMainFragment extends Fragment {
                 childViewHolder.title= (TextView) convertView.findViewById(R.id.child_title);
                 childViewHolder.ratingBar= (RatingBar) convertView.findViewById(R.id.child_rating);
                 childViewHolder.progressBar= (ProgressBar) convertView.findViewById(R.id.child_progress);
+                childViewHolder.count = (TextView) convertView.findViewById(R.id.child_count);
 
                 convertView.setTag(childViewHolder);
             } else {
                 childViewHolder = (ChildViewHolder) convertView.getTag();
             }
 
-            final OptionItem optionItem = (OptionItem) getChild(groupPosition, childPosition);
-            childViewHolder.title.setText(optionItem.name);
-            childViewHolder.ratingBar.setRating(optionItem.level);
-            childViewHolder.progressBar.setProgress((int) (100 * optionItem.test / optionItem.total));
-
+            final Status status = (Status) getChild(groupPosition, childPosition);
+            // TODO 显示对应的title文案
+            String title = StringUtils.isEmpty(status.subType) ? status.type : status.subType;
+            childViewHolder.title.setText(title);
+            childViewHolder.ratingBar.setRating(status.correct_num / status.total_quesstion_num * 5);
+            childViewHolder.progressBar.setProgress((int) (100 * status.exercise_question_number / status.total_quesstion_num));
+            childViewHolder.count.setText(status.exercise_question_number + "/" + status.total_quesstion_num);
             return convertView;
         }
 
         @Override
         public int getChildrenCount( int groupPosition )
         {
-            return detailItems.get(groupPosition).optionItemList.size();
+            return statusResponses.pItemList.get(groupPosition).statusList.size();
         }
 
         @Override
         public Object getGroup( int groupPosition )
         {
-            return detailItems.get(groupPosition);
+            return statusResponses.pItemList.get(groupPosition);
         }
 
         @Override
         public int getGroupCount()
         {
-            return detailItems.size();
+            return statusResponses.pItemList.size();
         }
 
         @Override
@@ -240,11 +218,11 @@ public abstract class BaseMainFragment extends Fragment {
                 groupViewHolder = (GroupViewHolder) convertView.getTag();
             }
 
-            final DetailItem item = (DetailItem) getGroup(groupPosition);
+            final PItem item = (PItem) getGroup(groupPosition);
             groupViewHolder.title.setText(item.name);
-            groupViewHolder.ratingBar.setRating(item.level);
-            groupViewHolder.progressBar.setProgress((int) (100 * item.test / item.total));
-            groupViewHolder.count.setText(item.test + "/" + item.total);
+            groupViewHolder.ratingBar.setRating(item.correct_num / item.total_quesstion_num * 5);
+            groupViewHolder.progressBar.setProgress((int) (100 * item.exercise_question_number / item.total_quesstion_num));
+            groupViewHolder.count.setText(item.exercise_question_number + "/" + item.total_quesstion_num);
 
             return convertView;
         }

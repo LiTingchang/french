@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
+        android:textColor="@android:color/darker_gray"
         android:textStyle="bold"
         android:text="A"/>
 
@@ -34,18 +35,33 @@
         android:stepSize="1"
         android:progressDrawable="@drawable/rating"/>
 
-    <ProgressBar
-        android:id="@+id/child_progress"
-        style="?android:attr/progressBarStyleHorizontal"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="8dp"
-        android:max="100"
-        android:progress="40"
-        android:progressDrawable="@drawable/progressbar"/>
+        android:layout_marginBottom="8dp">
+        <ProgressBar
+            android:id="@+id/child_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="40"
+            android:secondaryProgress="70"
+            android:progressDrawable="@drawable/progressbar"/>
 
+        <TextView android:id="@+id/child_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:textColor="@android:color/darker_gray"
+            android:text="11/111"/>
+    </LinearLayout>
     <View style="@style/line_horizontal_style"
         android:layout_marginLeft="12dp"
         android:layout_alignParentBottom="true"/>

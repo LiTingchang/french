@@ -86,6 +86,10 @@ public class StickerHttpClient {
     }
 
 
+    public void get(String action, AsyncHttpResponseHandler asyncHttpResponseHandler){
+        asyncHttpClient.get(HOST + action,  asyncHttpResponseHandler);
+    }
+
 //    public <T> void postSync(String action, RequestParams requestParams, Type type,
 //                                StickerHttpResponseHandler<T> responseHandler) {
 //
