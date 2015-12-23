@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.snail.french.R;
+import com.snail.french.activity.TestActivity;
 import com.snail.french.model.status.PItem;
 import com.snail.french.model.status.Status;
 import com.snail.french.model.status.StatusResponse;
@@ -130,6 +131,8 @@ public abstract class BaseMainFragment extends Fragment {
                         "/" + status.type;
                 Log.e("eeee", "path:" + path);
                 Log.e("eeee", "level:" + status.subType);
+
+                TestActivity.launch(getActivity(), path, status.subType);
                 return false;
             }
         });
@@ -259,6 +262,7 @@ public abstract class BaseMainFragment extends Fragment {
                 public void onClick(View view) {
                     String path = kind + "/" + item.name;
                     Log.e("eeee", "path:" + path);
+                    TestActivity.launch(getActivity(), path, null);
                 }
             });
 

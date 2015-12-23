@@ -31,7 +31,7 @@ public class ContentData {
      */
 
     public String answer_analyzation;
-    public int answer_index;
+    public int answer_index = 1;
     public int answer_type;
     public String audio_url;
     public String content;
