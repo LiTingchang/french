@@ -114,6 +114,45 @@
                     android:textSize="16sp"
                     android:visibility="gone"/>
 
+                <RadioButton android:id="@+id/test_rb_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:drawableLeft="@drawable/test_answer_checkbox"
+                    android:button="@null"
+                    android:background="@null"
+                    android:drawablePadding="6dp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
+                <RadioButton android:id="@+id/test_rb_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:drawableLeft="@drawable/test_answer_checkbox"
+                    android:button="@null"
+                    android:background="@null"
+                    android:drawablePadding="6dp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
+                <RadioButton android:id="@+id/test_rb_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:drawableLeft="@drawable/test_answer_checkbox"
+                    android:button="@null"
+                    android:background="@null"
+                    android:drawablePadding="6dp"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
+
             </RadioGroup>
 
             <LinearLayout android:id="@+id/test_analyzation_root"

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
+import com.snail.french.manager.ExerciseManager;
 import com.snail.french.model.exercise.Exerciseresponse;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.net.http.StickerHttpClient;
@@ -27,8 +28,6 @@ import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.utils.AudioRecorder;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.view.CommonTitle;
-
-import junit.framework.Test;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,9 +48,12 @@ public class TestActivity extends BaseActivity {
     private boolean showAnalyzation = false;
     private String path;
     private String level;
+    String action;
 
     Exerciseresponse exerciseresponse;
     TestPagerAdapter adapter;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,13 +63,63 @@ public class TestActivity extends BaseActivity {
 
         path = getIntent().getStringExtra(PATH);
         level = getIntent().getStringExtra(LEVEL);
-
-        String action; // q/C/L/30/exercise?q_tcf_level=A1
         if(!StringUtils.isEmpty(level)) {
             action = "q/" + path + "/exercise?q_tcf_level=" + level;
         } else {
             action = "q/" + path + "/exercise";
         }
+
+        titlebar.setOnTitleClickListener(new CommonTitle.TitleClickListener() {
+            @Override
+            public void onLeftClicked(View parent, View v) {
+
+            }
+
+            @Override
+            public void onRightClicked(View parent, View v) {
+
+            }
+
+            @Override
+            public void onRight2Clicked(View parent, View v) {
+                Log.e("aaaaaaaaaa", ExerciseManager.getInstance().getAnswerJsonString());
+
+                StickerHttpClient.getInstance()
+                        .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
+                        .postJsonString(TestActivity.this, action,
+                                ExerciseManager.getInstance().getAnswerJsonString(),
+                                new TypeReference<Object>() {
+                                }.getType(),
+                                new StickerHttpResponseHandler<Object>() {
+                                    @Override
+                                    public void onStart() {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Object response) {
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(String message) {
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+
+                            }
+                        });
+            }
+        });
+
+
+        requestData();
+
+    }
+
+    private void requestData() {
 
         StickerHttpClient.getInstance()
                 .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
@@ -76,11 +128,12 @@ public class TestActivity extends BaseActivity {
                         new StickerHttpResponseHandler<Exerciseresponse>() {
                             @Override
                             public void onStart() {
-
+                                showProgressDialog("数据加载中。。。");
                             }
 
                             @Override
                             public void onSuccess(Exerciseresponse response) {
+                                ExerciseManager.getInstance().setExerciseresponse(response);
                                 adapter = new TestPagerAdapter(TestActivity.this, response);
                                 testViewPager.setAdapter(adapter);
                             }
@@ -92,10 +145,15 @@ public class TestActivity extends BaseActivity {
 
                             @Override
                             public void onFinish() {
-
+                                dismissProgressDialog();
                             }
                         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        ExerciseManager.getInstance().clean();
+        super.onDestroy();
     }
 
     @Override
@@ -103,26 +161,11 @@ public class TestActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //    static class ViewHolder {
-//        @Bind(R.id.test_title)
-//        TextView title;
-//        @Bind(R.id.test_indicator)
-//        TextView indicator;
-//        @Bind(R.id.test_web_view)
-//        WebView webView;
-//        @Bind(R.id.test_radio_group)
-//        RadioGroup radioGroup;
-//
-//        public ViewHolder(View view) {
-//            ButterKnife.bind(view);
-//        }
-//    }
-
     class TestPagerAdapter extends PagerAdapter {
 
         private Context context;
         private Exerciseresponse exerciseresponse;
-        private int selectIndex;
+        private int selectIndex = 0;
 
         public TestPagerAdapter(Context context, Exerciseresponse exerciseresponse) {
             this.context = context;
@@ -154,7 +197,7 @@ public class TestActivity extends BaseActivity {
                 return null;
             }
 
-            Question question = exerciseresponse.questions.get(position);
+            final Question question = exerciseresponse.questions.get(position);
 
             View view = LayoutInflater.from(context).inflate(R.layout.view_test_pager, null);
             final TextView title = (TextView) view.findViewById(R.id.test_title);
@@ -177,10 +220,20 @@ public class TestActivity extends BaseActivity {
             }
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    selectIndex = i;
+                public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                    for (int i = 0; i < question.content_data.option.size(); ++i) {
+                        if(radioGroup.getChildAt(i).getId() == checkedId) {
+                            selectIndex = i;
+                            break;
+                        }
+                    }
+
+                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex + 1);
+
                     if(position < getCount() - 1) {
                         testViewPager.setCurrentItem(position + 1, true);
+                    } else {
+                        //TODO  最后一个，启动答题卡页面
                     }
                 }
             });
@@ -191,17 +244,22 @@ public class TestActivity extends BaseActivity {
             TextView source = (TextView) view.findViewById(R.id.test_source);
             TextView analyzation = (TextView) view.findViewById(R.id.test_answer_analyzation);
 
-            result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(question.content_data.answer_index - 1)
-                    + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
-                    + (question.content_data.answer_index == selectIndex + 1 ? "回答正确" : "回答错误") );
-            source.setText("来源：" + question.source);
-            analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
+            try {
+                int answerIndex = question.content_data.answer_index - 1;
+                result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
+                        + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
+                        + (question.content_data.answer_index == selectIndex + 1 ? "回答正确" : "回答错误"));
+                source.setText("来源：" + question.source);
+                analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
             container.addView(view);
             return view;
         }
     }
-
 
     public static void launch(Context context, String path, String level) {
         Intent intent = new Intent();
@@ -209,5 +267,6 @@ public class TestActivity extends BaseActivity {
         intent.putExtra(PATH, path);
         intent.putExtra(LEVEL, level);
         context.startActivity(intent);
+
     }
 }

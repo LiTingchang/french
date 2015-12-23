@@ -9,6 +9,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.snail.french.utils.LogUtil;
+import com.snail.french.utils.StringUtils;
 
 import org.json.JSONObject;
 
@@ -78,6 +79,23 @@ public class StickerHttpClient {
 
         try {
             StringEntity entity = new StringEntity(jsonParams.toString());
+            asyncHttpClient.post(context, HOST + action,
+                    entity, "application/json", getAsyncHttpResponseHandler(type, responseHandler));
+        } catch (Exception e) {
+
+        }
+    }
+
+    public <T> void postJsonString(Context context, String action, String jsonString, Type type,
+                             StickerHttpResponseHandler<T> responseHandler) {
+        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + jsonString);
+
+        if (StringUtils.isEmpty(jsonString)) {
+            return;
+        }
+
+        try {
+            StringEntity entity = new StringEntity(jsonString);
             asyncHttpClient.post(context, HOST + action,
                     entity, "application/json", getAsyncHttpResponseHandler(type, responseHandler));
         } catch (Exception e) {
