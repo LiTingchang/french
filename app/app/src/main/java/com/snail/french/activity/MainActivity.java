@@ -217,18 +217,8 @@ public class MainActivity extends BaseActivity {
             String path = "";
             String title = "";
             switch (view.getId()) {
-                case R.id.main_popup_window_item_1: {
-                    switch (currentTabID) {
-                        case 0:
-                            break;
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                case R.id.main_popup_window_item_1:
+                    ToastUtil.shortToast(MainActivity.this, "敬请期待");
                     break;
                 case R.id.main_popup_window_item_2: {
                     switch (currentTabID) {
@@ -271,8 +261,12 @@ public class MainActivity extends BaseActivity {
                 }
                     break;
                 case R.id.main_popup_window_item_4:
+                    // 练习历史
+                    ToastUtil.shortToast(MainActivity.this, "敬请期待");
                     break;
                 case R.id.main_popup_window_item_5:
+                    // 收藏题目
+                    ToastUtil.shortToast(MainActivity.this, "敬请期待");
                     break;
                 case R.id.main_popup_window_item_6: {
                     switch (currentTabID) {
@@ -334,5 +328,4 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
-
 }
