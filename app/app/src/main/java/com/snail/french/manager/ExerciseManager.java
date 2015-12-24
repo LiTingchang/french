@@ -19,6 +19,8 @@ import java.util.Objects;
  */
 public class ExerciseManager {
 
+    private String path;
+
     private Map<Integer, Integer> answerMap;
 
     private Map<String, Exerciseresponse> exerciseresponseMap;
@@ -42,12 +44,28 @@ public class ExerciseManager {
         return exerciseManager;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public void setExerciseresponse(Exerciseresponse exerciseresponse) {
         this.exerciseresponse = exerciseresponse;
     }
 
+    public Exerciseresponse getExerciseresponse() {
+        return exerciseresponse;
+    }
+
     public void addAnswer(int id, int index) {
         answerMap.put(id, index);
+    }
+
+    public Map<Integer, Integer> getAnswerMap() {
+        return answerMap;
     }
 
     public void clean() {

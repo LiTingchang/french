@@ -48,4 +48,13 @@
         <item name="android:background">@drawable/common_title_btn_bg</item>
     </style>
 
+
+    <style name="shell_panel">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
 </resources>

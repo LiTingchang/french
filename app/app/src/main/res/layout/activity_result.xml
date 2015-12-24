@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.snail.french.view.CommonTitle
+        xmlns:title="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        title:titleText="@string/sheet"
+        title:titleColor="@android:color/white"
+        title:bgColor="@color/title_bg" />
+    
+    <LinearLayout android:id="@+id/result_analyze_root"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/activity_bg">
+        <TextView android:id="@+id/result_error_analyze"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:text="错题解析"/>
+        
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            style="@style/line_vertical_style"/>
+
+        <TextView android:id="@+id/result_analyze"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:text="全部解析"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/titlebar"
+        android:layout_above="@id/result_analyze_root"
+        android:fadingEdge="none"
+        android:fillViewport="true"
+        android:background="@android:color/white">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+        
+    </ScrollView>
+
+
+</RelativeLayout>

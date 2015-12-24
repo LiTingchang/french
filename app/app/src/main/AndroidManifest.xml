@@ -42,6 +42,12 @@
         <activity android:name=".activity.TestActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.SheetActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.ResultActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.TestGuideActivity"
             android:screenOrientation="portrait"/>
 

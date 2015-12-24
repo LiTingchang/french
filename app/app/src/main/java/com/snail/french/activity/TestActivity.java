@@ -63,6 +63,9 @@ public class TestActivity extends BaseActivity {
         path = getIntent().getStringExtra(PATH);
         title = getIntent().getStringExtra(TITLE);
 
+        ExerciseManager.getInstance().setPath(path);
+
+
         titlebar.setTitleText(title);
         titlebar.setOnTitleClickListener(new CommonTitle.TitleClickListener() {
             @Override
@@ -77,35 +80,7 @@ public class TestActivity extends BaseActivity {
 
             @Override
             public void onRight2Clicked(View parent, View v) {
-                Log.e("aaaaaaaaaa", ExerciseManager.getInstance().getAnswerJsonString());
-
-                StickerHttpClient.getInstance()
-                        .addAutorization(UserInfoManager.getAccessToken(TestActivity.this))
-                        .postJsonString(TestActivity.this, path,
-                                ExerciseManager.getInstance().getAnswerJsonString(),
-                                new TypeReference<Object>() {
-                                }.getType(),
-                                new StickerHttpResponseHandler<Object>() {
-                                    @Override
-                                    public void onStart() {
-                                        showProgressDialog("答案提交中。。。");
-                                    }
-
-                                    @Override
-                                    public void onSuccess(Object response) {
-                                        ToastUtil.shortToast(TestActivity.this, "提交成功");
-                                    }
-
-                                    @Override
-                                    public void onFailure(String message) {
-                                        ToastUtil.shortToast(TestActivity.this, "提交失败");
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        dismissProgressDialog();
-                                    }
-                        });
+                SheetActivity.launch(TestActivity.this);
             }
         });
 
@@ -230,7 +205,8 @@ public class TestActivity extends BaseActivity {
                     if(position < getCount() - 1) {
                         testViewPager.setCurrentItem(position + 1, true);
                     } else {
-                        //TODO  最后一个，启动答题卡页面
+                        //  最后一个，启动答题卡页面
+                        SheetActivity.launch(TestActivity.this);
                     }
                 }
             });

@@ -4,21 +4,21 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
-import android.widget.ListView;
+import android.widget.GridView;
 
-public class FullSizeListView extends ListView {
+public class FullSizeGridView extends GridView {
 
-	public FullSizeListView(Context context, AttributeSet attrs, int defStyle) {
+	public FullSizeGridView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		setSelector(new ColorDrawable(Color.TRANSPARENT));
 	}
 
-	public FullSizeListView(Context context, AttributeSet attrs) {
+	public FullSizeGridView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setSelector(new ColorDrawable(Color.TRANSPARENT));
 	}
 
-	public FullSizeListView(Context context) {
+	public FullSizeGridView(Context context) {
 		super(context);
 		setSelector(new ColorDrawable(Color.TRANSPARENT));
 	}

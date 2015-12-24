@@ -24,4 +24,6 @@
     <string name="exercise_question_number">答题量  %1$s</string>
     <string name="exercise_days">练习天数  %1$s</string>
 
+    <string name="sheet">答题卡</string>
+
 </resources>

@@ -1,5 +1,8 @@
 package com.snail.french.model.exercise;
 
+
+import android.support.v4.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +16,36 @@ public class Exerciseresponse {
     public ArrayList<Question> R;
     public ArrayList<Question> C;
     public ArrayList<Question> W;
+
+    public List<Pair<String, ArrayList<Question>>> getQuestionsPairList() {
+        List<Pair<String, ArrayList<Question>>> lists = new ArrayList<>();
+
+        if(questions != null && !questions.isEmpty()) {
+            lists.add(Pair.create("", questions));
+        }
+
+        if(G != null && !G.isEmpty()) {
+            lists.add(Pair.create("语法", G));
+        }
+
+        if(L != null && !L.isEmpty()) {
+            lists.add(Pair.create("听力", L));
+        }
+
+        if(R != null && !R.isEmpty()) {
+            lists.add(Pair.create("阅读", R));
+        }
+
+        if(C != null && !C.isEmpty()) {
+            lists.add(Pair.create("作文", C));
+        }
+
+        if(W != null && !W.isEmpty()) {
+            lists.add(Pair.create("词汇", W));
+        }
+
+        return lists;
+    }
 
     public ArrayList<Question> getQuestions() {
 
