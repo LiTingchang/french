@@ -5,10 +5,12 @@ import android.support.v4.app.Fragment;
 import com.alibaba.fastjson.TypeReference;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.snail.french.activity.TestActivity;
 import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.status.StatusResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
+import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.JsonParseUtil;
 import com.snail.french.utils.LogUtil;
 
@@ -51,7 +53,7 @@ public class TcfFragment extends BaseMainFragment{
 
 
         StickerHttpClient.getInstance()
-                .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
+                .addAutorization(UserInfoManager.getAccessToken(getActivity()))
                 .get("q/C/exercise_status", null, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

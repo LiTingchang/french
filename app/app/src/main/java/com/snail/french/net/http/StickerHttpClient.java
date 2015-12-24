@@ -55,6 +55,11 @@ public class StickerHttpClient {
         return stickerHttpClient;
     }
 
+    public StickerHttpClient addAutorization(String accessToken){
+        asyncHttpClient.addHeader("HTTP-AUTHORIZATION", accessToken);
+        return stickerHttpClient;
+    }
+
     public <T> void get(String action, RequestParams requestParams, Type type,
                                StickerHttpResponseHandler<T> responseHandler) {
         LogUtil.d(TAG, "get -> action:" + action + " \n->requestParams:" + (requestParams != null ? requestParams.toString() : "null"));

@@ -23,8 +23,10 @@ import com.snail.french.model.exercise.Exerciseresponse;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
+import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.StringUtils;
+import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
 import butterknife.Bind;
@@ -78,7 +80,7 @@ public class TestActivity extends BaseActivity {
                 Log.e("aaaaaaaaaa", ExerciseManager.getInstance().getAnswerJsonString());
 
                 StickerHttpClient.getInstance()
-                        .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
+                        .addAutorization(UserInfoManager.getAccessToken(TestActivity.this))
                         .postJsonString(TestActivity.this, path,
                                 ExerciseManager.getInstance().getAnswerJsonString(),
                                 new TypeReference<Object>() {
@@ -86,23 +88,23 @@ public class TestActivity extends BaseActivity {
                                 new StickerHttpResponseHandler<Object>() {
                                     @Override
                                     public void onStart() {
-
+                                        showProgressDialog("答案提交中。。。");
                                     }
 
                                     @Override
                                     public void onSuccess(Object response) {
-
+                                        ToastUtil.shortToast(TestActivity.this, "提交成功");
                                     }
 
                                     @Override
                                     public void onFailure(String message) {
-
+                                        ToastUtil.shortToast(TestActivity.this, "提交失败");
                                     }
 
                                     @Override
                                     public void onFinish() {
-
-                            }
+                                        dismissProgressDialog();
+                                    }
                         });
             }
         });
@@ -115,7 +117,7 @@ public class TestActivity extends BaseActivity {
     private void requestData() {
 
         StickerHttpClient.getInstance()
-                .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
+                .addAutorization(UserInfoManager.getAccessToken(TestActivity.this))
                 .get(path, null, new TypeReference<Exerciseresponse>() {
                         }.getType(),
                         new StickerHttpResponseHandler<Exerciseresponse>() {
@@ -195,14 +197,16 @@ public class TestActivity extends BaseActivity {
             View view = LayoutInflater.from(context).inflate(R.layout.view_test_pager, null);
             final TextView title = (TextView) view.findViewById(R.id.test_title);
             TextView indicator = (TextView) view.findViewById(R.id.test_indicator);
+            TextView content = (TextView) view.findViewById(R.id.test_content);
             WebView webView = (WebView) view.findViewById(R.id.test_web_view);
             webView.setBackgroundColor(Color.WHITE);
             webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
             webView.getSettings().setJavaScriptEnabled(true);
-
             webView.loadUrl(question.url);
+
             title.setText(question.content_data.title);
             indicator.setText((position + 1) + "/" + getCount());
+            content.setText(question.content_data.content);
 
             RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.test_radio_group);
             for (int i = 0; i < question.content_data.option.size(); ++i) {
@@ -238,10 +242,10 @@ public class TestActivity extends BaseActivity {
             TextView analyzation = (TextView) view.findViewById(R.id.test_answer_analyzation);
 
             try {
-                int answerIndex = question.content_data.answer_index;
+                int answerIndex = question.content_data.answer_index - 1;
                 result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
                         + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
-                        + (question.content_data.answer_index == selectIndex ? "回答正确" : "回答错误"));
+                        + (answerIndex == selectIndex ? "回答正确" : "回答错误"));
                 source.setText("来源：" + question.source);
                 analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
             } catch (Exception e) {

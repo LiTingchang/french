@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.snail.french.R;
+import com.snail.french.activity.MainActivity;
 import com.snail.french.activity.TestActivity;
 import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.status.PItem;
@@ -65,22 +66,6 @@ public abstract class BaseMainFragment extends Fragment {
         levael = (TextView) headerView.findViewById(R.id.level);
         smartTest = headerView.findViewById(R.id.smart_test);
 
-        smartTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (getKind()) {
-                    case TCF:
-                        break;
-                    case TEF:
-                        break;
-                    case TEM4:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
         listView.setGroupIndicator(null);
         listView.addHeaderView(headerView);
 
@@ -121,7 +106,25 @@ public abstract class BaseMainFragment extends Fragment {
         smartTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String path = "";
+                String title = "";
+                switch (getKind()) {
+                    case TCF:
+                        path = "q/C/exercise";
+                        title = "TCF 水水平测试";
+                        break;
+                    case TEF:
+                        path = "q/E/exercise";
+                        title = "TEF 水水平测试";
+                        break;
+                    case TEM4:
+                        path = "q/S/exercise";
+                        title = "专四水水平测试";
+                        break;
+                    default:
+                        break;
+                }
+                TestActivity.launch(getActivity(), path, title);
             }
         });
 

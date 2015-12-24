@@ -1,6 +1,7 @@
 package com.snail.french.model.exercise;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by litingchang on 15-12-23.
@@ -18,29 +19,49 @@ public class Exerciseresponse {
         ArrayList<Question> allQuestions = new ArrayList<>();
 
         if(questions != null) {
-            allQuestions.addAll(questions);
+            allQuestions.addAll(expandQuestions(questions));
         }
 
         if(G != null) {
-            allQuestions.addAll(G);
+            allQuestions.addAll(expandQuestions(G));
         }
 
         if(L != null) {
-            allQuestions.addAll(L);
+            allQuestions.addAll(expandQuestions(L));
         }
 
         if(R != null) {
-            allQuestions.addAll(R);
+            allQuestions.addAll(expandQuestions(R));
         }
 
         if(C != null) {
-            allQuestions.addAll(C);
+            allQuestions.addAll(expandQuestions(C));
         }
 
         if(W != null) {
-            allQuestions.addAll(W);
+            allQuestions.addAll(expandQuestions(W));
         }
 
         return allQuestions;
+    }
+
+    private List<Question> expandQuestions(ArrayList<Question> questions) {
+        ArrayList<Question> expandQuestions = new ArrayList<>();
+
+        if(questions != null) {
+            for (Question question : questions) {
+                if (question.sub_questions == null) {
+                    expandQuestions.add(question);
+                } else {
+                    for (Question subQuestion : question.sub_questions) {
+                        subQuestion.content_data.title = question.content_data.title;
+                        subQuestion.url = question.url;
+                        expandQuestions.add(subQuestion);
+                    }
+                }
+            }
+        }
+
+        return expandQuestions;
     }
 }

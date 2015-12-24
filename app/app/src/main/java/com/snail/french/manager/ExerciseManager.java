@@ -84,22 +84,50 @@ public class ExerciseManager {
     }
 
     private List<Map<Integer, Integer>> getAnswerList(ArrayList<Question> questions) {
+//        List<Map<Integer, Integer>> list = new ArrayList<>();
+//
+//        if(questions != null) {
+//            for (Question question : questions) {
+//                int id = question.id;
+//                Map<Integer, Integer> map = new HashMap<>();
+//                if(answerMap.containsKey(id)) {
+//                    map.put(id, question.content_data.answer_index == answerMap.get(id)
+//                            ? 1 : 0 );
+//                } else {
+//                    map.put(id, -1);
+//                }
+//                list.add(map);
+//            }
+//        }
+//
+//        return list;
+
         List<Map<Integer, Integer>> list = new ArrayList<>();
 
         if(questions != null) {
             for (Question question : questions) {
-                int id = question.id;
-                Map<Integer, Integer> map = new HashMap<>();
-                if(answerMap.containsKey(id)) {
-                    map.put(id, question.content_data.answer_index == answerMap.get(id)
-                            ? 1 : 0 );
+                if(question.sub_questions != null && !question.sub_questions.isEmpty()) {
+                    for (Question question1 : question.sub_questions) {
+                        fitAnswerList(list, question);
+                    }
                 } else {
-                    map.put(id, -1);
+                    fitAnswerList(list, question);
                 }
-                list.add(map);
             }
         }
 
         return list;
+    }
+
+    private void fitAnswerList(List<Map<Integer, Integer>> list, Question question) {
+        int id = question.id;
+        Map<Integer, Integer> map = new HashMap<>();
+        if(answerMap.containsKey(id)) {
+            map.put(id, question.content_data.answer_index - 1 == answerMap.get(id)
+                    ? 1 : 0 );
+        } else {
+            map.put(id, -1);
+        }
+        list.add(map);
     }
 }
