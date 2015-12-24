@@ -1,6 +1,7 @@
 package com.snail.french.fragment;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.status.StatusResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.utils.JsonParseUtil;
@@ -20,6 +21,11 @@ public class TefFragment extends BaseMainFragment{
 
     public static TefFragment newInstance() {
         return new TefFragment();
+    }
+
+    @Override
+    public FrenchKind getKind() {
+        return FrenchKind.TEF;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import com.alibaba.fastjson.TypeReference;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.status.StatusResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
@@ -24,6 +25,11 @@ public class TcfFragment extends BaseMainFragment{
 
     public static  TcfFragment newInstance() {
         return new TcfFragment();
+    }
+
+    @Override
+    public FrenchKind getKind() {
+        return FrenchKind.TCF;
     }
 
     @Override

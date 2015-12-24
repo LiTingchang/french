@@ -1,6 +1,7 @@
 package com.snail.french.fragment;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.status.StatusResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.utils.JsonParseUtil;
@@ -19,6 +20,11 @@ public class Tem4Fragment extends BaseMainFragment{
 
     public static Tem4Fragment newInstance() {
         return new Tem4Fragment();
+    }
+
+    @Override
+    public FrenchKind getKind() {
+        return FrenchKind.TEM4;
     }
 
     @Override

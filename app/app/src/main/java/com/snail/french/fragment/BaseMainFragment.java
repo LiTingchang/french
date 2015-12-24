@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.snail.french.R;
 import com.snail.french.activity.TestActivity;
+import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.status.PItem;
 import com.snail.french.model.status.Status;
 import com.snail.french.model.status.StatusResponse;
@@ -64,6 +65,22 @@ public abstract class BaseMainFragment extends Fragment {
         levael = (TextView) headerView.findViewById(R.id.level);
         smartTest = headerView.findViewById(R.id.smart_test);
 
+        smartTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (getKind()) {
+                    case TCF:
+                        break;
+                    case TEF:
+                        break;
+                    case TEM4:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
         listView.setGroupIndicator(null);
         listView.addHeaderView(headerView);
 
@@ -88,6 +105,9 @@ public abstract class BaseMainFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+    abstract public void initData();
+    abstract public FrenchKind getKind();
 
     public void setData(final String kind, final StatusResponse statusResponse) {
 
@@ -132,13 +152,11 @@ public abstract class BaseMainFragment extends Fragment {
                 Log.e("eeee", "path:" + path);
                 Log.e("eeee", "level:" + status.subType);
 
-                TestActivity.launch(getActivity(), path, status.subType);
+                TestActivity.launch(getActivity(), buildPath(path, status.subType), pItem.name + "水平测试");
                 return false;
             }
         });
     }
-
-    abstract public void initData();
 
 
     private static class GroupViewHolder {
@@ -262,7 +280,7 @@ public abstract class BaseMainFragment extends Fragment {
                 public void onClick(View view) {
                     String path = kind + "/" + item.name;
                     Log.e("eeee", "path:" + path);
-                    TestActivity.launch(getActivity(), path, null);
+                    TestActivity.launch(getActivity(), buildPath(path, null), item.name + "水平测试");
                 }
             });
 
@@ -281,5 +299,16 @@ public abstract class BaseMainFragment extends Fragment {
             return true;
         }
 
+    }
+
+    private String buildPath(String path, String level) {
+        String action;
+        if(!StringUtils.isEmpty(level)) {
+            action = "q/" + path + "/exercise?q_tcf_level=" + level;
+        } else {
+            action = "q/" + path + "/exercise";
+        }
+
+        return action;
     }
 }

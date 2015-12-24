@@ -34,6 +34,7 @@ import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.LogUtil;
+import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
@@ -123,21 +124,6 @@ public class MainActivity extends BaseActivity {
 
         currentTabID = TAB_ID_TCF;
         selectFragment(TAB_ID_TCF);
-
-
-
-        List<Map<Integer, Integer>> list = new ArrayList<>();
-        Map<Integer, Integer> map = new HashMap<>();
-        map.put(123, 1);
-        list.add(map);
-
-        Map<Integer, Integer> map2 = new HashMap<>();
-        map2.put(234, 1);
-        list.add(map2);
-
-        String s = JSON.toJSONString(list);
-
-        Log.e("aaaaaaaaaa", s);
     }
 
     @OnClick(R.id.drawer_tcf)
@@ -215,6 +201,9 @@ public class MainActivity extends BaseActivity {
         titlebar.setTitleText(titleIDs[id]);
     }
 
+
+
+
     int [] popMenuIds = {R.id.main_popup_window_item_1,
             R.id.main_popup_window_item_2,
             R.id.main_popup_window_item_3,
@@ -225,18 +214,85 @@ public class MainActivity extends BaseActivity {
     View.OnClickListener popupWindowItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            String path = "";
+            String title = "";
             switch (view.getId()) {
-                case R.id.main_popup_window_item_1:
+                case R.id.main_popup_window_item_1: {
+                    switch (currentTabID) {
+                        case 0:
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                }
                     break;
-                case R.id.main_popup_window_item_2:
+                case R.id.main_popup_window_item_2: {
+                    switch (currentTabID) {
+                        case 0:
+                            path = "q/C/real_exercise";
+                            title = "TCF 真题模考";
+                            break;
+                        case 1:
+                            path = "q/E/real_exercise";
+                            title = "TEF 真题模考";
+                            break;
+                        case 2:
+                            path = "q/S/real_exercise";
+                            title = "专四真题模考";
+                            break;
+                        default:
+                            break;
+                    }
+                    TestActivity.launch(MainActivity.this, path, title);
+                }
                     break;
-                case R.id.main_popup_window_item_3:
+                case R.id.main_popup_window_item_3: {
+                    switch (currentTabID) {
+                        case 0:
+                            path = "q/C/forecast_exercise";
+                            title = "TCF 押题宝典";
+                            break;
+                        case 1:
+                            path = "q/E/forecast_exercise";
+                            title = "TEF 押题宝典";
+                            break;
+                        case 2:
+                            path = "q/S/forecast_exercise";
+                            title = "专四押题宝典";
+                            break;
+                        default:
+                            break;
+                    }
+                    TestActivity.launch(MainActivity.this, path, title);
+                }
                     break;
                 case R.id.main_popup_window_item_4:
                     break;
                 case R.id.main_popup_window_item_5:
                     break;
-                case R.id.main_popup_window_item_6:
+                case R.id.main_popup_window_item_6: {
+                    switch (currentTabID) {
+                        case 0:
+                            path = "q/C/exercise";
+                            title = "TCF 水水平测试";
+                            break;
+                        case 1:
+                            path = "q/E/exercise";
+                            title = "TEF 水水平测试";
+                            break;
+                        case 2:
+                            path = "q/S/exercise";
+                            title = "专四水水平测试";
+                            break;
+                        default:
+                            break;
+                    }
+                    TestActivity.launch(MainActivity.this, path, title);
+                }
                     break;
                 default:
                     break;

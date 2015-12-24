@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by litingchang on 15-12-23.
@@ -41,10 +42,6 @@ public class ExerciseManager {
         return exerciseManager;
     }
 
-    public void putExerciseresponse(String key, Exerciseresponse exerciseresponse) {
-        exerciseresponseMap.put(key, exerciseresponse);
-    }
-
     public void setExerciseresponse(Exerciseresponse exerciseresponse) {
         this.exerciseresponse = exerciseresponse;
     }
@@ -62,23 +59,47 @@ public class ExerciseManager {
     public String getAnswerJsonString() {
         Map<String, List<Map<Integer, Integer>>> container = new HashMap<>();
 
-        List<Map<Integer, Integer>> list = new ArrayList<>();
-        for (Question question : exerciseresponse.questions) {
-            int id = question.id;
-            Map<Integer, Integer> map = new HashMap<>();
-            if(answerMap.containsKey(id)) {
-                map.put(id, question.content_data.answer_index == answerMap.get(id)
-                        ? 1 : 0 );
-            } else {
-                map.put(id, -1);
-            }
-            list.add(map);
+        // questions
+        if(exerciseresponse.questions != null) {
+            container.put("questions", getAnswerList(exerciseresponse.questions));
+            return objToString(container);
         }
 
-        container.put("question", list);
+        // G L R C W
+        container.put("G", getAnswerList(exerciseresponse.G));
+        container.put("L", getAnswerList(exerciseresponse.L));
+        container.put("R", getAnswerList(exerciseresponse.R));
+        container.put("C", getAnswerList(exerciseresponse.C));
+        container.put("W", getAnswerList(exerciseresponse.W));
 
-        return JSON.toJSONString(container);
-//        JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(container));
-//        return jsonObject.toJSONString();
+        Map<String, Object> result = new HashMap<>();
+        result.put("questions", container);
+
+        return objToString(result);
+    }
+
+    private String objToString(Object container) {
+        JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(container));
+        return jsonObject.toJSONString();
+    }
+
+    private List<Map<Integer, Integer>> getAnswerList(ArrayList<Question> questions) {
+        List<Map<Integer, Integer>> list = new ArrayList<>();
+
+        if(questions != null) {
+            for (Question question : questions) {
+                int id = question.id;
+                Map<Integer, Integer> map = new HashMap<>();
+                if(answerMap.containsKey(id)) {
+                    map.put(id, question.content_data.answer_index == answerMap.get(id)
+                            ? 1 : 0 );
+                } else {
+                    map.put(id, -1);
+                }
+                list.add(map);
+            }
+        }
+
+        return list;
     }
 }

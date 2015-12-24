@@ -10,9 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,7 +23,7 @@ import com.snail.french.model.exercise.Exerciseresponse;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
-import com.snail.french.utils.AudioRecorder;
+import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.view.CommonTitle;
 
@@ -38,7 +36,7 @@ import butterknife.ButterKnife;
 public class TestActivity extends BaseActivity {
 
     private static final String PATH = "path";
-    private static final String LEVEL = "level";
+    private static final String TITLE = "title";
 
     @Bind(R.id.titlebar)
     CommonTitle titlebar;
@@ -46,9 +44,8 @@ public class TestActivity extends BaseActivity {
     ViewPager testViewPager;
 
     private boolean showAnalyzation = false;
-    private String path;
-    private String level;
-    String action;
+    String path;
+    String title;
 
     Exerciseresponse exerciseresponse;
     TestPagerAdapter adapter;
@@ -62,13 +59,9 @@ public class TestActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         path = getIntent().getStringExtra(PATH);
-        level = getIntent().getStringExtra(LEVEL);
-        if(!StringUtils.isEmpty(level)) {
-            action = "q/" + path + "/exercise?q_tcf_level=" + level;
-        } else {
-            action = "q/" + path + "/exercise";
-        }
+        title = getIntent().getStringExtra(TITLE);
 
+        titlebar.setTitleText(title);
         titlebar.setOnTitleClickListener(new CommonTitle.TitleClickListener() {
             @Override
             public void onLeftClicked(View parent, View v) {
@@ -86,7 +79,7 @@ public class TestActivity extends BaseActivity {
 
                 StickerHttpClient.getInstance()
                         .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
-                        .postJsonString(TestActivity.this, action,
+                        .postJsonString(TestActivity.this, path,
                                 ExerciseManager.getInstance().getAnswerJsonString(),
                                 new TypeReference<Object>() {
                                 }.getType(),
@@ -123,7 +116,7 @@ public class TestActivity extends BaseActivity {
 
         StickerHttpClient.getInstance()
                 .addHeader("HTTP-AUTHORIZATION", "f0d10a1ca71a11e5a899525400587ef4")
-                .get(action, null, new TypeReference<Exerciseresponse>() {
+                .get(path, null, new TypeReference<Exerciseresponse>() {
                         }.getType(),
                         new StickerHttpResponseHandler<Exerciseresponse>() {
                             @Override
@@ -174,8 +167,8 @@ public class TestActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            if(exerciseresponse != null && exerciseresponse.questions != null) {
-                return exerciseresponse.questions.size();
+            if(exerciseresponse != null) {
+                return exerciseresponse.getQuestions().size();
             }
             return 0;
         }
@@ -192,12 +185,12 @@ public class TestActivity extends BaseActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            if(exerciseresponse == null || exerciseresponse.questions == null
-                    || exerciseresponse.questions.isEmpty()) {
+            if(exerciseresponse == null
+                    || exerciseresponse.getQuestions().isEmpty()) {
                 return null;
             }
 
-            final Question question = exerciseresponse.questions.get(position);
+            final Question question = exerciseresponse.getQuestions().get(position);
 
             View view = LayoutInflater.from(context).inflate(R.layout.view_test_pager, null);
             final TextView title = (TextView) view.findViewById(R.id.test_title);
@@ -228,7 +221,7 @@ public class TestActivity extends BaseActivity {
                         }
                     }
 
-                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex + 1);
+                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
 
                     if(position < getCount() - 1) {
                         testViewPager.setCurrentItem(position + 1, true);
@@ -245,27 +238,32 @@ public class TestActivity extends BaseActivity {
             TextView analyzation = (TextView) view.findViewById(R.id.test_answer_analyzation);
 
             try {
-                int answerIndex = question.content_data.answer_index - 1;
+                int answerIndex = question.content_data.answer_index;
                 result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
                         + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
-                        + (question.content_data.answer_index == selectIndex + 1 ? "回答正确" : "回答错误"));
+                        + (question.content_data.answer_index == selectIndex ? "回答正确" : "回答错误"));
                 source.setText("来源：" + question.source);
                 analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
             } catch (Exception e) {
                 e.printStackTrace();
+                LogUtil.e("TestPagerAdapter", e.toString());
             }
-
 
             container.addView(view);
             return view;
         }
     }
 
-    public static void launch(Context context, String path, String level) {
+    public static void launch(Context context, String path, String title) {
+
+        if(StringUtils.isEmpty(path)) {
+            return;
+        }
+
         Intent intent = new Intent();
         intent.setClass(context, TestActivity.class);
         intent.putExtra(PATH, path);
-        intent.putExtra(LEVEL, level);
+        intent.putExtra(TITLE, title);
         context.startActivity(intent);
 
     }
