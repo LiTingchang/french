@@ -40,19 +40,21 @@ public class TestActivity extends BaseActivity {
     private static final String PATH = "path";
     private static final String TITLE = "title";
 
+    private static final String SHOW_ANALYZATION = "show_analyzation";
+    private static final String PAGE_INDEX = "page_index";
+
     @Bind(R.id.titlebar)
     CommonTitle titlebar;
     @Bind(R.id.test_view_pager)
     ViewPager testViewPager;
 
     private boolean showAnalyzation = false;
-    String path;
-    String title;
+    private int pageIndex;
+    private String path;
+    private String title;
 
-    Exerciseresponse exerciseresponse;
-    TestPagerAdapter adapter;
-
-
+    private Exerciseresponse exerciseresponse;
+    private TestPagerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,17 @@ public class TestActivity extends BaseActivity {
 
 
         requestData();
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        showAnalyzation = intent.getBooleanExtra(SHOW_ANALYZATION, false);
+        pageIndex = intent.getIntExtra(PAGE_INDEX, -1);
+        adapter.notifyDataSetChanged();
+        if(pageIndex > 0 && pageIndex < adapter.getCount()) {
+            testViewPager.setCurrentItem(pageIndex);
+        }
     }
 
     private void requestData() {
@@ -183,13 +195,27 @@ public class TestActivity extends BaseActivity {
             indicator.setText((position + 1) + "/" + getCount());
             content.setText(question.content_data.content);
 
+            int chechedId = -1;
+            if(ExerciseManager.getInstance().getAnswerMap().containsKey(question.id)) {
+                chechedId = ExerciseManager.getInstance().getAnswerMap().get(question.id);
+            }
+
             RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.test_radio_group);
             for (int i = 0; i < question.content_data.option.size(); ++i) {
                 String s = question.content_data.option.get(i);
                 RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
                 radioButton.setVisibility(View.VISIBLE);
                 radioButton.setText(s);
+
+                if(chechedId == i) {
+                    radioButton.setChecked(true);
+                } else {
+                    radioButton.setChecked(false);
+                }
             }
+
+
+
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
@@ -211,22 +237,31 @@ public class TestActivity extends BaseActivity {
                 }
             });
 
-
             View analyzationRoot = view.findViewById(R.id.test_analyzation_root);
-            TextView result = (TextView) view.findViewById(R.id.test_answer_result);
-            TextView source = (TextView) view.findViewById(R.id.test_source);
-            TextView analyzation = (TextView) view.findViewById(R.id.test_answer_analyzation);
 
-            try {
-                int answerIndex = question.content_data.answer_index - 1;
-                result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
-                        + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
-                        + (answerIndex == selectIndex ? "回答正确" : "回答错误"));
-                source.setText("来源：" + question.source);
-                analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
-            } catch (Exception e) {
-                e.printStackTrace();
-                LogUtil.e("TestPagerAdapter", e.toString());
+            if(showAnalyzation) {
+                radioGroup.setEnabled(false);
+                analyzationRoot.setVisibility(View.GONE);
+
+                TextView result = (TextView) view.findViewById(R.id.test_answer_result);
+                TextView source = (TextView) view.findViewById(R.id.test_source);
+                TextView analyzation = (TextView) view.findViewById(R.id.test_answer_analyzation);
+
+                try {
+                    int answerIndex = question.content_data.answer_index - 1;
+                    result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
+                            + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
+                            + (answerIndex == selectIndex ? "回答正确" : "回答错误"));
+                    source.setText("来源：" + question.source);
+                    analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtil.e("TestPagerAdapter", e.toString());
+                }
+
+            } else {
+                radioGroup.setEnabled(true);
+                analyzationRoot.setVisibility(View.GONE);
             }
 
             container.addView(view);
@@ -244,6 +279,16 @@ public class TestActivity extends BaseActivity {
         intent.setClass(context, TestActivity.class);
         intent.putExtra(PATH, path);
         intent.putExtra(TITLE, title);
+        context.startActivity(intent);
+
+    }
+
+    public static void reLaunch(Context context, Boolean showAnalyzation, int index) {
+
+        Intent intent = new Intent();
+        intent.setClass(context, TestActivity.class);
+        intent.putExtra(SHOW_ANALYZATION, showAnalyzation);
+        intent.putExtra(PAGE_INDEX, index);
         context.startActivity(intent);
 
     }

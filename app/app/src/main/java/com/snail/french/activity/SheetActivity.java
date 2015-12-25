@@ -50,11 +50,17 @@ public class SheetActivity extends BaseActivity {
         for (Pair<String, ArrayList<Question>> questionPair : ExerciseManager.getInstance().getExerciseresponse().getQuestionsPairList()) {
             if(questionPair != null && questionPair.second != null && !questionPair.second.isEmpty()) {
                 shellPanels.get(i).setVisibility(View.VISIBLE);
-                shellPanels.get(i).init(questionPair.first, questionPair.second, true);
+                shellPanels.get(i).init(questionPair.first, i, questionPair.second, true);
                 shellPanels.get(i).setOnItemClickedListener(new BallSelectorPanel.OnItemClickedListener() {
                     @Override
-                    public void onItemClicked(Question question, int position) {
-                        ToastUtil.shortToast(SheetActivity.this, "" + position);
+                    public void onItemClicked(Question question, int index, int position) {
+                        List<Question> questionList = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
+                        for (int j = 0; j < questionList.size(); ++j) {
+                            if(question.id == questionList.get(j).id) {
+                                TestActivity.reLaunch(SheetActivity.this, false, j);
+                                break;
+                            }
+                        }
                     }
                 });
             }
@@ -93,7 +99,7 @@ public class SheetActivity extends BaseActivity {
                             public void onFinish() {
                                 dismissProgressDialog();
                             }
-                });
+                        });
     }
 
 

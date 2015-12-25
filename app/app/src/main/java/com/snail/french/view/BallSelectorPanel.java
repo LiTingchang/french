@@ -25,6 +25,7 @@ public class BallSelectorPanel extends LinearLayout {
 
 	private Context mContext;
 	private TextView mTitle;
+	private int mIndex;
 	private FullSizeGridView myGridView;
 	private BallSelectorAdapter myAdapter;
 	private OnItemClickedListener onItemClickedListener;
@@ -44,13 +45,14 @@ public class BallSelectorPanel extends LinearLayout {
 		myGridView = (FullSizeGridView) findViewById(R.id.shell_panel_grid_view);
 	}
 
-	public void init(String titleText, final ArrayList<Question> questions, boolean checkResult) {
+	public void init(String titleText, final int index, final ArrayList<Question> questions, boolean checkResult) {
 
 		if(questions == null || questions.isEmpty()) {
 			return;
 		}
 
 		mTitle.setText(titleText);
+		mIndex = index;
 		myAdapter = new BallSelectorAdapter(mContext, questions, checkResult);
 		myGridView.setAdapter(myAdapter);
 		myGridView
@@ -60,10 +62,14 @@ public class BallSelectorPanel extends LinearLayout {
 					public void onItemClick(AdapterView<?> parent, View view,
 											int position, long id) {
 						if(onItemClickedListener != null) {
-							onItemClickedListener.onItemClicked(questions.get(position), position);
+							onItemClickedListener.onItemClicked(questions.get(position), index, position);
 						}
 					}
 				});
+	}
+
+	public int getIndex() {
+		return mIndex;
 	}
 
 
@@ -147,6 +153,6 @@ public class BallSelectorPanel extends LinearLayout {
 	}
 
 	public interface OnItemClickedListener {
-		public void onItemClicked(Question question, int position);
+		public void onItemClicked(Question question, int index ,int position);
 	}
 }

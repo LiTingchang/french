@@ -38,8 +38,9 @@
         <activity android:name=".activity.ForgetPasswordActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
-
+T
         <activity android:name=".activity.TestActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.SheetActivity"
