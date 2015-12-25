@@ -21,27 +21,27 @@ public class Exerciseresponse {
         List<Pair<String, ArrayList<Question>>> lists = new ArrayList<>();
 
         if(questions != null && !questions.isEmpty()) {
-            lists.add(Pair.create("", questions));
+            lists.add(Pair.create("", expandQuestions(questions)));
         }
 
         if(G != null && !G.isEmpty()) {
-            lists.add(Pair.create("语法", G));
+            lists.add(Pair.create("语法", expandQuestions(G)));
         }
 
         if(L != null && !L.isEmpty()) {
-            lists.add(Pair.create("听力", L));
+            lists.add(Pair.create("听力", expandQuestions(L)));
         }
 
         if(R != null && !R.isEmpty()) {
-            lists.add(Pair.create("阅读", R));
+            lists.add(Pair.create("阅读", expandQuestions(R)));
         }
 
         if(C != null && !C.isEmpty()) {
-            lists.add(Pair.create("作文", C));
+            lists.add(Pair.create("作文", expandQuestions(C)));
         }
 
         if(W != null && !W.isEmpty()) {
-            lists.add(Pair.create("词汇", W));
+            lists.add(Pair.create("词汇", expandQuestions(W)));
         }
 
         return lists;
@@ -78,7 +78,7 @@ public class Exerciseresponse {
         return allQuestions;
     }
 
-    private List<Question> expandQuestions(ArrayList<Question> questions) {
+    private ArrayList<Question> expandQuestions(ArrayList<Question> questions) {
         ArrayList<Question> expandQuestions = new ArrayList<>();
 
         if(questions != null) {
