@@ -26,4 +26,6 @@
 
     <string name="sheet">答题卡</string>
 
+    <string name="test_result">练习报告</string>
+
 </resources>

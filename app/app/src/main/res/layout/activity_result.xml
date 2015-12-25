@@ -7,7 +7,7 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        title:titleText="@string/sheet"
+        title:titleText="@string/test_result"
         title:titleColor="@android:color/white"
         title:bgColor="@color/title_bg" />
     
@@ -56,9 +56,33 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_1"
+                style="@style/shell_panel"/>
+
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_2"
+                style="@style/shell_panel"/>
+
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_3"
+                style="@style/shell_panel"/>
+
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_4"
+                style="@style/shell_panel"/>
+
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_5"
+                style="@style/shell_panel"/>
+
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_6"
+                style="@style/shell_panel"/>
+
 
         </LinearLayout>
-        
+
     </ScrollView>
 
 

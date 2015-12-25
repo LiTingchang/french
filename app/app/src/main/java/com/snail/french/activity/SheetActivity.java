@@ -4,19 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.manager.ExerciseManager;
 import com.snail.french.model.exercise.Question;
-import com.snail.french.net.http.StickerHttpClient;
-import com.snail.french.net.http.StickerHttpResponseHandler;
-import com.snail.french.userinfo.UserInfoManager;
-import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.BallSelectorPanel;
 import com.snail.french.view.CommonTitle;
 
@@ -71,37 +65,9 @@ public class SheetActivity extends BaseActivity {
 
     @OnClick(R.id.sheet_submit)
     void onSubmitClicked() {
-        Log.e("aaaaaaaaaa", ExerciseManager.getInstance().getAnswerJsonString());
-
-        StickerHttpClient.getInstance()
-                .addAutorization(UserInfoManager.getAccessToken(SheetActivity.this))
-                .postJsonString(SheetActivity.this, ExerciseManager.getInstance().getPath(),
-                        ExerciseManager.getInstance().getAnswerJsonString(),
-                        new TypeReference<Object>() {
-                        }.getType(),
-                        new StickerHttpResponseHandler<Object>() {
-                            @Override
-                            public void onStart() {
-                                showProgressDialog("答案提交中。。。");
-                            }
-
-                            @Override
-                            public void onSuccess(Object response) {
-                                ToastUtil.shortToast(SheetActivity.this, "提交成功");
-                            }
-
-                            @Override
-                            public void onFailure(String message) {
-                                ToastUtil.shortToast(SheetActivity.this, "提交失败");
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                dismissProgressDialog();
-                            }
-                        });
+        ResultActivity.launch(SheetActivity.this);
+        SheetActivity.this.finish();
     }
-
 
     public static void launch(Context context) {
         Intent intent = new Intent(context, SheetActivity.class);

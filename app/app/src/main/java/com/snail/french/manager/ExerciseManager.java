@@ -20,12 +20,11 @@ import java.util.Objects;
 public class ExerciseManager {
 
     private String path;
-
-    private Map<Integer, Integer> answerMap;
-
-    private Map<String, Exerciseresponse> exerciseresponseMap;
+    private String exerciseName;
 
     private Exerciseresponse exerciseresponse;
+    private Map<String, Exerciseresponse> exerciseresponseMap;
+    private Map<Integer, Integer> answerMap;
 
     private static ExerciseManager exerciseManager;
     private ExerciseManager() {
@@ -69,6 +68,7 @@ public class ExerciseManager {
     }
 
     public void clean() {
+        path = "";
         exerciseresponseMap.clear();
         answerMap.clear();
         exerciseresponse = null;

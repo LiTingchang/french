@@ -56,6 +56,8 @@ public class TestActivity extends BaseActivity {
     private Exerciseresponse exerciseresponse;
     private TestPagerAdapter adapter;
 
+    private int currentPageId = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,11 @@ public class TestActivity extends BaseActivity {
         super.onNewIntent(intent);
         showAnalyzation = intent.getBooleanExtra(SHOW_ANALYZATION, false);
         pageIndex = intent.getIntExtra(PAGE_INDEX, -1);
+
+        if(showAnalyzation) {
+            titlebar.setRight2Visibility(View.GONE);
+        }
+
         adapter.notifyDataSetChanged();
         if(pageIndex >= 0 && pageIndex < adapter.getCount()) {
             testViewPager.setCurrentItem(pageIndex);
@@ -214,8 +221,6 @@ public class TestActivity extends BaseActivity {
                 }
             }
 
-
-
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
@@ -240,8 +245,8 @@ public class TestActivity extends BaseActivity {
             View analyzationRoot = view.findViewById(R.id.test_analyzation_root);
 
             if(showAnalyzation) {
-                radioGroup.setEnabled(false);
-                analyzationRoot.setVisibility(View.GONE);
+                setSelecterEnabled(radioGroup, false);
+                analyzationRoot.setVisibility(View.VISIBLE);
 
                 TextView result = (TextView) view.findViewById(R.id.test_answer_result);
                 TextView source = (TextView) view.findViewById(R.id.test_source);
@@ -249,8 +254,12 @@ public class TestActivity extends BaseActivity {
 
                 try {
                     int answerIndex = question.content_data.answer_index - 1;
-                    result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
-                            + "，您的答案是：" + question.content_data.option.get(selectIndex) + "\n"
+                    int myIndex = 0;
+                    if( ExerciseManager.getInstance().getAnswerMap().containsKey(question.id)) {
+                        myIndex = ExerciseManager.getInstance().getAnswerMap().get(question.id);
+                    }
+                     result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
+                            + "，您的答案是：" + question.content_data.option.get(myIndex) + "\n"
                             + (answerIndex == selectIndex ? "回答正确" : "回答错误"));
                     source.setText("来源：" + question.source);
                     analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
@@ -260,12 +269,26 @@ public class TestActivity extends BaseActivity {
                 }
 
             } else {
-                radioGroup.setEnabled(true);
+                if(!radioGroup.isEnabled()) {
+                    setSelecterEnabled(radioGroup, true);
+                }
                 analyzationRoot.setVisibility(View.GONE);
             }
 
             container.addView(view);
             return view;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+    }
+
+    private void setSelecterEnabled(RadioGroup radioGroup, boolean b) {
+        radioGroup.setEnabled(b);
+        for (int i = 0; i < radioGroup.getChildCount(); ++i) {
+            radioGroup.getChildAt(i).setEnabled(b);
         }
     }
 
