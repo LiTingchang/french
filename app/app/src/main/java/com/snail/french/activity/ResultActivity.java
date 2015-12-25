@@ -15,7 +15,7 @@ public class ResultActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sheet);
+        setContentView(R.layout.activity_result);
         ButterKnife.bind(this);
     }
 }

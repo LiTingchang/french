@@ -96,7 +96,7 @@ public class TestActivity extends BaseActivity {
         showAnalyzation = intent.getBooleanExtra(SHOW_ANALYZATION, false);
         pageIndex = intent.getIntExtra(PAGE_INDEX, -1);
         adapter.notifyDataSetChanged();
-        if(pageIndex > 0 && pageIndex < adapter.getCount()) {
+        if(pageIndex >= 0 && pageIndex < adapter.getCount()) {
             testViewPager.setCurrentItem(pageIndex);
         }
     }

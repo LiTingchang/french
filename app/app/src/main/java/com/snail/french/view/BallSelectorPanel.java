@@ -1,6 +1,7 @@
 package com.snail.french.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.snail.french.R;
 import com.snail.french.manager.ExerciseManager;
 import com.snail.french.model.exercise.Question;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +83,8 @@ public class BallSelectorPanel extends LinearLayout {
 
 
 	private static class ViewHolder {
-		ImageView sheetItemView;
+		ImageView sheetImage;
+		TextView sheetNumberView;
 	}
 
 	private class BallSelectorAdapter extends BaseAdapter {
@@ -124,8 +128,10 @@ public class BallSelectorPanel extends LinearLayout {
 						R.layout.sheet_panel_item, parent, false);
 
 				holder = new ViewHolder();
-				holder.sheetItemView = (ImageView) convertView
-						.findViewById(R.id.sheet_item);
+				holder.sheetImage = (ImageView) convertView
+						.findViewById(R.id.sheet_item_bg);
+				holder.sheetNumberView = (TextView) convertView
+						.findViewById(R.id.sheet_item_number);
 
 				convertView.setTag(holder);
 			} else {
@@ -133,19 +139,23 @@ public class BallSelectorPanel extends LinearLayout {
 			}
 
 			final Question question = questions.get(position);
-
+			holder.sheetNumberView.setText(String.valueOf(position + 1));
 			if(answerMap.containsKey(question.id)) {
 				if(checkResult) {
 					if(question.content_data.answer_index - 1 == answerMap.get(question.id)) {
-						holder.sheetItemView.setImageResource(R.drawable.ico_sheet_fill_l);
+						holder.sheetImage.setImageResource(R.drawable.ico_sheet_fill_l);
+						holder.sheetNumberView.setTextColor(Color.WHITE);
 					} else {
-						holder.sheetItemView.setImageResource(R.drawable.ico_wrong_sheet_l);
+						holder.sheetImage.setImageResource(R.drawable.ico_wrong_sheet_l);
+						holder.sheetNumberView.setTextColor(Color.WHITE);
 					}
 				} else {
-					holder.sheetItemView.setImageResource(R.drawable.ico_sheet_fill_l);
+					holder.sheetImage.setImageResource(R.drawable.ico_sheet_fill_l);
+					holder.sheetNumberView.setTextColor(Color.WHITE);
 				}
 			} else {
-				holder.sheetItemView.setImageResource(R.drawable.ico_sheet_empty_l);
+				holder.sheetImage.setImageResource(R.drawable.ico_sheet_empty_l);
+				holder.sheetNumberView.setTextColor(getResources().getColor(R.color.sheet_number_color));
 			}
 
 			return convertView;
