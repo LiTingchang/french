@@ -5,16 +5,22 @@ package com.snail.french.constant;
  */
 public enum FrenchKind {
 
-    TCF("C"),
-    TEF("E"),
-    TEM4("S");
+    TCF("C", "TCF"),
+    TEF("E", "TCF"),
+    TEM4("S", "专四");
 
     private String kind;
-    private FrenchKind(String kind) {
+    private String name;
+    private FrenchKind(String kind, String name) {
         this.kind = kind;
+        this.name = name;
     }
 
     public String getKind() {
         return kind;
+    }
+
+    public String getName() {
+        return name;
     }
 }
