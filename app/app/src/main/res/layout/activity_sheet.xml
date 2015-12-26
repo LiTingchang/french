@@ -58,6 +58,14 @@
                 android:id="@+id/shell_panel_6"
                 style="@style/shell_panel"/>
 
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_7"
+                style="@style/shell_panel"/>
+
+            <com.snail.french.view.BallSelectorPanel
+                android:id="@+id/shell_panel_8"
+                style="@style/shell_panel"/>
+
 
         </LinearLayout>
         
