@@ -24,6 +24,7 @@ import com.snail.french.model.status.Status;
 import com.snail.french.model.status.StatusResponse;
 import com.snail.french.utils.JsonParseUtil;
 import com.snail.french.utils.StringUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -81,11 +82,13 @@ public abstract class BaseMainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart(getKind().getKind());
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd(getKind().getKind());
     }
 
     @Override
@@ -285,7 +288,6 @@ public abstract class BaseMainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     String path = kind + "/" + item.name;
-                    Log.e("eeee", "path:" + path);
                     TestActivity.launch(getActivity(), buildPath(path, null), item.name + "水平测试");
                 }
             });

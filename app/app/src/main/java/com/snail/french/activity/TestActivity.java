@@ -29,6 +29,8 @@ import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
+import java.lang.reflect.InvocationTargetException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -108,6 +110,41 @@ public class TestActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopWebView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ExerciseManager.getInstance().clean();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void stopWebView() {
+        try {
+            View view = testViewPager.findViewWithTag(currentPageId);
+            if (view != null) {
+                WebView webView = (WebView) view.findViewById(R.id.test_web_view);
+                if (webView != null) {
+                    webView.reload();
+
+//                    Class.forName("android.webkit.WebView")
+//                            .getMethod("onPause", (Class[]) null)
+//                            .invoke(webView, (Object[]) null);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void requestData() {
 
         StickerHttpClient.getInstance()
@@ -125,6 +162,26 @@ public class TestActivity extends BaseActivity {
                                 ExerciseManager.getInstance().setExerciseresponse(response);
                                 adapter = new TestPagerAdapter(TestActivity.this, response);
                                 testViewPager.setAdapter(adapter);
+                                testViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                    @Override
+                                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                                    }
+
+                                    @Override
+                                    public void onPageSelected(int position) {
+                                        Log.e("aaaaaaaaaa", "onPageSelected :" + position);
+                                        currentPageId = position;
+                                    }
+
+                                    @Override
+                                    public void onPageScrollStateChanged(int state) {
+                                        Log.e("aaaaaaaaaa", "state :" + state);
+                                        if (state != 0) {
+                                            stopWebView();
+                                        }
+                                    }
+                                });
                             }
 
                             @Override
@@ -139,16 +196,7 @@ public class TestActivity extends BaseActivity {
                         });
     }
 
-    @Override
-    protected void onDestroy() {
-        ExerciseManager.getInstance().clean();
-        super.onDestroy();
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     class TestPagerAdapter extends PagerAdapter {
 
@@ -275,6 +323,7 @@ public class TestActivity extends BaseActivity {
                 analyzationRoot.setVisibility(View.GONE);
             }
 
+            view.setTag(position);
             container.addView(view);
             return view;
         }

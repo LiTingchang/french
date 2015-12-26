@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.snail.french.FrenchApp;
 import com.snail.french.activity.helper.ActivityHelper;
 import com.snail.french.activity.impl.IBaseActivity;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by litingchang on 15-12-7.
@@ -22,6 +23,18 @@ public class BaseActivity extends AppCompatActivity implements IBaseActivity{
         super.onCreate(savedInstanceState);
         mActivityHelper = new ActivityHelper(this);
         FrenchApp.getApp().addActivity(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
