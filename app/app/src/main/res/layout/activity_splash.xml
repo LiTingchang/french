@@ -2,15 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/activity_bg_white">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView android:id="@+id/slogan"
+        android:layout_width="208dp"
         android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:paddingBottom="48dp"
         android:layout_centerInParent="true"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="24dp"
-        android:text="启动页面"/>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/splash_slogan"/>
+
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:scaleType="fitXY"
+        android:layout_above="@id/slogan"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_logo" />
+
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/splash_app_logo"/>
 
 
 </RelativeLayout>
