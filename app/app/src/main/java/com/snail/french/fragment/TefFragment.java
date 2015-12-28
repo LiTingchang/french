@@ -77,8 +77,8 @@ public class TefFragment extends BaseMainFragment{
                             return;
                         }
 
-                        String [] names = {"G", "L", "R"};
-                        String [][] subTypes = {{"9","10","17","18"}, {"1","2","3","4","5","6","7"}, {"11","12","13","14","15","16"}};
+                        String [] names = {"L", "G", "R"};
+                        String [][] subTypes = {{"1","2","3","4","5","6","7"}, {"9","10","17","18"}, {"11","12","13","14","15","16"}};
                         StatusResponse response = JsonParseUtil.parseEResponse(names, subTypes, jsonObject);
 
                         setData("E", response);

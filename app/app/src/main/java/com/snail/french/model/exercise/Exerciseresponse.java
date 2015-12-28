@@ -24,12 +24,16 @@ public class Exerciseresponse {
             lists.add(Pair.create("", expandQuestions(questions)));
         }
 
-        if(G != null && !G.isEmpty()) {
-            lists.add(Pair.create("语法", expandQuestions(G)));
-        }
-
         if(L != null && !L.isEmpty()) {
             lists.add(Pair.create("听力", expandQuestions(L)));
+        }
+
+        if(W != null && !W.isEmpty()) {
+            lists.add(Pair.create("词汇", expandQuestions(W)));
+        }
+
+        if(G != null && !G.isEmpty()) {
+            lists.add(Pair.create("语法", expandQuestions(G)));
         }
 
         if(R != null && !R.isEmpty()) {
@@ -38,10 +42,6 @@ public class Exerciseresponse {
 
         if(C != null && !C.isEmpty()) {
             lists.add(Pair.create("作文", expandQuestions(C)));
-        }
-
-        if(W != null && !W.isEmpty()) {
-            lists.add(Pair.create("词汇", expandQuestions(W)));
         }
 
         return lists;
@@ -55,12 +55,16 @@ public class Exerciseresponse {
             allQuestions.addAll(expandQuestions(questions));
         }
 
-        if(G != null) {
-            allQuestions.addAll(expandQuestions(G));
-        }
-
         if(L != null) {
             allQuestions.addAll(expandQuestions(L));
+        }
+
+        if(W != null) {
+            allQuestions.addAll(expandQuestions(W));
+        }
+
+        if(G != null) {
+            allQuestions.addAll(expandQuestions(G));
         }
 
         if(R != null) {
@@ -69,10 +73,6 @@ public class Exerciseresponse {
 
         if(C != null) {
             allQuestions.addAll(expandQuestions(C));
-        }
-
-        if(W != null) {
-            allQuestions.addAll(expandQuestions(W));
         }
 
         return allQuestions;

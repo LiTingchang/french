@@ -37,6 +37,8 @@ import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -124,6 +126,8 @@ public class MainActivity extends BaseActivity {
 
         currentTabID = TAB_ID_TCF;
         selectFragment(TAB_ID_TCF);
+
+        UmengUpdateAgent.update(MainActivity.this);
     }
 
     @OnClick(R.id.drawer_tcf)
@@ -272,15 +276,15 @@ public class MainActivity extends BaseActivity {
                     switch (currentTabID) {
                         case 0:
                             path = "q/C/exercise";
-                            title = "TCF 水水平测试";
+                            title = "TCF 水平测试";
                             break;
                         case 1:
                             path = "q/E/exercise";
-                            title = "TEF 水水平测试";
+                            title = "TEF 水平测试";
                             break;
                         case 2:
                             path = "q/S/exercise";
-                            title = "专四水水平测试";
+                            title = "专四水平测试";
                             break;
                         default:
                             break;

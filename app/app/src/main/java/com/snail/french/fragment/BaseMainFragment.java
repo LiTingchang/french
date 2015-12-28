@@ -117,15 +117,15 @@ public abstract class BaseMainFragment extends Fragment {
                 switch (getKind()) {
                     case TCF:
                         path = "q/C/exercise";
-                        title = "TCF 水水平测试";
+                        title = "TCF 水平测试";
                         break;
                     case TEF:
                         path = "q/E/exercise";
-                        title = "TEF 水水平测试";
+                        title = "TEF 水平测试";
                         break;
                     case TEM4:
                         path = "q/S/exercise";
-                        title = "专四水水平测试";
+                        title = "专四水平测试";
                         break;
                     default:
                         break;
@@ -161,7 +161,7 @@ public abstract class BaseMainFragment extends Fragment {
                 Log.e("eeee", "path:" + path);
                 Log.e("eeee", "level:" + status.subType);
 
-                TestActivity.launch(getActivity(), buildPath(path, status.subType), pItem.name + "水平测试");
+                TestActivity.launch(getActivity(), buildPath(path, status.subType), NameConstants.getName(pItem.name));
                 return false;
             }
         });
@@ -288,7 +288,7 @@ public abstract class BaseMainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     String path = kind + "/" + item.name;
-                    TestActivity.launch(getActivity(), buildPath(path, null), item.name + "水平测试");
+                    TestActivity.launch(getActivity(), buildPath(path, null), NameConstants.getName(item.name));
                 }
             });
 

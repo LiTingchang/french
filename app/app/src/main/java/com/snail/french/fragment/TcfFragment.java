@@ -83,8 +83,8 @@ public class TcfFragment extends BaseMainFragment{
                             return;
                         }
 
-                        String [] names = {"G", "L", "R"};
-                        String [] types = {"31", "30", "32"};
+                        String [] names = {"L", "G", "R"};
+                        String [] types = {"30", "31", "32"};
                         String [][] subTypes = {{"A1","A2","B1","B2","C1","C2"}, {"A1","A2","B1","B2","C1","C2"}, {"A1","A2","B1","B2","C1","C2"}};
                         StatusResponse response = JsonParseUtil.parseCresponse(names, types, subTypes, jsonObject);
 
