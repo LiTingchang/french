@@ -70,6 +70,7 @@ public class TestActivity extends BaseActivity {
         title = getIntent().getStringExtra(TITLE);
 
         ExerciseManager.getInstance().setPath(path);
+        ExerciseManager.getInstance().setTitle(title);
 
 
         titlebar.setTitleText(title);
@@ -384,5 +385,13 @@ public class TestActivity extends BaseActivity {
         intent.putExtra(PAGE_INDEX, index);
         context.startActivity(intent);
 
+    }
+
+    public static void showResultLaunch(Context context, Boolean showAnalyzation, int index) {
+        Intent intent = new Intent();
+        intent.setClass(context, TestActivity.class);
+        intent.putExtra(SHOW_ANALYZATION, showAnalyzation);
+        intent.putExtra(PAGE_INDEX, index);
+        context.startActivity(intent);
     }
 }

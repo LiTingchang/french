@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.snail.french.view.CommonTitle
+        xmlns:title="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        title:titleText="@string/app_name"
+        title:titleColor="@android:color/white"
+        title:bgColor="@color/title_bg"
+        title:rightBtnSrc="@drawable/title_collect"
+        title:rightBtn2Src="@drawable/title_sheet_nav"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/test_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

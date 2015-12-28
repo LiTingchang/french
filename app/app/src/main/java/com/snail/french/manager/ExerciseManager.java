@@ -5,6 +5,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.snail.french.constant.FrenchKind;
 import com.snail.french.model.exercise.Exerciseresponse;
 import com.snail.french.model.exercise.Question;
 
@@ -19,7 +20,9 @@ import java.util.Objects;
  */
 public class ExerciseManager {
 
-    private String path;
+    private FrenchKind frenchKind;
+    private String path = "";
+    private String title = "";
     private String exerciseName;
 
     private Exerciseresponse exerciseresponse;
@@ -43,12 +46,28 @@ public class ExerciseManager {
         return exerciseManager;
     }
 
+    public FrenchKind getFrenchKind() {
+        return frenchKind;
+    }
+
+    public void setFrenchKind(FrenchKind frenchKind) {
+        this.frenchKind = frenchKind;
+    }
+
     public String getPath() {
         return path;
     }
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setExerciseresponse(Exerciseresponse exerciseresponse) {
@@ -68,7 +87,9 @@ public class ExerciseManager {
     }
 
     public void clean() {
+        frenchKind = FrenchKind.TCF;
         path = "";
+        title = "";
         exerciseresponseMap.clear();
         answerMap.clear();
         exerciseresponse = null;

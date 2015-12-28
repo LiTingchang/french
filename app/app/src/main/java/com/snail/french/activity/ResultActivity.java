@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
+import com.snail.french.constant.FrenchKind;
 import com.snail.french.manager.ExerciseManager;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.model.exercise.ResultResponse;
@@ -104,7 +105,14 @@ public class ResultActivity extends BaseActivity {
                                     resultScoreSummary.setVisibility(View.GONE);
                                     resultDetail.setVisibility(View.VISIBLE);
                                     resultTotal.setText(String.valueOf(response.total_score));
-                                    resultScore.setText(String.valueOf(response.score));
+
+                                    int score = response.score ;
+                                    if(ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEF) {
+                                        if(score < 0) {
+                                            score = 0;
+                                        }
+                                    }
+                                    resultScore.setText(String.valueOf(score));
                                     resultLevel.setText(String.valueOf(response.level));
                                     resultAverage.setText(response.average_score + "\n全站平均得分");
                                     resultDefeat.setText(response.defeat_examinee + "\n已击败考生");
@@ -138,7 +146,7 @@ public class ResultActivity extends BaseActivity {
                         List<Question> questionList = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
                         for (int j = 0; j < questionList.size(); ++j) {
                             if (question.id == questionList.get(j).id) {
-                                TestActivity.reLaunch(ResultActivity.this, true, j);
+                                AnalyzationActivity.launch(ResultActivity.this, j);
                                 break;
                             }
                         }
@@ -151,7 +159,7 @@ public class ResultActivity extends BaseActivity {
 
     @OnClick(R.id.result_analyze)
     void analyzeReuslt() {
-        TestActivity.reLaunch(ResultActivity.this, true, 0);
+        AnalyzationActivity.launch(ResultActivity.this, 0);
     }
 
     public static void launch(Context context) {

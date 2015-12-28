@@ -19,6 +19,7 @@ import com.snail.french.activity.MainActivity;
 import com.snail.french.activity.TestActivity;
 import com.snail.french.constant.FrenchKind;
 import com.snail.french.constant.NameConstants;
+import com.snail.french.manager.ExerciseManager;
 import com.snail.french.model.status.PItem;
 import com.snail.french.model.status.Status;
 import com.snail.french.model.status.StatusResponse;
@@ -48,9 +49,6 @@ public abstract class BaseMainFragment extends Fragment {
     private TextView exerciseDays; // 联系天数
     private TextView levael; //预测等级
     private View smartTest;
-
-    private String kind;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,9 +98,9 @@ public abstract class BaseMainFragment extends Fragment {
     abstract public void initData();
     abstract public FrenchKind getKind();
 
-    public void setData(final String kind, final StatusResponse statusResponse) {
+    public void setData(final StatusResponse statusResponse) {
 
-        this.kind = kind;
+        ExerciseManager.getInstance().setFrenchKind(getKind());
 
         forcastScore.setText(String.valueOf(statusResponse.forcast_score));
         exerciseQuestionNumber.setText(getResources().getString(R.string.exercise_question_number, statusResponse.exercise_question_number));
@@ -153,13 +151,10 @@ public abstract class BaseMainFragment extends Fragment {
             public boolean onChildClick(ExpandableListView expandableListView, View view,
                                         int groupPosition, int childPosition, long id) {
 
-                Log.e("eeee", "g:" + groupPosition + "    child:" + childPosition);
                 PItem pItem = statusResponse.pItemList.get(groupPosition);
                 Status status = pItem.statusList.get(childPosition);
-                String path = kind + "/" + pItem.name +
+                String path = getKind().getKind() + "/" + pItem.name +
                         "/" + status.type;
-                Log.e("eeee", "path:" + path);
-                Log.e("eeee", "level:" + status.subType);
 
                 TestActivity.launch(getActivity(), buildPath(path, status.subType), NameConstants.getName(pItem.name));
                 return false;
@@ -234,6 +229,15 @@ public abstract class BaseMainFragment extends Fragment {
 
         @Override
         public int getChildrenCount( int groupPosition ) {
+
+            // 专四 阅读 作文 不展开
+            if(getKind() == FrenchKind.TEM4) {
+                String pName = statusResponses.pItemList.get(groupPosition).name;
+                if("R".equals(pName) || "C".equals(pName)) {
+                    return 0;
+                }
+            }
+
             return statusResponses.pItemList.get(groupPosition).statusList.size();
         }
 
@@ -287,7 +291,7 @@ public abstract class BaseMainFragment extends Fragment {
             groupViewHolder.doTest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String path = kind + "/" + item.name;
+                    String path = getKind().getKind() + "/" + item.name;
                     TestActivity.launch(getActivity(), buildPath(path, null), NameConstants.getName(item.name));
                 }
             });

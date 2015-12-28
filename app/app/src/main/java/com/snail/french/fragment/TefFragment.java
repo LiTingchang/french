@@ -81,7 +81,7 @@ public class TefFragment extends BaseMainFragment{
                         String [][] subTypes = {{"1","2","3","4","5","6","7"}, {"9","10","17","18"}, {"11","12","13","14","15","16"}};
                         StatusResponse response = JsonParseUtil.parseEResponse(names, subTypes, jsonObject);
 
-                        setData("E", response);
+                        setData(response);
                     }
 
                     @Override
