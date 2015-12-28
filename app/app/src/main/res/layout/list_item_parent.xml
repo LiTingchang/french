@@ -20,6 +20,7 @@
         android:layout_toRightOf="@id/parent_expand_arrow"
         android:layout_alignBottom="@id/parent_expand_arrow"
         android:textColor="@android:color/black"
+        android:textSize="18sp"
         android:text="听力"/>
 
     <ImageView android:id="@+id/parent_test"

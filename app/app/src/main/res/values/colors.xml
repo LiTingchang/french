@@ -21,4 +21,6 @@
 
     <color name="header_smart_test_bg">#cae4ff</color>
 
+    <color name="test_checkbox_bg_checked">#C4CBCF</color>
+
 </resources>

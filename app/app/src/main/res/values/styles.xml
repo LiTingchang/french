@@ -65,4 +65,24 @@
         <item name="android:layout_marginTop">12dp</item>
     </style>
 
+
+    <style name="test_check_box">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:drawableLeft">@drawable/test_answer_checkbox</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/test_answer_checkbox_bg</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:visibility">gone</item>
+
+    </style>
+
+
 </resources>
