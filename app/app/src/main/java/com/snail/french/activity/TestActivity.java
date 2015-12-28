@@ -82,7 +82,7 @@ public class TestActivity extends BaseActivity {
 
             @Override
             public void onRightClicked(View parent, View v) {
-
+                ToastUtil.shortToast(TestActivity.this, "敬请期待");
             }
 
             @Override

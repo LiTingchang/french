@@ -26,6 +26,7 @@ import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.StringUtils;
+import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
 import butterknife.Bind;
@@ -66,7 +67,7 @@ public class AnalyzationActivity extends BaseActivity {
 
             @Override
             public void onRightClicked(View parent, View v) {
-
+                ToastUtil.shortToast(AnalyzationActivity.this, "敬请期待");
             }
 
             @Override
