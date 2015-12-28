@@ -17,6 +17,8 @@
         android:background="@color/activity_bg"
         android:layout_alignParentBottom="true"
         android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
         android:text="交卷并查看结果"/>
 
     <ScrollView

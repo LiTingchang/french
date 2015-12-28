@@ -224,10 +224,9 @@ public abstract class BaseMainFragment extends Fragment {
             }
 
             final Status status = (Status) getChild(groupPosition, childPosition);
-            // TODO 显示对应的title文案
             String title = NameConstants.getName(StringUtils.isEmpty(status.subType) ? status.type : status.subType);
             childViewHolder.title.setText(title);
-            childViewHolder.ratingBar.setRating(status.correct_num / status.total_quesstion_num * 5);
+            childViewHolder.ratingBar.setRating(countRating(status.correct_num, status.total_quesstion_num));
             childViewHolder.progressBar.setProgress((int) (100 * status.exercise_question_number / status.total_quesstion_num));
             childViewHolder.count.setText(status.exercise_question_number + "/" + status.total_quesstion_num);
             return convertView;
@@ -280,7 +279,8 @@ public abstract class BaseMainFragment extends Fragment {
 
             final PItem item = (PItem) getGroup(groupPosition);
             groupViewHolder.title.setText(NameConstants.getName(item.name));
-            groupViewHolder.ratingBar.setRating(item.correct_num / item.total_quesstion_num * 5);
+
+            groupViewHolder.ratingBar.setRating(countRating(item.correct_num , item.total_quesstion_num));
             groupViewHolder.progressBar.setProgress((int) (100 * item.exercise_question_number / item.total_quesstion_num));
             groupViewHolder.count.setText(item.exercise_question_number + "/" + item.total_quesstion_num);
 
@@ -307,6 +307,17 @@ public abstract class BaseMainFragment extends Fragment {
             return true;
         }
 
+    }
+
+    private int countRating(int number, int total) {
+
+        int rating = 0;
+        rating = number * 5 / total;
+        if(rating == 0 && number > 0) {
+            rating = 1;
+        }
+
+        return rating;
     }
 
     private String buildPath(String path, String level) {

@@ -267,26 +267,43 @@ public class TestActivity extends BaseActivity {
                 } else {
                     radioButton.setChecked(false);
                 }
+
+                final int j = i;
+                radioButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        selectIndex = j;
+
+                        ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
+
+                        if(position < getCount() - 1) {
+                            testViewPager.setCurrentItem(position + 1, true);
+                        } else {
+                            //  最后一个，启动答题卡页面
+                            SheetActivity.launch(TestActivity.this);
+                        }
+                    }
+                });
             }
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                    for (int i = 0; i < question.content_data.option.size(); ++i) {
-                        if(radioGroup.getChildAt(i).getId() == checkedId) {
-                            selectIndex = i;
-                            break;
-                        }
-                    }
-
-                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
-
-                    if(position < getCount() - 1) {
-                        testViewPager.setCurrentItem(position + 1, true);
-                    } else {
-                        //  最后一个，启动答题卡页面
-                        SheetActivity.launch(TestActivity.this);
-                    }
+//                    for (int i = 0; i < question.content_data.option.size(); ++i) {
+//                        if(radioGroup.getChildAt(i).getId() == checkedId) {
+//                            selectIndex = i;
+//                            break;
+//                        }
+//                    }
+//
+//                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
+//
+//                    if(position < getCount() - 1) {
+//                        testViewPager.setCurrentItem(position + 1, true);
+//                    } else {
+//                        //  最后一个，启动答题卡页面
+//                        SheetActivity.launch(TestActivity.this);
+//                    }
                 }
             });
 
@@ -306,9 +323,9 @@ public class TestActivity extends BaseActivity {
                     if( ExerciseManager.getInstance().getAnswerMap().containsKey(question.id)) {
                         myIndex = ExerciseManager.getInstance().getAnswerMap().get(question.id);
                     }
-                     result.setText("答案解析：\n正确答案是：" + question.content_data.option.get(answerIndex)
-                            + "，您的答案是：" + question.content_data.option.get(myIndex) + "\n"
-                            + (answerIndex == selectIndex ? "回答正确" : "回答错误"));
+                     result.setText("答案解析：\n正确答案是：" + subChoiceTitle(question.content_data.option.get(answerIndex))
+                            + "，您的答案是：" + subChoiceTitle(question.content_data.option.get(myIndex)) + "\n"
+                            + (answerIndex == myIndex ? "回答正确" : "回答错误"));
                     source.setText("来源：" + question.source);
                     analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
                 } catch (Exception e) {
@@ -332,6 +349,10 @@ public class TestActivity extends BaseActivity {
         public int getItemPosition(Object object) {
             return POSITION_NONE;
         }
+    }
+
+    private String subChoiceTitle(String s) {
+        return StringUtils.substring(s, 0, 1);
     }
 
     private void setSelecterEnabled(RadioGroup radioGroup, boolean b) {

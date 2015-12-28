@@ -106,7 +106,7 @@ public class ResultActivity extends BaseActivity {
                                     resultTotal.setText(String.valueOf(response.total_score));
                                     resultScore.setText(String.valueOf(response.score));
                                     resultLevel.setText(String.valueOf(response.level));
-                                    resultAverage.setText(response.average_score + "\n全站平均的分");
+                                    resultAverage.setText(response.average_score + "\n全站平均得分");
                                     resultDefeat.setText(response.defeat_examinee + "\n已击败考生");
                                     resultAccuracy.setText(response.accuracy + "%\n正确率");
                                 }
