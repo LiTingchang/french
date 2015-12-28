@@ -130,6 +130,11 @@ public class MainActivity extends BaseActivity {
         UmengUpdateAgent.update(MainActivity.this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     @OnClick(R.id.drawer_tcf)
     void tcfSelected() {
         drawerLayout.closeDrawer(Gravity.LEFT);
@@ -175,6 +180,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void selectFragment(int id) {
+
+        fragmentMap.get(currentTabID).setShow(false);
+        fragmentMap.get(id).setShow(true);
+
         FragmentTransaction fragmentTransaction = MainActivity.this.getSupportFragmentManager().beginTransaction();
         fragmentMap.get(currentTabID).onPause();
         Fragment fragment = fragmentMap.get(id);

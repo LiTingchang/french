@@ -39,6 +39,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseMainFragment extends Fragment {
 
+    private boolean isShow = false;
 
     @Bind(R.id.list_view)
     ExpandableListView listView;
@@ -49,6 +50,9 @@ public abstract class BaseMainFragment extends Fragment {
     private TextView exerciseDays; // 联系天数
     private TextView levael; //预测等级
     private View smartTest;
+
+    private StatusResponse mStatusResponse;
+    private DetailAdapter mDetailAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +75,6 @@ public abstract class BaseMainFragment extends Fragment {
         listView.setGroupIndicator(null);
         listView.addHeaderView(headerView);
 
-        initData();
-
         return view;
     }
 
@@ -81,6 +83,11 @@ public abstract class BaseMainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(getKind().getKind());
+
+        if(isShow) {
+            initData();
+            Log.e("aaaaaaaaaaaaa", "initdata" + getKind().getKind());
+        }
     }
 
     @Override
@@ -95,6 +102,10 @@ public abstract class BaseMainFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    public void setShow(boolean isShow) {
+        this.isShow = isShow;
+    }
+
     abstract public void initData();
     abstract public FrenchKind getKind();
 
@@ -102,64 +113,67 @@ public abstract class BaseMainFragment extends Fragment {
 
         ExerciseManager.getInstance().setFrenchKind(getKind());
 
-        forcastScore.setText(String.valueOf(statusResponse.forcast_score));
-        exerciseQuestionNumber.setText(getResources().getString(R.string.exercise_question_number, statusResponse.exercise_question_number));
-        exerciseDays.setText(getResources().getString(R.string.exercise_days, statusResponse.exercise_days));
-        levael.setText(statusResponse.level);
+        mStatusResponse = statusResponse;
 
-        smartTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String path = "";
-                String title = "";
-                switch (getKind()) {
-                    case TCF:
-                        path = "q/C/exercise";
-                        title = "TCF 水平测试";
-                        break;
-                    case TEF:
-                        path = "q/E/exercise";
-                        title = "TEF 水平测试";
-                        break;
-                    case TEM4:
-                        path = "q/S/exercise";
-                        title = "专四水平测试";
-                        break;
-                    default:
-                        break;
+        if(!isAdded()) {
+            return;
+        }
+
+        try {
+            forcastScore.setText(String.valueOf(mStatusResponse.forcast_score));
+            exerciseQuestionNumber.setText(getResources().getString(R.string.exercise_question_number, mStatusResponse.exercise_question_number));
+            exerciseDays.setText(getResources().getString(R.string.exercise_days, mStatusResponse.exercise_days));
+            levael.setText(mStatusResponse.level);
+
+            smartTest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String path = "";
+                    String title = "";
+                    switch (getKind()) {
+                        case TCF:
+                            path = "q/C/exercise";
+                            title = "TCF 水平测试";
+                            break;
+                        case TEF:
+                            path = "q/E/exercise";
+                            title = "TEF 水平测试";
+                            break;
+                        case TEM4:
+                            path = "q/S/exercise";
+                            title = "专四水平测试";
+                            break;
+                        default:
+                            break;
+                    }
+                    TestActivity.launch(getActivity(), path, title);
                 }
-                TestActivity.launch(getActivity(), path, title);
+            });
+
+            if(mDetailAdapter == null) {
+                mDetailAdapter = new DetailAdapter(getContext(), mStatusResponse);
+                listView.setAdapter(mDetailAdapter);
+
+                listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView expandableListView, View view,
+                                                int groupPosition, int childPosition, long id) {
+
+                        PItem pItem = statusResponse.pItemList.get(groupPosition);
+                        Status status = pItem.statusList.get(childPosition);
+                        String path = getKind().getKind() + "/" + pItem.name +
+                                "/" + status.type;
+
+                        TestActivity.launch(getActivity(), buildPath(path, status.subType), NameConstants.getName(pItem.name));
+                        return false;
+                    }
+                });
+            } else {
+                mDetailAdapter.notifyDataSetChanged();
             }
-        });
-
-        listView.setAdapter(new DetailAdapter(getContext(), statusResponse));
-
-//        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-//            @Override
-//            public boolean onGroupClick(ExpandableListView expandableListView, View view,
-//                                        int groupPosition, long id) {
-//
-//                Log.e("eeee", "g:" + groupPosition);
-//                String path = kind + "/" + statusResponse.pItemList.get(groupPosition).name;
-//                Log.e("eeee", "path:" + path);
-//                return false;
-//            }
-//        });
-
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view,
-                                        int groupPosition, int childPosition, long id) {
-
-                PItem pItem = statusResponse.pItemList.get(groupPosition);
-                Status status = pItem.statusList.get(childPosition);
-                String path = getKind().getKind() + "/" + pItem.name +
-                        "/" + status.type;
-
-                TestActivity.launch(getActivity(), buildPath(path, status.subType), NameConstants.getName(pItem.name));
-                return false;
-            }
-        });
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
 
