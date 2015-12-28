@@ -171,13 +171,11 @@ public class TestActivity extends BaseActivity {
 
                                     @Override
                                     public void onPageSelected(int position) {
-                                        Log.e("aaaaaaaaaa", "onPageSelected :" + position);
                                         currentPageId = position;
                                     }
 
                                     @Override
                                     public void onPageScrollStateChanged(int state) {
-                                        Log.e("aaaaaaaaaa", "state :" + state);
                                         if (state != 0) {
                                             stopWebView();
                                         }

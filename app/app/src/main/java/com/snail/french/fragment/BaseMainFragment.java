@@ -86,7 +86,6 @@ public abstract class BaseMainFragment extends Fragment {
 
         if(isShow) {
             initData();
-            Log.e("aaaaaaaaaaaaa", "initdata" + getKind().getKind());
         }
     }
 
