@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity {
     void guideClicked() {
         drawerLayout.closeDrawer(Gravity.LEFT);
 
-        ToastUtil.shortToast(this, "guide");
+        GuideActivity.launch(MainActivity.this);
     }
 
     @OnClick(R.id.drawer_personal)

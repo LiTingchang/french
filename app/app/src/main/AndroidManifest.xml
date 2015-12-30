@@ -57,7 +57,7 @@ T
         <activity android:name=".activity.AnalyzationActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.TestGuideActivity"
+        <activity android:name=".activity.GuideActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.SettingActivity"
