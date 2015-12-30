@@ -11,6 +11,10 @@
         title:titleColor="@android:color/white"
         title:bgColor="@color/title_bg" />
     
+    <!--<TextView
+        android:layout_width=""
+        android:layout_height="" />-->
+    
     <LinearLayout android:id="@+id/result_analyze_root"
         android:layout_width="match_parent"
         android:layout_height="72dp"

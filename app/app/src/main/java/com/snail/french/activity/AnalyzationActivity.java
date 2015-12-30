@@ -78,15 +78,9 @@ public class AnalyzationActivity extends BaseActivity {
 
             @Override
             public void onRight2Clicked(View parent, View v) {
-                SheetActivity.launch(AnalyzationActivity.this);
             }
         });
         titlebar.setRight2Visibility(View.GONE);
-
-
-
-
-
 
         if(onlyError) {
             mQuestions = ExerciseManager.getInstance().getErrorQuesrions();

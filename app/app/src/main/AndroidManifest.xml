@@ -82,10 +82,10 @@ T
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="567e1e7067e58ee29c0027d5" />
+            android:value="5683430a67e58ead8c000ff6" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="french" />
+            android:value="test" />
     </application>
 
 </manifest>

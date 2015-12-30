@@ -39,6 +39,7 @@ import butterknife.ButterKnife;
  */
 public class TestActivity extends BaseActivity {
 
+    private static final int SHEET_REQUEST_CODE = 101;
     private static final String PATH = "path";
     private static final String TITLE = "title";
 
@@ -87,7 +88,7 @@ public class TestActivity extends BaseActivity {
 
             @Override
             public void onRight2Clicked(View parent, View v) {
-                SheetActivity.launch(TestActivity.this);
+                SheetActivity.launch(TestActivity.this, SHEET_REQUEST_CODE);
             }
         });
 
@@ -126,6 +127,9 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == SHEET_REQUEST_CODE) {
+            this.finish();
+        }
     }
 
     private void stopWebView() {
@@ -279,7 +283,7 @@ public class TestActivity extends BaseActivity {
                             testViewPager.setCurrentItem(position + 1, true);
                         } else {
                             //  最后一个，启动答题卡页面
-                            SheetActivity.launch(TestActivity.this);
+                            SheetActivity.launch(TestActivity.this, SHEET_REQUEST_CODE);
                         }
                     }
                 });

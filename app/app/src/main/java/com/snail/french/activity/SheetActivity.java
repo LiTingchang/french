@@ -1,5 +1,6 @@
 package com.snail.french.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -66,11 +67,13 @@ public class SheetActivity extends BaseActivity {
     @OnClick(R.id.sheet_submit)
     void onSubmitClicked() {
         ResultActivity.launch(SheetActivity.this);
+
+        setResult(RESULT_OK);
         SheetActivity.this.finish();
     }
 
-    public static void launch(Context context) {
-        Intent intent = new Intent(context, SheetActivity.class);
-        context.startActivity(intent);
+    public static void launch(Activity activity, int requestCode) {
+        Intent intent = new Intent(activity, SheetActivity.class);
+        activity.startActivityForResult(intent, requestCode);
     }
 }
