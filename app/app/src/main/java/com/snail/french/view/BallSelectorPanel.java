@@ -28,6 +28,7 @@ public class BallSelectorPanel extends LinearLayout {
 
 	private Context mContext;
 	private TextView mTitle;
+	private TextView mResult;
 	private int mIndex;
 	private FullSizeGridView myGridView;
 	private BallSelectorAdapter myAdapter;
@@ -45,16 +46,18 @@ public class BallSelectorPanel extends LinearLayout {
 		LayoutInflater.from(context).inflate(
 				R.layout.sheet_panel_layout, this, true);
 		mTitle = (TextView) findViewById(R.id.shell_panel_title);
+		mResult = (TextView) findViewById(R.id.shell_panel_result);
 		myGridView = (FullSizeGridView) findViewById(R.id.shell_panel_grid_view);
 	}
 
-	public void init(String titleText, final int index, final ArrayList<Question> questions, boolean checkResult) {
+	public void init(String titleText, String result, final int index, final ArrayList<Question> questions, boolean checkResult) {
 
 		if(questions == null || questions.isEmpty()) {
 			return;
 		}
 
 		mTitle.setText(titleText);
+		mResult.setText(result);
 		mIndex = index;
 		myAdapter = new BallSelectorAdapter(mContext, questions, checkResult);
 		myGridView.setAdapter(myAdapter);

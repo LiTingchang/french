@@ -20,10 +20,13 @@ import com.snail.french.model.exercise.ResultResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
+import com.snail.french.utils.RichTextUtil;
+import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.BallSelectorPanel;
 import com.snail.french.view.CommonTitle;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -149,13 +152,36 @@ public class ResultActivity extends BaseActivity {
                         });
     }
 
-
+    List<RichTextUtil.RichText> richTexts = new ArrayList<>();
     private void showResutSheet() {
         int i = 0;
         for (Pair<String, ArrayList<Question>> questionPair : ExerciseManager.getInstance().getExerciseresponse().getQuestionsPairList()) {
             if (questionPair != null && questionPair.second != null && !questionPair.second.isEmpty()) {
                 shellPanels.get(i).setVisibility(View.VISIBLE);
-                shellPanels.get(i).init(questionPair.first, i, questionPair.second, true);
+
+                int total = questionPair.second.size();
+                int rigtCounter = 0;
+                for (Question question: questionPair.second){
+                    if(ExerciseManager.getInstance().getAnswerMap().containsKey(question.id)) {
+                        if(question.content_data.answer_index - 1 ==
+                                ExerciseManager.getInstance().getAnswerMap().get(question.id)) {
+                            rigtCounter++;
+                        }
+                    }
+                }
+
+                String title;
+                if(total == 0){
+                    title =  "共" + total + "道，" +
+                            "答对" + rigtCounter + "道，正确率 0.00%";
+                } else {
+                    DecimalFormat decimalFormat=new DecimalFormat("0.00");
+                    title = "共" + total + "道，" +
+                            "答对" + rigtCounter + "道，正确率"
+                            + decimalFormat.format((double)rigtCounter / total * 100) + "%";
+                }
+
+                shellPanels.get(i).init(questionPair.first, StringUtils.trim(title), i, questionPair.second, true);
                 shellPanels.get(i).setOnItemClickedListener(new BallSelectorPanel.OnItemClickedListener() {
                     @Override
                     public void onItemClicked(Question question, int index, int position) {

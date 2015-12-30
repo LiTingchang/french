@@ -254,10 +254,7 @@
                 android:id="@+id/shell_panel_6"
                 style="@style/shell_panel"/>
 
-
         </LinearLayout>
 
     </ScrollView>
-
-
 </RelativeLayout>
