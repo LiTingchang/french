@@ -1,6 +1,8 @@
 package com.snail.french.constant;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,5 +53,20 @@ public class NameConstants {
             return nameMap.get(key);
         }
         return key;
+    }
+
+    public static Map<String, String> getNameMap() {
+        return nameMap;
+    }
+
+    public static boolean containName(String name) {
+        Iterator iterator = nameMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            if (name.equals(entry.getValue())){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.constant.FrenchKind;
+import com.snail.french.constant.NameConstants;
 import com.snail.french.manager.ExerciseManager;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.model.exercise.ResultResponse;
@@ -22,7 +24,9 @@ import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.BallSelectorPanel;
 import com.snail.french.view.CommonTitle;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +67,8 @@ public class ResultActivity extends BaseActivity {
     TextView resultSummaryTotal;
     @Bind(R.id.result_score_summary)
     LinearLayout resultScoreSummary;
+    @Bind(R.id.result_summery)
+    TextView resultSummery;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,15 +91,25 @@ public class ResultActivity extends BaseActivity {
                             @Override
                             public void onSuccess(ResultResponse response) {
 
+                                String title = ExerciseManager.getInstance().getTitle();
+                                if(NameConstants.containName(title)) {
+                                    title = "专项智能联系(" + title + ")";
+                                }
+
+                                SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String date = fullFormat.format(new Date(System.currentTimeMillis()));
+
+                                resultSummery.setText(title +"\n交卷时间：" + date);
+
                                 if (response.r == 0) {
                                     resultScoreSummary.setVisibility(View.VISIBLE);
                                     resultDetail.setVisibility(View.GONE);
 
                                     int score = 0;
                                     List<Question> questions = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
-                                    Map<Integer, Integer> answerMap =  ExerciseManager.getInstance().getAnswerMap();
+                                    Map<Integer, Integer> answerMap = ExerciseManager.getInstance().getAnswerMap();
                                     for (Question question : questions) {
-                                        if(answerMap.containsKey(question.id)) {
+                                        if (answerMap.containsKey(question.id)) {
                                             if (question.content_data.answer_index - 1 == answerMap.get(question.id)) {
                                                 score++;
                                             }
@@ -106,9 +122,9 @@ public class ResultActivity extends BaseActivity {
                                     resultDetail.setVisibility(View.VISIBLE);
                                     resultTotal.setText(String.valueOf(response.total_score));
 
-                                    int score = response.score ;
-                                    if(ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEF) {
-                                        if(score < 0) {
+                                    int score = response.score;
+                                    if (ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEF) {
+                                        if (score < 0) {
                                             score = 0;
                                         }
                                     }

@@ -11,10 +11,6 @@
         title:titleColor="@android:color/white"
         title:bgColor="@color/title_bg" />
     
-    <!--<TextView
-        android:layout_width=""
-        android:layout_height="" />-->
-    
     <LinearLayout android:id="@+id/result_analyze_root"
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -60,6 +56,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView android:id="@+id/result_summery"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:gravity="center_vertical"
+                android:lineSpacingMultiplier="1.2"
+                android:textSize="16sp"
+                android:textColor="@android:color/tertiary_text_dark"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
