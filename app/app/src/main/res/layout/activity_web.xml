@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_white">
+
+    <com.snail.french.view.CommonTitle
+        xmlns:title="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        title:titleColor="@android:color/white"
+        title:bgColor="@color/title_bg" />
+
+    <WebView android:id="@+id/web_view"
+        android:layout_below="@id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

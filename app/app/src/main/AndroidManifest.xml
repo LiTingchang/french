@@ -60,6 +60,9 @@ T
         <activity android:name=".activity.GuideActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.WebActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.SettingActivity"
             android:screenOrientation="portrait"/>
 

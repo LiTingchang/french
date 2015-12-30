@@ -326,11 +326,11 @@ public abstract class BaseMainFragment extends Fragment {
 
     }
 
-    private int countRating(int number, int total) {
+    private float countRating(int number, int total) {
 
-        int rating = 0;
-        rating = number * 5 / total;
-        if(rating == 0 && number > 0) {
+        float rating = 0;
+        rating = (float)number * 5 / total;
+        if(rating < 1 && number > 0) {
             rating = 1;
         }
 

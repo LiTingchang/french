@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class GuideActivity extends BaseActivity {
     @Bind(R.id.guide_list_view)
     ListView guideListView;
 
+    private List<GuideItem> guideItems;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +55,20 @@ public class GuideActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onSuccess(ArrayList<GuideItem> response) {
-                        guideListView.setAdapter(new GuideAdapter(GuideActivity.this, response));
+                    public void onSuccess(final ArrayList<GuideItem> response) {
+
+                        guideItems = response;
+
+                        guideListView.setAdapter(new GuideAdapter(GuideActivity.this, guideItems));
+
+                        guideListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                GuideItem guideItem = guideItems.get(i);
+                                WebActivity.launch(GuideActivity.this, guideItem.title, guideItem.url);
+
+                            }
+                        });
                     }
 
                     @Override
