@@ -169,4 +169,31 @@ public class ExerciseManager {
         }
         list.add(map);
     }
+
+
+    public ArrayList<Question> getErrorQuesrions() {
+        ArrayList<Question> allQuestions = exerciseresponse.getQuestions();
+
+        if(allQuestions.isEmpty()) {
+            return null;
+        }
+
+        ArrayList<Question> errorQuestions = new ArrayList<>();
+
+        Map<Integer, Integer> answerMap = getAnswerMap();
+        if(answerMap == null || answerMap.isEmpty()) {
+            return null;
+        }
+
+        for (Question question : allQuestions) {
+
+            if(answerMap.containsKey(question.id)) {
+                if(question.content_data.answer_index - 1 != answerMap.get(question.id)) {
+                    errorQuestions.add(question);
+                }
+            }
+        }
+
+        return errorQuestions;
+    }
 }

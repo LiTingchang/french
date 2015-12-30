@@ -146,7 +146,7 @@ public class ResultActivity extends BaseActivity {
                         List<Question> questionList = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
                         for (int j = 0; j < questionList.size(); ++j) {
                             if (question.id == questionList.get(j).id) {
-                                AnalyzationActivity.launch(ResultActivity.this, j);
+                                AnalyzationActivity.launch(ResultActivity.this, j, false);
                                 break;
                             }
                         }
@@ -159,7 +159,12 @@ public class ResultActivity extends BaseActivity {
 
     @OnClick(R.id.result_analyze)
     void analyzeReuslt() {
-        AnalyzationActivity.launch(ResultActivity.this, 0);
+        AnalyzationActivity.launch(ResultActivity.this, 0, false);
+    }
+
+    @OnClick(R.id.result_error_analyze)
+    void analyzeErrorReuslt() {
+        AnalyzationActivity.launch(ResultActivity.this, 0, true);
     }
 
     public static void launch(Context context) {

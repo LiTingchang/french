@@ -29,14 +29,18 @@ import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by litingchang on 15-12-9.
+ * 答题结果解析页面
  */
 public class AnalyzationActivity extends BaseActivity {
 
+    private static final String ONLY_ERROE = "only_error";
     private static final String PAGE_INDEX = "page_index";
 
     @Bind(R.id.titlebar)
@@ -44,9 +48,10 @@ public class AnalyzationActivity extends BaseActivity {
     @Bind(R.id.test_view_pager)
     ViewPager testViewPager;
 
-    private Exerciseresponse exerciseresponse;
+    private ArrayList<Question> mQuestions;
     private TestPagerAdapter adapter;
 
+    private boolean onlyError = false;
     private int pageIndex = 0;
     private int currentPageId = 0;
 
@@ -57,6 +62,7 @@ public class AnalyzationActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         pageIndex = getIntent().getIntExtra(PAGE_INDEX, -1);
+        onlyError = getIntent().getBooleanExtra(ONLY_ERROE, false);
 
         titlebar.setTitleText(ExerciseManager.getInstance().getTitle());
         titlebar.setOnTitleClickListener(new CommonTitle.TitleClickListener() {
@@ -80,8 +86,14 @@ public class AnalyzationActivity extends BaseActivity {
 
 
 
-        exerciseresponse = ExerciseManager.getInstance().getExerciseresponse();
-        adapter = new TestPagerAdapter(AnalyzationActivity.this, exerciseresponse);
+
+
+        if(onlyError) {
+            mQuestions = ExerciseManager.getInstance().getErrorQuesrions();
+        } else {
+            mQuestions = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
+        }
+        adapter = new TestPagerAdapter(AnalyzationActivity.this, mQuestions);
         testViewPager.setAdapter(adapter);
         testViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -130,17 +142,17 @@ public class AnalyzationActivity extends BaseActivity {
     class TestPagerAdapter extends PagerAdapter {
 
         private Context context;
-        private Exerciseresponse exerciseresponse;
+        private ArrayList<Question> questions;
 
-        public TestPagerAdapter(Context context, Exerciseresponse exerciseresponse) {
+        public TestPagerAdapter(Context context, ArrayList<Question> questions) {
             this.context = context;
-            this.exerciseresponse = exerciseresponse;
+            this.questions = questions;
         }
 
         @Override
         public int getCount() {
-            if(exerciseresponse != null) {
-                return exerciseresponse.getQuestions().size();
+            if(questions != null) {
+                return questions.size();
             }
             return 0;
         }
@@ -157,12 +169,12 @@ public class AnalyzationActivity extends BaseActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            if(exerciseresponse == null
-                    || exerciseresponse.getQuestions().isEmpty()) {
+            if(questions == null
+                    || questions.isEmpty()) {
                 return null;
             }
 
-            final Question question = exerciseresponse.getQuestions().get(position);
+            final Question question = questions.get(position);
 
             View view = LayoutInflater.from(context).inflate(R.layout.view_test_pager, null);
             final TextView title = (TextView) view.findViewById(R.id.test_title);
@@ -265,7 +277,7 @@ public class AnalyzationActivity extends BaseActivity {
         }
     }
 
-    public static void launch(Context context, int pageIndex) {
+    public static void launch(Context context, int pageIndex, boolean onlyError) {
 
         if(pageIndex < 0) {
             pageIndex = 0;
@@ -274,6 +286,7 @@ public class AnalyzationActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.setClass(context, AnalyzationActivity.class);
         intent.putExtra(PAGE_INDEX, pageIndex);
+        intent.putExtra(ONLY_ERROE, onlyError);
         context.startActivity(intent);
 
     }

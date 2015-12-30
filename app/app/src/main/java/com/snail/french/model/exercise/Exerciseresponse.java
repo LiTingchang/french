@@ -3,8 +3,11 @@ package com.snail.french.model.exercise;
 
 import android.support.v4.util.Pair;
 
+import com.snail.french.manager.ExerciseManager;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by litingchang on 15-12-23.
@@ -46,6 +49,8 @@ public class Exerciseresponse {
 
         return lists;
     }
+
+
 
     public ArrayList<Question> getQuestions() {
 
