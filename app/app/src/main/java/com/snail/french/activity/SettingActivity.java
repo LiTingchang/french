@@ -33,6 +33,16 @@ public class SettingActivity extends BaseActivity {
         LoginActivity.launch(SettingActivity.this);
     }
 
+    @OnClick(R.id.feedback)
+    void onFeedBackClicked() {
+        FeedbackActivity.launch(SettingActivity.this);
+    }
+
+    @OnClick(R.id.about)
+    void onAboutClicked() {
+        AboutActivity.launch(SettingActivity.this);
+    }
+
     public static void launch(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
         context.startActivity(intent);

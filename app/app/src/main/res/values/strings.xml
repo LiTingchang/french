@@ -28,4 +28,7 @@
 
     <string name="test_result">练习报告</string>
 
+    <string name="feedback">意见反馈</string>
+    <string name="about">关于我们</string>
+
 </resources>

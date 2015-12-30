@@ -2,6 +2,8 @@ package com.snail.french;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.DisplayMetrics;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -68,6 +70,26 @@ public class FrenchApp extends Application {
                 .threadPoolSize(3)
                 .build();
         ImageLoader.getInstance().init(config);
+    }
+
+    public String getVersionName() {
+        try {
+            PackageInfo packageInfo= getPackageManager().getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "0.0.0";
+        }
+    }
+
+    public int getVersionCode() {
+        try {
+            PackageInfo packageInfo= getPackageManager().getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 
