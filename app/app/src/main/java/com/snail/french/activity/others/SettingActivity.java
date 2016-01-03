@@ -1,16 +1,15 @@
-package com.snail.french.activity;
+package com.snail.french.activity.others;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
 import com.snail.french.FrenchApp;
 import com.snail.french.R;
+import com.snail.french.activity.login.LoginActivity;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.userinfo.UserInfoManager;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

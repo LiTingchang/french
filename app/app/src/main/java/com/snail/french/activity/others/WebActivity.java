@@ -1,16 +1,14 @@
-package com.snail.french.activity;
+package com.snail.french.activity.others;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
-import com.snail.french.utils.StringUtils;
 import com.snail.french.view.CommonTitle;
 
 import butterknife.Bind;

@@ -1,4 +1,4 @@
-package com.snail.french.activity;
+package com.snail.french.activity.others;
 
 import android.content.Context;
 import android.content.Intent;

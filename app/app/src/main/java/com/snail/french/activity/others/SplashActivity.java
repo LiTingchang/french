@@ -1,8 +1,10 @@
-package com.snail.french.activity;
+package com.snail.french.activity.others;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import com.snail.french.R;
+import com.snail.french.activity.login.LoginActivity;
+import com.snail.french.activity.MainActivity;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.userinfo.UserInfoManager;
 

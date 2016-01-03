@@ -1,25 +1,21 @@
-package com.snail.french.activity;
+package com.snail.french.activity.login;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
-import com.loopj.android.http.RequestParams;
 import com.snail.french.R;
+import com.snail.french.activity.MainActivity;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.model.LoginResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
-import com.snail.french.utils.Constants;
-import com.snail.french.utils.PreferencesUtils;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 

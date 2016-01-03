@@ -1,4 +1,4 @@
-package com.snail.french.activity;
+package com.snail.french.activity.others;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,9 @@ import android.widget.TextView;
 import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
-import com.snail.french.model.LoginResponse;
 import com.snail.french.model.RResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
-import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 

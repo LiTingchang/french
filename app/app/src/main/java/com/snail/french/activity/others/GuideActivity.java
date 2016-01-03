@@ -1,4 +1,4 @@
-package com.snail.french.activity;
+package com.snail.french.activity.others;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.model.GuideItem;
-import com.snail.french.model.exercise.Exerciseresponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;

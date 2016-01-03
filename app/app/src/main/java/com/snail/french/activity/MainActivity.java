@@ -2,13 +2,10 @@ package com.snail.french.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,31 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.snail.french.FrenchApp;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
+import com.snail.french.activity.others.GuideActivity;
+import com.snail.french.activity.others.SettingActivity;
 import com.snail.french.fragment.BaseMainFragment;
 import com.snail.french.fragment.TcfFragment;
 import com.snail.french.fragment.TefFragment;
 import com.snail.french.fragment.Tem4Fragment;
-import com.snail.french.model.exercise.Exerciseresponse;
-import com.snail.french.net.http.StickerHttpClient;
-import com.snail.french.net.http.StickerHttpResponseHandler;
-import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.LogUtil;
-import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
