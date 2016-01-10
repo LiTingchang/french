@@ -16,7 +16,7 @@
         android:layout_height="72dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/activity_bg">
+        android:background="@color/footer_bg">
         <TextView android:id="@+id/result_error_analyze"
             android:layout_width="0dp"
             android:layout_weight="1"

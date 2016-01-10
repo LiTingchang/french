@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -258,7 +259,7 @@ public class TestActivity extends BaseActivity {
                 chechedId = ExerciseManager.getInstance().getAnswerMap().get(question.id);
             }
 
-            RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.test_radio_group);
+            final RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.test_radio_group);
             for (int i = 0; i < question.content_data.option.size(); ++i) {
                 String s = question.content_data.option.get(i);
                 RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
@@ -279,12 +280,21 @@ public class TestActivity extends BaseActivity {
 
                         ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
 
-                        if(position < getCount() - 1) {
-                            testViewPager.setCurrentItem(position + 1, true);
-                        } else {
-                            //  最后一个，启动答题卡页面
-                            SheetActivity.launch(TestActivity.this, SHEET_REQUEST_CODE);
-                        }
+                        setSelecterEnabled(radioGroup, false);
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(position < getCount() - 1) {
+                                    testViewPager.setCurrentItem(position + 1, true);
+                                } else {
+                                    //  最后一个，启动答题卡页面
+                                    SheetActivity.launch(TestActivity.this, SHEET_REQUEST_CODE);
+                                }
+                                setSelecterEnabled(radioGroup, true);
+                            }
+                        }, 300);
+
                     }
                 });
             }

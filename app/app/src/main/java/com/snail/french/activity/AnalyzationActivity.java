@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,12 @@ public class AnalyzationActivity extends BaseActivity {
         } else {
             mQuestions = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
         }
+
+        if(mQuestions == null || mQuestions.isEmpty()) {
+            ToastUtil.shortToast(this, "无错题");
+            finish();
+        }
+
         adapter = new TestPagerAdapter(AnalyzationActivity.this, mQuestions);
         testViewPager.setAdapter(adapter);
         testViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -232,6 +239,7 @@ public class AnalyzationActivity extends BaseActivity {
             TextView result = (TextView) view.findViewById(R.id.test_answer_result);
             TextView source = (TextView) view.findViewById(R.id.test_source);
             TextView analyzation = (TextView) view.findViewById(R.id.test_answer_analyzation);
+            TextView original = (TextView) view.findViewById(R.id.test_answer_original);
 
             try {
                 int answerIndex = question.content_data.answer_index - 1;
@@ -240,10 +248,14 @@ public class AnalyzationActivity extends BaseActivity {
                     myIndex = ExerciseManager.getInstance().getAnswerMap().get(question.id);
                 }
                 result.setText("答案解析：\n正确答案是：" + subChoiceTitle(question.content_data.option.get(answerIndex))
-                        + "，您的答案是：" + subChoiceTitle(question.content_data.option.get(myIndex)) + "\n"
+                        + "    "
                         + (answerIndex == myIndex ? "回答正确" : "回答错误"));
                 source.setText("来源：" + question.source);
                 analyzation.setText("解析：\n" + question.content_data.answer_analyzation);
+
+                if(!TextUtils.isEmpty(question.content_data.original_text)) {
+                    original.setText("听力原文：\n" + question.content_data.original_text);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 LogUtil.e("TestPagerAdapter", e.toString());
