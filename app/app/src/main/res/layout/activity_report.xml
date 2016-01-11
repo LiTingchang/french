@@ -1,29 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/activity_bg_white">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <com.snail.french.view.CommonTitle
         xmlns:title="http://schemas.android.com/apk/res-auto"
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        title:titleText="@string/drawer_guide"
+        title:titleText="@string/login"
         title:titleColor="@android:color/white"
         title:bgColor="@color/title_bg" />
 
-
-    <ListView android:id="@+id/guide_list_view"
-        android:layout_below="@id/titlebar"
+    <ExpandableListView android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadingEdge="none"
-        android:fastScrollEnabled="false"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1px"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:smoothScrollbar="true"/>
-
+        android:layout_below="@id/titlebar"/>
 
 </RelativeLayout>

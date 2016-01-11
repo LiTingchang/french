@@ -1,7 +1,5 @@
 package com.snail.french.model.status;
 
-import com.snail.french.model.status.Status;
-import com.snail.french.model.status.StatusBase;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -44,6 +44,9 @@
         <activity android:name=".activity.login.ForgetPasswordActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.ReportActivity"
+            android:screenOrientation="portrait"/>
 T
         <activity android:name=".activity.TestActivity"
             android:launchMode="singleTask"

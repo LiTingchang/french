@@ -31,20 +31,12 @@ import butterknife.ButterKnife;
 /**
  * Created by litingchang on 15-12-9.
  */
-public class ReportActivity extends BaseActivity {
+public class ErrorActivity extends BaseActivity {
 
     @Bind(R.id.list_view)
     ExpandableListView listView;
     @Bind(R.id.titlebar)
     CommonTitle titlebar;
-
-    private View headerView;
-    private TextView allScoreTV;
-    private TextView scoreTV;
-    private TextView daysTV;
-    private TextView numbersTV;
-    private TextView accuracyTV;
-    private TextView levelTV;
 
     private StatusResponse mStatusResponse;
     private ReportAdapter mReportAdapter;
@@ -65,24 +57,7 @@ public class ReportActivity extends BaseActivity {
 
         titlebar.setTitleText(ExerciseManager.getInstance().getFrenchKind().getName() + "数据报告");
 
-        headerView = LayoutInflater.from(this).inflate(R.layout.report_header, null, false);
-        allScoreTV = (TextView) headerView.findViewById(R.id.report_all_score);
-        scoreTV = (TextView) headerView.findViewById(R.id.report_score);
-        daysTV = (TextView) headerView.findViewById(R.id.report_days);
-        numbersTV = (TextView) headerView.findViewById(R.id.report_numbers);
-        accuracyTV = (TextView) headerView.findViewById(R.id.report_accuracy);
-        levelTV = (TextView) headerView.findViewById(R.id.report_level);
-
         listView.setGroupIndicator(null);
-        listView.addHeaderView(headerView);
-
-
-        allScoreTV.setText("总分数：" + mStatusResponse.total_score);
-        scoreTV.setText(String.valueOf(mStatusResponse.forcast_score));
-        daysTV.setText(mStatusResponse.exercise_days + "\n练习天数");
-        numbersTV.setText(mStatusResponse.exercise_question_number + "\n答题量");
-        accuracyTV.setText(mStatusResponse.accuracy + "%\n正确率");
-        levelTV.setText(mStatusResponse.level);
 
         listView.setAdapter(new ReportAdapter(this, mStatusResponse));
     }
@@ -225,7 +200,7 @@ public class ReportActivity extends BaseActivity {
     public static void launch(Context context) {
 
         Intent intent = new Intent();
-        intent.setClass(context, ReportActivity.class);
+        intent.setClass(context, ErrorActivity.class);
         context.startActivity(intent);
 
     }

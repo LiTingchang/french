@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:minHeight="200dp"
+    android:orientation="vertical"
+    android:background="@color/activity_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="18dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:text="预测分/等级"/>
+
+        <TextView android:id="@+id/report_all_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:text="总分数 "/>
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"  >
+
+
+        <TextView android:id="@+id/report_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            android:textStyle="bold"  />
+
+        <TextView android:id="@+id/report_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/report_score"
+            android:layout_alignBottom="@id/report_score"
+            android:layout_marginLeft="24dp"
+            android:minWidth="36dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:text="B1" />
+
+    </RelativeLayout>
+
+    <LinearLayout android:id="@+id/counter_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="12dp">
+
+        <TextView android:id="@+id/report_days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <View
+            style="@style/line_vertical_style" />
+
+        <TextView android:id="@+id/report_numbers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <View
+            style="@style/line_vertical_style" />
+
+        <TextView android:id="@+id/report_accuracy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

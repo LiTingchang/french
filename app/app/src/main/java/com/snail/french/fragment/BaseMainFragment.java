@@ -16,10 +16,12 @@ import android.widget.TextView;
 
 import com.snail.french.R;
 import com.snail.french.activity.MainActivity;
+import com.snail.french.activity.ReportActivity;
 import com.snail.french.activity.TestActivity;
 import com.snail.french.constant.FrenchKind;
 import com.snail.french.constant.NameConstants;
 import com.snail.french.manager.ExerciseManager;
+import com.snail.french.manager.StatusResponseManager;
 import com.snail.french.model.status.PItem;
 import com.snail.french.model.status.Status;
 import com.snail.french.model.status.StatusResponse;
@@ -50,6 +52,7 @@ public abstract class BaseMainFragment extends Fragment {
     private TextView exerciseDays; // 联系天数
     private TextView levael; //预测等级
     private View smartTest;
+    private View reportArrow;
 
     private StatusResponse mStatusResponse;
     private DetailAdapter mDetailAdapter;
@@ -71,6 +74,13 @@ public abstract class BaseMainFragment extends Fragment {
         exerciseDays = (TextView) headerView.findViewById(R.id.exercise_days); // 联系天数
         levael = (TextView) headerView.findViewById(R.id.level);
         smartTest = headerView.findViewById(R.id.smart_test);
+        reportArrow = headerView.findViewById(R.id.detail_arrow);
+        reportArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReportActivity.launch(getActivity());
+            }
+        });
 
         listView.setGroupIndicator(null);
         listView.addHeaderView(headerView);
@@ -111,7 +121,7 @@ public abstract class BaseMainFragment extends Fragment {
     public void setData(final StatusResponse statusResponse) {
 
         ExerciseManager.getInstance().setFrenchKind(getKind());
-
+        StatusResponseManager.getInstance().put(getKind(), statusResponse);
         mStatusResponse = statusResponse;
 
         if(!isAdded()) {
