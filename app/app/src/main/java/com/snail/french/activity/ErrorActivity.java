@@ -116,7 +116,7 @@ public class ErrorActivity extends BaseActivity {
             childViewHolder.title.setText(title);
 
             String answerAccuracy;
-            if(status.total_quesstion_num == 0){
+            if(status.total_quesstion_num == 0 || status.exercise_question_number == 0){
                 answerAccuracy =  "正确率 0.00%";
             } else {
                 DecimalFormat decimalFormat=new DecimalFormat("0.00");
