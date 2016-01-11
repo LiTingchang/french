@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.manager.ExerciseManager;
+import com.snail.french.model.RResponse;
 import com.snail.french.model.exercise.Exerciseresponse;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.net.http.StickerHttpClient;
@@ -30,7 +30,7 @@ import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,10 +57,12 @@ public class TestActivity extends BaseActivity {
     private String path;
     private String title;
 
-    private Exerciseresponse exerciseresponse;
+//    private Exerciseresponse exerciseresponse;
     private TestPagerAdapter adapter;
 
     private int currentPageId = 0;
+
+    private HashMap<Integer, Boolean> favMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class TestActivity extends BaseActivity {
 
             @Override
             public void onRightClicked(View parent, View v) {
-                ToastUtil.shortToast(TestActivity.this, "敬请期待");
+                favQuestion();
             }
 
             @Override
@@ -151,6 +153,60 @@ public class TestActivity extends BaseActivity {
         }
     }
 
+    private void favQuestion() {
+        if(favMap.containsKey(currentPageId) && favMap.get(currentPageId)) {
+            favMap.put(currentPageId, false);
+            titlebar.setRightImageResource(R.drawable.title_collect);
+            return;
+        }
+
+        Question question;
+        try {
+            question = ExerciseManager.getInstance().getExerciseresponse().getQuestions().get(currentPageId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            question = null;
+        }
+
+        if(question == null) {
+            ToastUtil.shortToast(this, "收藏失败，请页面加载完成后重试");
+            return;
+        }
+
+        String favPath = "q/" + question.id + "/fav";
+        StickerHttpClient.getInstance()
+                .addAutorization(UserInfoManager.getAccessToken(TestActivity.this))
+                .post(favPath, null, new TypeReference<RResponse>() {
+                        }.getType(),
+                        new StickerHttpResponseHandler<RResponse>() {
+                            @Override
+                            public void onStart() {
+                                showProgressDialog("提交中。。。");
+                            }
+
+                            @Override
+                            public void onSuccess(RResponse response) {
+                                if(response.r == 0) {
+                                    ToastUtil.shortToast(TestActivity.this, "收藏成功");
+                                    favMap.put(currentPageId, true);
+                                    titlebar.setRightImageResource(R.drawable.title_un_collect);
+                                } else {
+                                    ToastUtil.shortToast(TestActivity.this, "收藏失败");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(String message) {
+                                ToastUtil.shortToast(TestActivity.this, "收藏失败");
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                dismissProgressDialog();
+                            }
+                        });
+    }
+
     private void requestData() {
 
         StickerHttpClient.getInstance()
@@ -177,6 +233,11 @@ public class TestActivity extends BaseActivity {
                                     @Override
                                     public void onPageSelected(int position) {
                                         currentPageId = position;
+                                        if (favMap.containsKey(currentPageId) && favMap.get(currentPageId)) {
+                                            titlebar.setRightImageResource(R.drawable.title_un_collect);
+                                        } else {
+                                            titlebar.setRightImageResource(R.drawable.title_collect);
+                                        }
                                     }
 
                                     @Override

@@ -174,8 +174,8 @@ public class CommonTitle extends RelativeLayout {
         }
     }
 
-    public void setRightImageViewBackgroundResource(int resid) {
-        rightImageView.setBackgroundResource(resid);
+    public void setRightImageResource(int resid) {
+        rightImageView.setImageResource(resid);
     }
 
     public interface TitleClickListener {

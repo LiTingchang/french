@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.manager.ExerciseManager;
-import com.snail.french.model.exercise.Exerciseresponse;
+import com.snail.french.model.RResponse;
 import com.snail.french.model.exercise.Question;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
@@ -31,6 +30,7 @@ import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +55,8 @@ public class AnalyzationActivity extends BaseActivity {
     private boolean onlyError = false;
     private int pageIndex = 0;
     private int currentPageId = 0;
+
+    private HashMap<Integer, Boolean> favMap = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,11 @@ public class AnalyzationActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPageId = position;
+                if (favMap.containsKey(currentPageId) && favMap.get(currentPageId)) {
+                    titlebar.setRightImageResource(R.drawable.title_un_collect);
+                } else {
+                    titlebar.setRightImageResource(R.drawable.title_collect);
+                }
             }
 
             @Override
@@ -138,6 +145,61 @@ public class AnalyzationActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void favQuestion() {
+
+        if(favMap.containsKey(currentPageId) && favMap.get(currentPageId)) {
+            favMap.put(currentPageId, false);
+            titlebar.setRightImageResource(R.drawable.title_collect);
+            return;
+        }
+
+        Question question;
+        try {
+            question = mQuestions.get(currentPageId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            question = null;
+        }
+
+        if(question == null) {
+            ToastUtil.shortToast(this, "收藏失败，请页面加载完成后重试");
+            return;
+        }
+
+        final String favPath = "q/" + question.id + "/fav";
+        StickerHttpClient.getInstance()
+                .addAutorization(UserInfoManager.getAccessToken(AnalyzationActivity.this))
+                .post(favPath, null, new TypeReference<RResponse>() {
+                        }.getType(),
+                        new StickerHttpResponseHandler<RResponse>() {
+                            @Override
+                            public void onStart() {
+                                showProgressDialog("提交中。。。");
+                            }
+
+                            @Override
+                            public void onSuccess(RResponse response) {
+                                if(response.r == 0) {
+                                    ToastUtil.shortToast(AnalyzationActivity.this, "收藏成功");
+                                    favMap.put(currentPageId, true);
+                                    titlebar.setRightImageResource(R.drawable.title_un_collect);
+                                } else {
+                                    ToastUtil.shortToast(AnalyzationActivity.this, "收藏失败");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(String message) {
+                                ToastUtil.shortToast(AnalyzationActivity.this, "收藏失败");
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                dismissProgressDialog();
+                            }
+                        });
     }
 
     class TestPagerAdapter extends PagerAdapter {
