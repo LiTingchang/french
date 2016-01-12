@@ -218,7 +218,7 @@ public class MainActivity extends BaseActivity {
             String title = "";
             switch (view.getId()) {
                 case R.id.main_popup_window_item_1:
-                    ToastUtil.shortToast(MainActivity.this, "敬请期待");
+                    SPQuestionListActivity.launch(MainActivity.this, SPQuestionListActivity.QTYPE.ERROR);
                     break;
                 case R.id.main_popup_window_item_2: {
                     switch (currentTabID) {
@@ -266,8 +266,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.main_popup_window_item_5:
                     // 收藏题目
-                    ToastUtil.shortToast(MainActivity.this, "敬请期待");
-                    SPQuestionListActivity.launch(MainActivity.this);
+                    SPQuestionListActivity.launch(MainActivity.this, SPQuestionListActivity.QTYPE.FAV);
                     break;
                 case R.id.main_popup_window_item_6: {
                     switch (currentTabID) {

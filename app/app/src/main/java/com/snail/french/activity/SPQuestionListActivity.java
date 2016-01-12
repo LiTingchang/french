@@ -41,6 +41,13 @@ import butterknife.ButterKnife;
  */
 public class SPQuestionListActivity extends BaseActivity {
 
+    public static enum QTYPE{
+        ERROR,
+        FAV
+    }
+
+    private static final String Q_TYPE_EXT = "Q_TYPE_EXT";
+
     @Bind(R.id.list_view)
     ExpandableListView listView;
     @Bind(R.id.titlebar)
@@ -50,7 +57,7 @@ public class SPQuestionListActivity extends BaseActivity {
 
     List<SPPQuestion> questionList;
 
-
+    private QTYPE qtype = QTYPE.ERROR;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +65,40 @@ public class SPQuestionListActivity extends BaseActivity {
         setContentView(R.layout.activity_report);
         ButterKnife.bind(this);
 
-        questionList = JSON.parseArray(QuestionListConfig.ERROR_TCF, SPPQuestion.class);
+        qtype = (QTYPE)getIntent().getSerializableExtra(Q_TYPE_EXT);
 
-        titlebar.setTitleText(ExerciseManager.getInstance().getFrenchKind().getName());
+        switch (ExerciseManager.getInstance().getFrenchKind()) {
+            case TCF:
+                if (qtype == QTYPE.ERROR) {
+                    questionList = JSON.parseArray(QuestionListConfig.ERROR_TCF, SPPQuestion.class);
+                } else {
+                    questionList = JSON.parseArray(QuestionListConfig.FAV_TCF, SPPQuestion.class);
+                }
+                break;
+            case TEF:
+                if (qtype == QTYPE.ERROR) {
+                    questionList = JSON.parseArray(QuestionListConfig.ERROR_TEF, SPPQuestion.class);
+                } else {
+                    questionList = JSON.parseArray(QuestionListConfig.FAV_TEF, SPPQuestion.class);
+                }
+                break;
+            case TEM4:
+                if (qtype == QTYPE.ERROR) {
+                    questionList = JSON.parseArray(QuestionListConfig.ERROR_S4, SPPQuestion.class);
+                } else {
+                    questionList = JSON.parseArray(QuestionListConfig.FAV_S4, SPPQuestion.class);
+                }
+                break;
+            default:
+                break;
+        }
+
+
+        if (qtype == QTYPE.ERROR) {
+            titlebar.setTitleText("错题练习");
+        } else {
+            titlebar.setTitleText("收藏题目");
+        }
 
         listView.setGroupIndicator(null);
 
@@ -87,7 +125,6 @@ public class SPQuestionListActivity extends BaseActivity {
         TextView title;
         TextView count;
     }
-
 
     class ReportAdapter extends BaseExpandableListAdapter {
 
@@ -127,7 +164,7 @@ public class SPQuestionListActivity extends BaseActivity {
                 childViewHolder = (ChildViewHolder) convertView.getTag();
             }
 
-            final SPQuestion spQuestion = (SPPQuestion) getChild(groupPosition, childPosition);
+            final SPQuestion spQuestion = (SPQuestion) getChild(groupPosition, childPosition);
             childViewHolder.title.setText(spQuestion.title);
 
             return convertView;
@@ -207,9 +244,10 @@ public class SPQuestionListActivity extends BaseActivity {
 
     }
 
-    public static void launch(Context context) {
+    public static void launch(Context context, QTYPE qtype) {
 
         Intent intent = new Intent();
+        intent.putExtra(Q_TYPE_EXT, qtype);
         intent.setClass(context, SPQuestionListActivity.class);
         context.startActivity(intent);
 

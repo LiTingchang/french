@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.client.params.ClientPNames;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 import cz.msebera.android.httpclient.entity.StringEntity;
 
@@ -63,6 +64,7 @@ public class StickerHttpClient {
     public <T> void get(String action, RequestParams requestParams, Type type,
                                StickerHttpResponseHandler<T> responseHandler) {
         LogUtil.d(TAG, "get -> action:" + action + " \n->requestParams:" + (requestParams != null ? requestParams.toString() : "null"));
+        asyncHttpClient.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
         asyncHttpClient.get(HOST + action,
                 requestParams, getAsyncHttpResponseHandler(type, responseHandler));
     }

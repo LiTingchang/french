@@ -221,6 +221,13 @@ public class TestActivity extends BaseActivity {
 
                             @Override
                             public void onSuccess(Exerciseresponse response) {
+
+                                if (response.getQuestionsPairList().isEmpty()) {
+                                    ToastUtil.shortToast(TestActivity.this, "暂无题目");
+                                    TestActivity.this.finish();
+                                    return;
+                                }
+
                                 ExerciseManager.getInstance().setExerciseresponse(response);
                                 adapter = new TestPagerAdapter(TestActivity.this, response);
                                 testViewPager.setAdapter(adapter);
@@ -251,7 +258,8 @@ public class TestActivity extends BaseActivity {
 
                             @Override
                             public void onFailure(String message) {
-
+                                ToastUtil.shortToast(TestActivity.this, "加载题目失败，重试");
+                                TestActivity.this.finish();
                             }
 
                             @Override

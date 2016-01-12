@@ -29,8 +29,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="12dp"
-        android:textColor="@android:color/darker_gray"
-        android:text="11/111"/>
+        android:textColor="@android:color/darker_gray" />
 
     <View style="@style/line_horizontal_style"
         android:layout_marginLeft="12dp"
