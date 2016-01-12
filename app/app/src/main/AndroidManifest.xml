@@ -47,9 +47,12 @@
 
         <activity android:name=".activity.ReportActivity"
             android:screenOrientation="portrait"/>
-T
+
         <activity android:name=".activity.TestActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.SPQuestionListActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.SheetActivity"

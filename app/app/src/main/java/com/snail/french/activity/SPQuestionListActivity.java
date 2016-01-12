@@ -10,20 +10,28 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.constant.FrenchKind;
 import com.snail.french.constant.NameConstants;
+import com.snail.french.constant.QuestionListConfig;
 import com.snail.french.manager.ExerciseManager;
 import com.snail.french.manager.StatusResponseManager;
+import com.snail.french.model.spquestion.SPPQuestion;
+import com.snail.french.model.spquestion.SPQuestion;
 import com.snail.french.model.status.PItem;
 import com.snail.french.model.status.Status;
 import com.snail.french.model.status.StatusResponse;
+import com.snail.french.utils.JsonParseUtil;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.view.CommonTitle;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,15 +39,18 @@ import butterknife.ButterKnife;
 /**
  * Created by litingchang on 15-12-9.
  */
-public class ErrorActivity extends BaseActivity {
+public class SPQuestionListActivity extends BaseActivity {
 
     @Bind(R.id.list_view)
     ExpandableListView listView;
     @Bind(R.id.titlebar)
     CommonTitle titlebar;
 
-    private StatusResponse mStatusResponse;
     private ReportAdapter mReportAdapter;
+
+    List<SPPQuestion> questionList;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,19 +58,24 @@ public class ErrorActivity extends BaseActivity {
         setContentView(R.layout.activity_report);
         ButterKnife.bind(this);
 
-        mStatusResponse = StatusResponseManager.getInstance()
-                .get(ExerciseManager.getInstance().getFrenchKind());
+        questionList = JSON.parseArray(QuestionListConfig.ERROR_TCF, SPPQuestion.class);
 
-        if (mStatusResponse == null) {
-            ToastUtil.shortToast(this, "暂无数据报告");
-            this.finish();
-        }
-
-        titlebar.setTitleText(ExerciseManager.getInstance().getFrenchKind().getName() + "数据报告");
+        titlebar.setTitleText(ExerciseManager.getInstance().getFrenchKind().getName());
 
         listView.setGroupIndicator(null);
 
-        listView.setAdapter(new ReportAdapter(this, mStatusResponse));
+        listView.setAdapter(new ReportAdapter(this, questionList));
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view,
+                                        int groupPosition, int childPosition, long id) {
+
+                SPQuestion spQuestion = questionList.get(groupPosition).child.get(childPosition);
+                TestActivity.launch(SPQuestionListActivity.this, spQuestion.type, spQuestion.title);
+                return false;
+            }
+        });
     }
 
     private static class GroupViewHolder {
@@ -75,17 +91,17 @@ public class ErrorActivity extends BaseActivity {
 
     class ReportAdapter extends BaseExpandableListAdapter {
 
-        private StatusResponse statusResponses;
+        private List<SPPQuestion> questionList;
         private LayoutInflater inflater;
 
-        public ReportAdapter(Context context, StatusResponse statusResponse) {
+        public ReportAdapter(Context context, List<SPPQuestion> questionList) {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.statusResponses = statusResponse;
+            this.questionList = questionList;
         }
 
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            return statusResponses.pItemList.get(groupPosition).statusList.get(childPosition);
+            return questionList.get(groupPosition).child.get(childPosition);
         }
 
         @Override
@@ -111,19 +127,9 @@ public class ErrorActivity extends BaseActivity {
                 childViewHolder = (ChildViewHolder) convertView.getTag();
             }
 
-            final Status status = (Status) getChild(groupPosition, childPosition);
-            String title = NameConstants.getName(StringUtils.isEmpty(status.subType) ? status.type : status.subType);
-            childViewHolder.title.setText(title);
+            final SPQuestion spQuestion = (SPPQuestion) getChild(groupPosition, childPosition);
+            childViewHolder.title.setText(spQuestion.title);
 
-            String answerAccuracy;
-            if(status.total_quesstion_num == 0 || status.exercise_question_number == 0){
-                answerAccuracy =  "正确率 0.00%";
-            } else {
-                DecimalFormat decimalFormat=new DecimalFormat("0.00");
-                answerAccuracy = "正确率"
-                        + decimalFormat.format((double)status.correct_num / status.exercise_question_number * 100) + "%";
-            }
-            childViewHolder.count.setText(answerAccuracy);
             return convertView;
         }
 
@@ -131,25 +137,25 @@ public class ErrorActivity extends BaseActivity {
         public int getChildrenCount(int groupPosition) {
 
             // 专四 阅读 作文 不展开
-            if (ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEM4) {
-                String pName = statusResponses.pItemList.get(groupPosition).name;
-                if ("R".equals(pName) || "C".equals(pName)) {
-                    return 0;
-                }
-            }
+//            if (ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEM4) {
+//                String pName = questionList.get(groupPosition).title;
+//                if ("R".equals(pName) || "C".equals(pName)) {
+//                    return 0;
+//                }
+//            }
 
-            return statusResponses.pItemList.get(groupPosition).statusList.size();
+            return questionList.get(groupPosition).child == null ? 0 : questionList.get(groupPosition).child.size();
         }
 
 
         @Override
         public Object getGroup(int groupPosition) {
-            return statusResponses.pItemList.get(groupPosition);
+            return questionList.get(groupPosition);
         }
 
         @Override
         public int getGroupCount() {
-            return statusResponses.pItemList.size();
+            return questionList == null ? 0 :questionList.size();
         }
 
         @Override
@@ -175,10 +181,14 @@ public class ErrorActivity extends BaseActivity {
                 groupViewHolder = (GroupViewHolder) convertView.getTag();
             }
 
-            final PItem item = (PItem) getGroup(groupPosition);
-            groupViewHolder.title.setText(NameConstants.getName(item.name));
-            groupViewHolder.count.setText("共" + item.total_quesstion_num
-                    + "道/答对" + item.correct_num + "道");
+            final SPPQuestion sppQuestion = (SPPQuestion) getGroup(groupPosition);
+            groupViewHolder.title.setText(sppQuestion.title);
+            groupViewHolder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TestActivity.launch(SPQuestionListActivity.this, sppQuestion.type, sppQuestion.title);
+                }
+            });
 
             return convertView;
         }
@@ -200,7 +210,7 @@ public class ErrorActivity extends BaseActivity {
     public static void launch(Context context) {
 
         Intent intent = new Intent();
-        intent.setClass(context, ErrorActivity.class);
+        intent.setClass(context, SPQuestionListActivity.class);
         context.startActivity(intent);
 
     }
