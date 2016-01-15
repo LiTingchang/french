@@ -2,11 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.snail.french" >
 
+    <!-- 网络访问权限 需要在线获取试题数据提交答题结果 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <!-- 网络状态 判断是否连接网络 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <!-- 无线网络状态 判断wifi状态，下载只在wifi网络环境下进行 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 外部存储 下载及缓存需要 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 读取手机状态和身份 使用umeng统计SDK需要添加的权限，仅为获取手机IMEI用来做用户的唯一标识 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
     <application
@@ -95,7 +99,7 @@
             android:value="5683430a67e58ead8c000ff6" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="test" />
+            android:value="anzhuoshichang" />
     </application>
 
 </manifest>

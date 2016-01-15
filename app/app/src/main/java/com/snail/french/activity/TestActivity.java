@@ -1,16 +1,21 @@
 package com.snail.french.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -133,6 +138,27 @@ public class TestActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == SHEET_REQUEST_CODE) {
             this.finish();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("提示");
+            dialog.setMessage("是否放弃答题？");
+            dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    TestActivity.this.finish();
+                }
+            });
+            dialog.setNegativeButton("取消", null);
+            dialog.show();
+
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     private void stopWebView() {

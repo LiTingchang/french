@@ -110,7 +110,7 @@ public class SPQuestionListActivity extends BaseActivity {
                                         int groupPosition, int childPosition, long id) {
 
                 SPQuestion spQuestion = questionList.get(groupPosition).child.get(childPosition);
-                TestActivity.launch(SPQuestionListActivity.this, spQuestion.type, spQuestion.title);
+                TestActivity.launch(SPQuestionListActivity.this, buildPath(spQuestion.type, spQuestion.sub_type), spQuestion.title);
                 return false;
             }
         });
@@ -223,7 +223,7 @@ public class SPQuestionListActivity extends BaseActivity {
             groupViewHolder.title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TestActivity.launch(SPQuestionListActivity.this, sppQuestion.type, sppQuestion.title);
+                    TestActivity.launch(SPQuestionListActivity.this, buildPath(sppQuestion.type, sppQuestion.sub_type), sppQuestion.title);
                 }
             });
 
@@ -242,6 +242,14 @@ public class SPQuestionListActivity extends BaseActivity {
             return true;
         }
 
+    }
+
+    private String buildPath(String path, String level) {
+        if(!StringUtils.isEmpty(level)) {
+            return  path + "/?q_tcf_level=" + level;
+        } else {
+            return path;
+        }
     }
 
     public static void launch(Context context, QTYPE qtype) {

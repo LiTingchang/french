@@ -96,7 +96,7 @@ public class ResultActivity extends BaseActivity {
 
                                 String title = ExerciseManager.getInstance().getTitle();
                                 if(NameConstants.containName(title)) {
-                                    title = "专项智能联系(" + title + ")";
+                                    title = "专项智能练习(" + title + ")";
                                 }
 
                                 SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
