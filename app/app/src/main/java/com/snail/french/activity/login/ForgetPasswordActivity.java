@@ -60,11 +60,11 @@ public class ForgetPasswordActivity extends BaseActivity {
         if(!text.toString().isEmpty()) {
             cleanPhone.setVisibility(View.VISIBLE);
             if(text.toString().length() != 11) {
-                getVerifyCode.setTextColor(getResources().getColor(R.color.text_red));
+                getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
                 getVerifyCode.setEnabled(false);
             } else {
                 getVerifyCode.setEnabled(true);
-                getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
+                getVerifyCode.setTextColor(getResources().getColor(R.color.text_red));
             }
         } else {
             cleanPhone.setVisibility(View.INVISIBLE);
