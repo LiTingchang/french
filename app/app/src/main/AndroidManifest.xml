@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 读取手机状态和身份 使用umeng统计SDK需要添加的权限，仅为获取手机IMEI用来做用户的唯一标识 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <!-- 视频播放-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".FrenchApp"
@@ -83,6 +85,11 @@
 
         <activity android:name=".activity.others.AboutActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.ExoPlayerActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            android:screenOrientation="landscape"/>
 
         <service
             android:name="com.umeng.update.net.DownloadingService"
