@@ -114,6 +114,8 @@ public class MainActivity extends BaseActivity {
         currentTabID = TAB_ID_TCF;
         selectFragment(TAB_ID_TCF);
 
+        // 允许所有网络环境下的更新提示
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(MainActivity.this);
     }
 
