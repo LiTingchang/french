@@ -39,4 +39,5 @@ public class ContentData {
     public String original_text;
     public String time;
     public String title;
+    public String grammar_analyzation_url;
 }

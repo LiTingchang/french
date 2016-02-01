@@ -106,7 +106,7 @@
             android:value="5683430a67e58ead8c000ff6" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="yingyonghui" />
+            android:value="umeng" />
     </application>
 
 </manifest>

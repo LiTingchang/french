@@ -128,6 +128,21 @@
                     android:textSize="16sp"
                     android:textColor="@android:color/darker_gray"/>
 
+
+                <TextView android:id="@+id/grammar_analyzation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center"
+                    android:text="语法视频解析"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/analyzation_btn"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
         </LinearLayout>

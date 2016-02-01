@@ -323,6 +323,20 @@ public class AnalyzationActivity extends BaseActivity {
                 LogUtil.e("TestPagerAdapter", e.toString());
             }
 
+            // 视频解析
+            TextView analyzationBtn = (TextView) view.findViewById(R.id.grammar_analyzation);
+            if(!TextUtils.isEmpty(question.content_data.grammar_analyzation_url)) {
+                analyzationBtn.setVisibility(View.VISIBLE);
+                analyzationBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ExoPlayerActivity.launch(context, question.content_data.grammar_analyzation_url);
+                    }
+                });
+            } else {
+                analyzationBtn.setVisibility(View.GONE);
+            }
+
             view.setTag(position);
             container.addView(view);
             return view;
