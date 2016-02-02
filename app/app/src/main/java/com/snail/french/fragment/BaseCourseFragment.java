@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.TypeReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.snail.french.R;
+import com.snail.french.activity.VideoSubListActivity;
 import com.snail.french.model.video.CourseItem;
 import com.snail.french.model.video.CourseResponse;
 import com.snail.french.net.http.StickerHttpClient;
@@ -126,8 +127,7 @@ public abstract class BaseCourseFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     CourseItem courseItem = courseItemList.get(i);
-
-                    // TODO　跳转
+                    VideoSubListActivity.launch(getContext(), courseItem.id);
                 }
             });
 

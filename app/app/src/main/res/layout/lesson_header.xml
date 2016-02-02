@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="166dp"
+    android:minHeight="166dp">
+
+
+    <ImageView android:id="@+id/lesson_header_bg"
+        android:layout_width="match_parent"
+        android:layout_height="166dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/lesson_header_bg"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/lesson_header_banner_bg">
+
+        <TextView android:id="@+id/lesson_header_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/white" />
+
+        <TextView android:id="@+id/lesson_header_buy"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/lesson_header_buy_bg"
+            android:text="立即购买"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

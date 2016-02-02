@@ -26,4 +26,11 @@
 
     <color name="test_checkbox_bg_checked">#C4CBCF</color>
 
+    <color name="lesson_header_buy_bg_normal">#ff8f00</color>
+    <color name="lesson_header_buy_bg_pressed">#d67f00</color>
+
+
+    <color name="common_view_selector_normal">#f7f9fa</color>
+    <color name="common_view_selector_pressed">#e9f1f5</color>
+
 </resources>
