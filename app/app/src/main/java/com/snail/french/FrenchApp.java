@@ -46,7 +46,7 @@ public class FrenchApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        initImageLoader();
+        initImageLoader();
 //        Fresco.initialize(this);
 
         mInstance = this;

@@ -264,7 +264,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.main_popup_window_item_4:
                     // 练习历史
-                    ToastUtil.shortToast(MainActivity.this, "敬请期待");
+                    VideoCourseActivity.launch(MainActivity.this);
                     break;
                 case R.id.main_popup_window_item_5:
                     // 收藏题目

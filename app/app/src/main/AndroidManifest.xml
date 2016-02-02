@@ -86,6 +86,12 @@
         <activity android:name=".activity.others.AboutActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.VideoCourseActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.VideoSubListActivity"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.ExoPlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
