@@ -8,8 +8,10 @@ import com.alibaba.fastjson.JSONException;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.snail.french.model.weixin.AuthResponse;
 import com.snail.french.utils.LogUtil;
 import com.snail.french.utils.StringUtils;
+import com.snail.french.weixin.WeiXinUtil;
 
 import org.json.JSONObject;
 
@@ -68,6 +70,35 @@ public class StickerHttpClient {
         asyncHttpClient.get(HOST + action,
                 requestParams, getAsyncHttpResponseHandler(type, responseHandler));
     }
+
+    public <T> void weixinOauth(String code, Type type,
+                        StickerHttpResponseHandler<T> responseHandler) {
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("appid", WeiXinUtil.AppID);
+        requestParams.put("secret", WeiXinUtil.AppSecret);
+        requestParams.put("code", code);
+        requestParams.put("grant_type", "authorization_code");
+
+
+        asyncHttpClient.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
+        asyncHttpClient.get("https://api.weixin.qq.com/sns/oauth2/access_token",
+                requestParams, getAsyncHttpResponseHandler(type, responseHandler));
+    }
+
+    public <T> void weixinUserInfo(AuthResponse authResponse, Type type,
+                                StickerHttpResponseHandler<T> responseHandler) {
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("openid", authResponse.openid);
+        requestParams.put("access_token", authResponse.access_token);
+
+
+        asyncHttpClient.getHttpClient().getParams().setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
+        asyncHttpClient.get("https://api.weixin.qq.com/sns/userinfo",
+                requestParams, getAsyncHttpResponseHandler(type, responseHandler));
+    }
+
 
     public <T> void post(String action, RequestParams requestParams, Type type,
                                StickerHttpResponseHandler<T> responseHandler) {

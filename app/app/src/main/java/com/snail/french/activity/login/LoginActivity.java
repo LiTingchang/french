@@ -18,6 +18,7 @@ import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
+import com.snail.french.weixin.WeiXinUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +47,8 @@ public class LoginActivity extends BaseActivity {
     TextView newUser;
     @Bind(R.id.forget_password)
     TextView forgetPassword;
+    @Bind(R.id.weixin_auth)
+    ImageView weixinAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +61,13 @@ public class LoginActivity extends BaseActivity {
 
     @OnTextChanged(R.id.login_input_name)
     void onPhpneTextChaged(CharSequence text) {
-        if(!text.toString().isEmpty()) {
+        if (!text.toString().isEmpty()) {
             cleanPhone.setVisibility(View.VISIBLE);
         } else {
             cleanPhone.setVisibility(View.INVISIBLE);
         }
     }
+
     @OnClick(R.id.clean_phone)
     void onCleanPhoneClicked() {
         loginInputName.setText("");
@@ -71,7 +75,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnTextChanged(R.id.login_input_password)
     void onPasswordTextChanged(CharSequence text) {
-        if(!text.toString().isEmpty()) {
+        if (!text.toString().isEmpty()) {
             cleanPassword.setVisibility(View.VISIBLE);
         } else {
             cleanPassword.setVisibility(View.INVISIBLE);
@@ -82,6 +86,7 @@ public class LoginActivity extends BaseActivity {
     void onCleanPasswordClicked() {
         loginInputPassword.setText("");
     }
+
     @OnClick(R.id.login_btn)
     void onLoginClicked() {
 
@@ -101,7 +106,7 @@ public class LoginActivity extends BaseActivity {
         }
 
         JSONObject jsonObject = new JSONObject();
-        try{
+        try {
             jsonObject.put("phone_number", phoneNumber);
             jsonObject.put("password", password);
         } catch (JSONException e) {
@@ -142,6 +147,7 @@ public class LoginActivity extends BaseActivity {
                             }
                         });
     }
+
     @OnClick(R.id.new_user)
     void onNewUserClocked() {
         RegistActivity.launch(LoginActivity.this);
@@ -150,6 +156,11 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.forget_password)
     void onForgetPassword() {
         ForgetPasswordActivity.launch(LoginActivity.this);
+    }
+
+    @OnClick(R.id.weixin_auth)
+    void onWeiXinAuth() {
+        WeiXinUtil.getWeiXinUtil(this).sendAuth();
     }
 
     public static void launch(Context context) {

@@ -97,6 +97,11 @@
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen.Translucent"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" >

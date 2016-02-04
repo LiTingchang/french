@@ -33,4 +33,9 @@
 
     <string name="course">科目</string>
 
+    <string name="errcode_success">发送成功,登录中</string>
+    <string name="errcode_cancel">发送取消</string>
+    <string name="errcode_deny">发送被拒绝</string>
+    <string name="errcode_unknown">未知错误,  请重试</string>
+
 </resources>
