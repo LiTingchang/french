@@ -62,7 +62,6 @@ public class TestActivity extends BaseActivity {
     private String path;
     private String title;
 
-//    private Exerciseresponse exerciseresponse;
     private TestPagerAdapter adapter;
 
     private int currentPageId = 0;
@@ -168,10 +167,6 @@ public class TestActivity extends BaseActivity {
                 WebView webView = (WebView) view.findViewById(R.id.test_web_view);
                 if (webView != null) {
                     webView.reload();
-
-//                    Class.forName("android.webkit.WebView")
-//                            .getMethod("onPause", (Class[]) null)
-//                            .invoke(webView, (Object[]) null);
                 }
             }
         } catch (Exception e) {
@@ -393,27 +388,6 @@ public class TestActivity extends BaseActivity {
                     }
                 });
             }
-
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-//                    for (int i = 0; i < question.content_data.option.size(); ++i) {
-//                        if(radioGroup.getChildAt(i).getId() == checkedId) {
-//                            selectIndex = i;
-//                            break;
-//                        }
-//                    }
-//
-//                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
-//
-//                    if(position < getCount() - 1) {
-//                        testViewPager.setCurrentItem(position + 1, true);
-//                    } else {
-//                        //  最后一个，启动答题卡页面
-//                        SheetActivity.launch(TestActivity.this);
-//                    }
-                }
-            });
 
             View analyzationRoot = view.findViewById(R.id.test_analyzation_root);
 

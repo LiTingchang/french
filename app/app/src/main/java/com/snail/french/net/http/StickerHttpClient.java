@@ -146,15 +146,6 @@ public class StickerHttpClient {
         asyncHttpClient.get(HOST + action,  params, asyncHttpResponseHandler);
     }
 
-//    public <T> void postSync(String action, RequestParams requestParams, Type type,
-//                                StickerHttpResponseHandler<T> responseHandler) {
-//
-//        LogUtil.d(TAG, "post ->action:" + action + " \n->requestParams:" + requestParams.toString());
-//
-//        HttpClientUtil.getSyncHttpClient().post(HOST + action,
-//                requestParams, getAsyncHttpResponseHandler(type, responseHandler));
-//    }
-
     private <T> AsyncHttpResponseHandler getAsyncHttpResponseHandler(final Type type, final StickerHttpResponseHandler<T> responseHandler){
         return new AsyncHttpResponseHandler() {
 
@@ -196,12 +187,6 @@ public class StickerHttpClient {
                     responseHandler.onFailure("JSON解析错误");
                     return;
                 }
-
-//                if (!responseData.isResult()) {
-//                    LogUtil.e(TAG, "onSuccess -> responseData isResult false");
-//                    responseHandler.onFailure(responseData.getMessage());
-//                    return;
-//                }
 
                 responseHandler.onSuccess(responseData);
             }

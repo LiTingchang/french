@@ -47,7 +47,6 @@ public class ReportActivity extends BaseActivity {
     private TextView levelTV;
 
     private StatusResponse mStatusResponse;
-    private ReportAdapter mReportAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

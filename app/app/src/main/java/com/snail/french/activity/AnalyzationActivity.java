@@ -273,27 +273,6 @@ public class AnalyzationActivity extends BaseActivity {
             }
             setSelecterEnabled(radioGroup, false);
 
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-//                    for (int i = 0; i < question.content_data.option.size(); ++i) {
-//                        if(radioGroup.getChildAt(i).getId() == checkedId) {
-//                            selectIndex = i;
-//                            break;
-//                        }
-//                    }
-//
-//                    ExerciseManager.getInstance().addAnswer(question.id, selectIndex);
-//
-//                    if(position < getCount() - 1) {
-//                        testViewPager.setCurrentItem(position + 1, true);
-//                    } else {
-//                        //  最后一个，启动答题卡页面
-//                        SheetActivity.launch(TestActivity.this);
-//                    }
-                }
-            });
-
             View analyzationRoot = view.findViewById(R.id.test_analyzation_root);
 
             analyzationRoot.setVisibility(View.VISIBLE);

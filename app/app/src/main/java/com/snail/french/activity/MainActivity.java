@@ -307,8 +307,6 @@ public class MainActivity extends BaseActivity {
 
             popupWindow.setBackgroundDrawable(getResources().getDrawable(
                     R.color.activity_bg));
-//        popup.setWindowLayoutMode(LayoutParams.MATCH_PARENT,
-//                LayoutParams.WRAP_CONTENT);
             popupWindow.setFocusable(true);
             popupWindow.setOutsideTouchable(true);
         }

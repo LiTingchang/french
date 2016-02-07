@@ -17,6 +17,7 @@ import com.snail.french.model.weixin.UserInfoResponse;
 import com.snail.french.net.http.StickerHttpClient;
 import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
+import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
 import com.snail.french.weixin.WeiXinUtil;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -132,9 +133,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 
 					@Override
 					public void onSuccess(UserInfoResponse response) {
-//						mAuthResponse.access_token;
-//						response.openid;
-//						response.nickname;
 						login(mAuthResponse.access_token, response.openid, response.nickname);
 					}
 
@@ -177,6 +175,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 								if (!TextUtils.isEmpty(response.access_token)) {
 
 									UserInfoManager.saveAccessToken(WXEntryActivity.this, response.access_token);
+									UserInfoManager.cachePhoneNumber(WXEntryActivity.this, StringUtils.makeSafe(response.phone_number));
 
 									MainActivity.launch(WXEntryActivity.this);
 									WXEntryActivity.this.finish();

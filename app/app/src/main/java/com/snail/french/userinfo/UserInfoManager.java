@@ -21,10 +21,6 @@ public class UserInfoManager {
         saveAccessToken(context, "");
     }
 
-//    public static String getAccessToken() {
-//        return "f0d10a1ca71a11e5a899525400587ef4";
-//    }
-
     public static void cachePhoneNumber(Context context, String phone) {
         PreferencesUtils.putString(context, CACHED_PHONE, phone);
     }

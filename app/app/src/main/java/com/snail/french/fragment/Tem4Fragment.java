@@ -31,20 +31,6 @@ public class Tem4Fragment extends BaseMainFragment{
 
     @Override
     public void initData() {
-//        String SStr = "{ \"accuracy\": 0, \"exercise_days\": 3, \"exercise_question_number\": 0, \"forcast_score\": 0, \"level\": \"\", \"status\": { \"C\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"status\": { \"60\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 9 } }, \"total_quesstion_num\": 9 }, \"G\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"status\": { \"45\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 437 }, \"47\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 210 } }, \"total_quesstion_num\": 647 }, \"L\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"status\": { \"40\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 10 }, \"41\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 100 }, \"42\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 110 } }, \"total_quesstion_num\": 220 }, \"R\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"status\": { \"50\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 264 } }, \"total_quesstion_num\": 264 }, \"W\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"status\": { \"43\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 50 }, \"44\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 50 }, \"46\": { \"correct_num\": 0, \"exercise_question_number\": 0, \"total_quesstion_num\": 110 } }, \"total_quesstion_num\": 210 } }, \"total_score\": 100 }";
-//        JSONObject jsonObject = null;
-//
-//        try {
-//            jsonObject = new JSONObject(SStr);
-//        }catch (Exception e) {
-//
-//        }
-//        String [] names = {"C", "G", "L", "R", "W"};
-//        String [][] subTypes = {{"60"}, {"45","47"}, {"40","41","42"}, {"50"}, {"43","44","46"}};
-//        StatusResponse response = JsonParseUtil.parseEResponse(names, subTypes, jsonObject);
-//
-//        setData(response);
-
 
         StickerHttpClient.getInstance()
                 .addAutorization(UserInfoManager.getAccessToken(getActivity()))

@@ -160,6 +160,9 @@ public class BindPhoneNumberActivity extends BaseActivity {
                                 if (response.error_code == 0) {
                                     if(response.access_token != null) {
                                         UserInfoManager.cachePhoneNumber(BindPhoneNumberActivity.this, phoneNumber);
+                                        ToastUtil.shortToast(BindPhoneNumberActivity.this, "绑定成功");
+                                        setResult(RESULT_OK);
+                                        finish();
                                     } else {
                                         ToastUtil.shortToast(BindPhoneNumberActivity.this, "绑定失败，请稍候重试");
                                     }

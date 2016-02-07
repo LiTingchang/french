@@ -123,23 +123,6 @@ public class ExerciseManager {
     }
 
     private List<Map<Integer, Integer>> getAnswerList(ArrayList<Question> questions) {
-//        List<Map<Integer, Integer>> list = new ArrayList<>();
-//
-//        if(questions != null) {
-//            for (Question question : questions) {
-//                int id = question.id;
-//                Map<Integer, Integer> map = new HashMap<>();
-//                if(answerMap.containsKey(id)) {
-//                    map.put(id, question.content_data.answer_index == answerMap.get(id)
-//                            ? 1 : 0 );
-//                } else {
-//                    map.put(id, -1);
-//                }
-//                list.add(map);
-//            }
-//        }
-//
-//        return list;
 
         List<Map<Integer, Integer>> list = new ArrayList<>();
 
