@@ -47,6 +47,10 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.login.BindPhoneNumberActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.login.ForgetPasswordActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:screenOrientation="portrait"/>

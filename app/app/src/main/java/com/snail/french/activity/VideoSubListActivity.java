@@ -201,12 +201,23 @@ public class VideoSubListActivity extends BaseActivity {
             final LessonItem lessonItem = lessonItemList.get(position);
 
             holder.title.setText(lessonItem.name);
+            holder.type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String path = "lesson/" + lessonItem.id + "/questions";
+                    TestActivity.launch(VideoSubListActivity.this, path, courseItem.name);
+
+                }
+            });
             if (!isBought && !lessonItem.is_free) {
                 holder.play.setImageResource(R.drawable.ic_lesson_locked);
                 holder.type.setImageResource(R.drawable.ic_lesson_type_unable);
+                holder.type.setEnabled(false);
             } else {
                 holder.play.setImageResource(R.drawable.ic_lesson_play);
                 holder.type.setImageResource(R.drawable.ic_lesson_type_available);
+                holder.type.setEnabled(false);
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -219,6 +230,8 @@ public class VideoSubListActivity extends BaseActivity {
                     }
                 }
             });
+
+
 
 
             return convertView;
