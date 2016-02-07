@@ -96,9 +96,6 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        UserInfoManager.cachePhoneNumber(LoginActivity.this, phoneNumber);
-
-
         String password = StringUtils.deleteWhitespace(loginInputPassword.getText().toString());
         if (StringUtils.isEmpty(password)) {
             ToastUtil.shortToast(this, "请输入登录密码，不可包含空格");
@@ -128,6 +125,8 @@ public class LoginActivity extends BaseActivity {
                                 if (response.error_code == 0 && response.access_token != null) {
 
                                     UserInfoManager.saveAccessToken(LoginActivity.this, response.access_token);
+
+                                    UserInfoManager.cachePhoneNumber(LoginActivity.this, phoneNumber);
 
                                     MainActivity.launch(LoginActivity.this);
                                     LoginActivity.this.finish();

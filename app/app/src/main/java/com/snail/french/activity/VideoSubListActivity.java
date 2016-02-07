@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.snail.french.R;
 import com.snail.french.activity.base.BaseActivity;
+import com.snail.french.activity.login.BindPhoneNumberActivity;
 import com.snail.french.model.video.CourseItem;
 import com.snail.french.model.video.CourseResponse;
 import com.snail.french.model.video.LessonItem;
@@ -39,6 +41,8 @@ import butterknife.ButterKnife;
 public class VideoSubListActivity extends BaseActivity {
 
     private static final String EXT_COURSE_ID = "ext_course_id";
+
+    private static final int REQUEST_CODE_BIND_PHONE = 101;
 
     @Bind(R.id.titlebar)
     CommonTitle titlebar;
@@ -85,6 +89,13 @@ public class VideoSubListActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_BIND_PHONE) {
+            showBuyDialog();
+        }
+    }
 
     void requestData(String action) {
         StickerHttpClient.getInstance()
@@ -122,7 +133,12 @@ public class VideoSubListActivity extends BaseActivity {
                                 headerBuy.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        showBuyDialog();
+
+                                        if(UserInfoManager.hasCachedPhone(VideoSubListActivity.this)) {
+                                            BindPhoneNumberActivity.launchForResult(VideoSubListActivity.this, REQUEST_CODE_BIND_PHONE);
+                                        } else {
+                                            showBuyDialog();
+                                        }
                                     }
                                 });
                             }

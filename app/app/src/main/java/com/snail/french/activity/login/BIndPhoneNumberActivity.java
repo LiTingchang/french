@@ -1,7 +1,6 @@
 package com.snail.french.activity.login;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
 import com.snail.french.R;
-import com.snail.french.activity.MainActivity;
 import com.snail.french.activity.base.BaseActivity;
 import com.snail.french.model.CodeResponse;
 import com.snail.french.model.LoginResponse;
@@ -185,6 +183,4 @@ public class BindPhoneNumberActivity extends BaseActivity {
         Intent intent = new Intent(activity, BindPhoneNumberActivity.class);
         activity.startActivityForResult(intent, requestCode);
     }
-
-
 }

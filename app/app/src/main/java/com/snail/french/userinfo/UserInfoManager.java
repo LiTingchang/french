@@ -33,6 +33,10 @@ public class UserInfoManager {
         return  PreferencesUtils.getString(context, CACHED_PHONE);
     }
 
+    public static boolean hasCachedPhone(Context context) {
+        return !TextUtils.isEmpty(getCachedPhoneNumber(context));
+    }
+
     public static void saveAccessToken(Context context, String token) {
         PreferencesUtils.putString(context, ACCESS_TOKEN, token);
     }
