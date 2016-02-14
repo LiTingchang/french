@@ -109,7 +109,7 @@
         android:layout_marginTop="48dp"
         android:textSize="18sp"
         android:textColor="@android:color/white"
-        android:text="登录"
+        android:text="绑定"
         android:gravity="center"/>
 
 </RelativeLayout>

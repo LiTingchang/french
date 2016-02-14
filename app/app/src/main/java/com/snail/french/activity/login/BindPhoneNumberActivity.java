@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
@@ -18,6 +19,7 @@ import com.snail.french.net.http.StickerHttpResponseHandler;
 import com.snail.french.userinfo.UserInfoManager;
 import com.snail.french.utils.StringUtils;
 import com.snail.french.utils.ToastUtil;
+import com.snail.french.view.CommonTitle;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +33,20 @@ import butterknife.OnTextChanged;
  * Created by litingchang on 2/6/16.
  */
 public class BindPhoneNumberActivity extends BaseActivity {
+//    @Bind(R.id.titlebar)
+//    CommonTitle titlebar;
+//    @Bind(R.id.bind_input_name)
+//    EditText bindInputName;
+//    @Bind(R.id.clean_phone)
+//    ImageView cleanPhone;
+//    @Bind(R.id.bind_name_root)
+//    LinearLayout bindNameRoot;
+//    @Bind(R.id.bind_verify_code)
+//    EditText bindVerifyCode;
+//    @Bind(R.id.get_verify_code)
+//    TextView getVerifyCode;
+//    @Bind(R.id.bind_btn)
+//    TextView bindBtn;
 
     @Bind(R.id.bind_input_name)
     EditText bindInputName;
@@ -53,21 +69,22 @@ public class BindPhoneNumberActivity extends BaseActivity {
 
     @OnTextChanged(R.id.bind_input_name)
     void onPhpneTextChaged(CharSequence text) {
-        if(!text.toString().isEmpty()) {
+        if (!text.toString().isEmpty()) {
             cleanPhone.setVisibility(View.VISIBLE);
-            if(text.toString().length() != 11) {
-                getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
+            if (text.toString().length() != 11) {
+                getVerifyCode.setTextColor(getResources().getColor(R.color.text_red));
                 getVerifyCode.setEnabled(false);
             } else {
                 getVerifyCode.setEnabled(true);
-                getVerifyCode.setTextColor(getResources().getColor(R.color.text_red));
+                getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
             }
         } else {
             cleanPhone.setVisibility(View.INVISIBLE);
-            getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
+            getVerifyCode.setTextColor(getResources().getColor(R.color.text_red));
             getVerifyCode.setEnabled(true);
         }
     }
+
     @OnClick(R.id.clean_phone)
     void onCleanPhoneClicked() {
         bindInputName.setText("");
@@ -82,7 +99,7 @@ public class BindPhoneNumberActivity extends BaseActivity {
         }
 
         JSONObject jsonObject = new JSONObject();
-        try{
+        try {
             jsonObject.put("phone_number", phoneNumber);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -121,7 +138,7 @@ public class BindPhoneNumberActivity extends BaseActivity {
                         });
     }
 
-    @OnClick(R.id.login_btn)
+    @OnClick(R.id.bind_btn)
     void onLoginClicked() {
 
 
@@ -138,7 +155,7 @@ public class BindPhoneNumberActivity extends BaseActivity {
         }
 
         JSONObject jsonObject = new JSONObject();
-        try{
+        try {
             jsonObject.put("phone_number", phoneNumber);
             jsonObject.put("verify_code", verifyCode);
         } catch (JSONException e) {
@@ -146,6 +163,7 @@ public class BindPhoneNumberActivity extends BaseActivity {
         }
 
         StickerHttpClient.getInstance()
+                .addAutorization(UserInfoManager.getAccessToken(this))
                 .postJson(BindPhoneNumberActivity.this, "user/set_phonenumber", jsonObject, new TypeReference<LoginResponse>() {
                         }.getType(),
                         new StickerHttpResponseHandler<LoginResponse>() {
@@ -158,7 +176,7 @@ public class BindPhoneNumberActivity extends BaseActivity {
                             public void onSuccess(LoginResponse response) {
 
                                 if (response.error_code == 0) {
-                                    if(response.access_token != null) {
+                                    if (response.access_token != null) {
                                         UserInfoManager.cachePhoneNumber(BindPhoneNumberActivity.this, phoneNumber);
                                         ToastUtil.shortToast(BindPhoneNumberActivity.this, "绑定成功");
                                         setResult(RESULT_OK);
