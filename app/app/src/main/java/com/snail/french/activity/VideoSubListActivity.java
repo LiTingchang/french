@@ -233,7 +233,7 @@ public class VideoSubListActivity extends BaseActivity {
             } else {
                 holder.play.setImageResource(R.drawable.ic_lesson_play);
                 holder.type.setImageResource(R.drawable.ic_lesson_type_available);
-                holder.type.setEnabled(false);
+                holder.type.setEnabled(true);
             }
 
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -246,9 +246,6 @@ public class VideoSubListActivity extends BaseActivity {
                     }
                 }
             });
-
-
-
 
             return convertView;
         }
