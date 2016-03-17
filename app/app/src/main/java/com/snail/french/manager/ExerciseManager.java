@@ -25,6 +25,8 @@ public class ExerciseManager {
     private String title = "";
     private String exerciseName;
 
+    private boolean needSubmit;
+
     private Exerciseresponse exerciseresponse;
     private Map<String, Exerciseresponse> exerciseresponseMap;
     private Map<Integer, Integer> answerMap;
@@ -178,5 +180,13 @@ public class ExerciseManager {
         }
 
         return errorQuestions;
+    }
+
+    public boolean isNeedSubmit() {
+        return needSubmit;
+    }
+
+    public void setNeedSubmit(boolean needSubmit) {
+        this.needSubmit = needSubmit;
     }
 }

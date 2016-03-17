@@ -225,7 +225,7 @@ public class VideoSubListActivity extends BaseActivity {
                 public void onClick(View v) {
 
                     String path = "lesson/" + lessonItem.id + "/questions";
-                    TestActivity.launch(VideoSubListActivity.this, path, courseItem.name);
+                    TestActivity.launch(VideoSubListActivity.this, path, courseItem.name, false);
 
                 }
             });

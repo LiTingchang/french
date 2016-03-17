@@ -48,6 +48,7 @@ public class TestActivity extends BaseActivity {
     private static final int SHEET_REQUEST_CODE = 101;
     private static final String PATH = "path";
     private static final String TITLE = "title";
+    private static final String SUBMIT = "submit";
 
     private static final String SHOW_ANALYZATION = "show_analyzation";
     private static final String PAGE_INDEX = "page_index";
@@ -61,6 +62,7 @@ public class TestActivity extends BaseActivity {
     private int pageIndex;
     private String path;
     private String title;
+    private boolean needSubmit = true;
 
     private TestPagerAdapter adapter;
 
@@ -76,6 +78,7 @@ public class TestActivity extends BaseActivity {
 
         path = getIntent().getStringExtra(PATH);
         title = getIntent().getStringExtra(TITLE);
+        needSubmit = getIntent().getBooleanExtra(SUBMIT, true);
 
         ExerciseManager.getInstance().setPath(path);
         ExerciseManager.getInstance().setTitle(title);
@@ -207,7 +210,7 @@ public class TestActivity extends BaseActivity {
 
                             @Override
                             public void onSuccess(RResponse response) {
-                                if(response.r == 0) {
+                                if (response.r == 0) {
                                     ToastUtil.shortToast(TestActivity.this, "收藏成功");
                                     favMap.put(currentPageId, true);
                                     titlebar.setRightImageResource(R.drawable.title_un_collect);
@@ -249,6 +252,7 @@ public class TestActivity extends BaseActivity {
                                     return;
                                 }
 
+                                ExerciseManager.getInstance().setNeedSubmit(needSubmit);
                                 ExerciseManager.getInstance().setExerciseresponse(response);
                                 adapter = new TestPagerAdapter(TestActivity.this, response);
                                 testViewPager.setAdapter(adapter);
@@ -444,7 +448,7 @@ public class TestActivity extends BaseActivity {
         }
     }
 
-    public static void launch(Context context, String path, String title) {
+    public static void launch(Context context, String path, String title, boolean needSubmit) {
 
         if(StringUtils.isEmpty(path)) {
             return;
@@ -454,9 +458,15 @@ public class TestActivity extends BaseActivity {
         intent.setClass(context, TestActivity.class);
         intent.putExtra(PATH, path);
         intent.putExtra(TITLE, title);
+        intent.putExtra(SUBMIT, needSubmit);
         context.startActivity(intent);
 
     }
+
+    public static void launch(Context context, String path, String title) {
+        launch(context, path, title, true);
+    }
+
 
     public static void reLaunch(Context context, Boolean showAnalyzation, int index) {
 

@@ -66,7 +66,7 @@
                 android:textSize="16sp"
                 android:textColor="@android:color/tertiary_text_dark"/>
 
-            <RelativeLayout
+            <RelativeLayout android:id="@+id/result_score_root"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@color/activity_bg">

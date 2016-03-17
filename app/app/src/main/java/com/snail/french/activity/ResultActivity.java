@@ -72,6 +72,8 @@ public class ResultActivity extends BaseActivity {
     LinearLayout resultScoreSummary;
     @Bind(R.id.result_summery)
     TextView resultSummery;
+    @Bind(R.id.result_score_root)
+    View resultScoreRoot;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,77 +81,84 @@ public class ResultActivity extends BaseActivity {
         setContentView(R.layout.activity_result);
         ButterKnife.bind(this);
 
-        StickerHttpClient.getInstance()
-                .addAutorization(UserInfoManager.getAccessToken(ResultActivity.this))
-                .postJsonString(ResultActivity.this, ExerciseManager.getInstance().getPath(),
-                        ExerciseManager.getInstance().getAnswerJsonString(),
-                        new TypeReference<ResultResponse>() {
-                        }.getType(),
-                        new StickerHttpResponseHandler<ResultResponse>() {
-                            @Override
-                            public void onStart() {
-                                showProgressDialog("答案提交中。。。");
-                            }
 
-                            @Override
-                            public void onSuccess(ResultResponse response) {
-
-                                String title = ExerciseManager.getInstance().getTitle();
-                                if(NameConstants.containName(title)) {
-                                    title = "专项智能练习(" + title + ")";
+        if(ExerciseManager.getInstance().isNeedSubmit()) {
+            StickerHttpClient.getInstance()
+                    .addAutorization(UserInfoManager.getAccessToken(ResultActivity.this))
+                    .postJsonString(ResultActivity.this, ExerciseManager.getInstance().getPath(),
+                            ExerciseManager.getInstance().getAnswerJsonString(),
+                            new TypeReference<ResultResponse>() {
+                            }.getType(),
+                            new StickerHttpResponseHandler<ResultResponse>() {
+                                @Override
+                                public void onStart() {
+                                    showProgressDialog("答案提交中。。。");
                                 }
 
-                                SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                String date = fullFormat.format(new Date(System.currentTimeMillis()));
+                                @Override
+                                public void onSuccess(ResultResponse response) {
 
-                                resultSummery.setText(title +"\n交卷时间：" + date);
+                                    String title = ExerciseManager.getInstance().getTitle();
+                                    if(NameConstants.containName(title)) {
+                                        title = "专项智能练习(" + title + ")";
+                                    }
 
-                                if (response.r == 0) {
-                                    resultScoreSummary.setVisibility(View.VISIBLE);
-                                    resultDetail.setVisibility(View.GONE);
+                                    SimpleDateFormat fullFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String date = fullFormat.format(new Date(System.currentTimeMillis()));
 
-                                    int score = 0;
-                                    List<Question> questions = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
-                                    Map<Integer, Integer> answerMap = ExerciseManager.getInstance().getAnswerMap();
-                                    for (Question question : questions) {
-                                        if (answerMap.containsKey(question.id)) {
-                                            if (question.content_data.answer_index - 1 == answerMap.get(question.id)) {
-                                                score++;
+                                    resultSummery.setText(title +"\n交卷时间：" + date);
+
+                                    if (response.r == 0) {
+                                        resultScoreSummary.setVisibility(View.VISIBLE);
+                                        resultDetail.setVisibility(View.GONE);
+
+                                        int score = 0;
+                                        List<Question> questions = ExerciseManager.getInstance().getExerciseresponse().getQuestions();
+                                        Map<Integer, Integer> answerMap = ExerciseManager.getInstance().getAnswerMap();
+                                        for (Question question : questions) {
+                                            if (answerMap.containsKey(question.id)) {
+                                                if (question.content_data.answer_index - 1 == answerMap.get(question.id)) {
+                                                    score++;
+                                                }
                                             }
                                         }
-                                    }
-                                    resultSummaryScore.setText(String.valueOf(score));
-                                    resultSummaryTotal.setText("道/" + questions.size() + "道");
-                                } else {
-                                    resultScoreSummary.setVisibility(View.GONE);
-                                    resultDetail.setVisibility(View.VISIBLE);
-                                    resultTotal.setText(String.valueOf(response.total_score));
+                                        resultSummaryScore.setText(String.valueOf(score));
+                                        resultSummaryTotal.setText("道/" + questions.size() + "道");
+                                    } else {
+                                        resultScoreSummary.setVisibility(View.GONE);
+                                        resultDetail.setVisibility(View.VISIBLE);
+                                        resultTotal.setText(String.valueOf(response.total_score));
 
-                                    int score = response.score;
-                                    if (ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEF) {
-                                        if (score < 0) {
-                                            score = 0;
+                                        int score = response.score;
+                                        if (ExerciseManager.getInstance().getFrenchKind() == FrenchKind.TEF) {
+                                            if (score < 0) {
+                                                score = 0;
+                                            }
                                         }
+                                        resultScore.setText(String.valueOf(score));
+                                        resultLevel.setText(String.valueOf(response.level));
+                                        resultAverage.setText(response.average_score + "\n全站平均得分");
+                                        resultDefeat.setText(response.defeat_examinee + "\n已击败考生");
+                                        resultAccuracy.setText(response.accuracy + "%\n正确率");
                                     }
-                                    resultScore.setText(String.valueOf(score));
-                                    resultLevel.setText(String.valueOf(response.level));
-                                    resultAverage.setText(response.average_score + "\n全站平均得分");
-                                    resultDefeat.setText(response.defeat_examinee + "\n已击败考生");
-                                    resultAccuracy.setText(response.accuracy + "%\n正确率");
+                                    showResutSheet();
                                 }
-                                showResutSheet();
-                            }
 
-                            @Override
-                            public void onFailure(String message) {
-                                ToastUtil.shortToast(ResultActivity.this, "提交失败");
-                            }
+                                @Override
+                                public void onFailure(String message) {
+                                    ToastUtil.shortToast(ResultActivity.this, "提交失败");
+                                }
 
-                            @Override
-                            public void onFinish() {
-                                dismissProgressDialog();
-                            }
-                        });
+                                @Override
+                                public void onFinish() {
+                                    dismissProgressDialog();
+                                }
+                            });
+        } else {
+            resultSummery.setVisibility(View.GONE);
+            resultScoreRoot.setVisibility(View.GONE);
+            showResutSheet();
+        }
     }
 
     List<RichTextUtil.RichText> richTexts = new ArrayList<>();
