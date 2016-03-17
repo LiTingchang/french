@@ -128,7 +128,10 @@ public class VideoSubListActivity extends BaseActivity {
 
                                 titlebar.setTitleText(courseItem.name);
 
-                                ImageLoader.getInstance().displayImage(courseItem.thumb_url, headerBg);
+                                if(!TextUtils.isEmpty(courseItem.thumb_url)) {
+                                    ImageLoader.getInstance().displayImage(courseItem.thumb_url, headerBg);
+                                }
+
                                 headerPrice.setText(courseItem.price);
                                 headerBuy.setOnClickListener(new View.OnClickListener() {
                                     @Override

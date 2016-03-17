@@ -88,13 +88,7 @@
                 style="@style/line_vertical_style" />
 
             <TextView android:id="@+id/get_verify_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:src="@drawable/input_clean"
-                android:text="获取验证码"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp"/>
+                style="@style/get_verify_code_btn_style"/>
 
         </LinearLayout>
 

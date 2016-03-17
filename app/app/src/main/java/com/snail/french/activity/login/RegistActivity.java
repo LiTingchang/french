@@ -3,6 +3,7 @@ package com.snail.french.activity.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,11 +49,34 @@ public class RegistActivity extends BaseActivity {
     @Bind(R.id.login_btn)
     TextView loginBtn;
 
+    private CountDownTimer countDownTimer;
+    private int tickCount = 60;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
         ButterKnife.bind(this);
+
+        countDownTimer = new CountDownTimer(1000 * 60, 1000) {
+            public void onTick(long millisUntilFinished) {
+                getVerifyCode.setText(String.valueOf(tickCount));
+                tickCount--;
+            }
+            public void onFinish() {
+                getVerifyCode.setText(R.string.get_verify_code);
+                getVerifyCode.setEnabled(true);
+            }
+        };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 
     @OnTextChanged(R.id.login_input_name)
@@ -60,15 +84,12 @@ public class RegistActivity extends BaseActivity {
         if(!text.toString().isEmpty()) {
             cleanPhone.setVisibility(View.VISIBLE);
             if(text.toString().length() != 11) {
-                getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
                 getVerifyCode.setEnabled(false);
             } else {
                 getVerifyCode.setEnabled(true);
-                getVerifyCode.setTextColor(getResources().getColor(R.color.text_red));
             }
         } else {
             cleanPhone.setVisibility(View.INVISIBLE);
-            getVerifyCode.setTextColor(getResources().getColor(R.color.text_gray));
             getVerifyCode.setEnabled(true);
         }
     }
@@ -115,6 +136,9 @@ public class RegistActivity extends BaseActivity {
                             @Override
                             public void onStart() {
                                 showProgressDialog("验证码发送中。。。");
+                                getVerifyCode.setEnabled(false);
+                                tickCount = 60;
+                                countDownTimer.start();
                             }
 
                             @Override

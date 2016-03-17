@@ -89,5 +89,13 @@
 
     </style>
 
+    <style name="get_verify_code_btn_style">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">@string/get_verify_code</item>
+        <item name="android:textColor">@color/get_verify_code_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
 </resources>
