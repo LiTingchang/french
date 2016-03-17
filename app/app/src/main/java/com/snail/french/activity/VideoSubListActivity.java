@@ -137,7 +137,7 @@ public class VideoSubListActivity extends BaseActivity {
                                     @Override
                                     public void onClick(View view) {
 
-                                        if(UserInfoManager.hasCachedPhone(VideoSubListActivity.this)) {
+                                        if(!UserInfoManager.hasCachedPhone(VideoSubListActivity.this)) {
                                             BindPhoneNumberActivity.launchForResult(VideoSubListActivity.this, REQUEST_CODE_BIND_PHONE);
                                         } else {
                                             showBuyDialog();
