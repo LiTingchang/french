@@ -117,6 +117,7 @@ public class MainActivity extends BaseActivity {
         // 允许所有网络环境下的更新提示
         UmengUpdateAgent.setUpdateOnlyWifi(false);
         UmengUpdateAgent.update(MainActivity.this);
+
     }
 
     @Override
@@ -220,74 +221,83 @@ public class MainActivity extends BaseActivity {
             String title = "";
             switch (view.getId()) {
                 case R.id.main_popup_window_item_1:
-                    SPQuestionListActivity.launch(MainActivity.this, SPQuestionListActivity.QTYPE.ERROR);
+
+                    ExoPlayerActivity.launch(MainActivity.this, "http://7xpe7l.com2.z0.glb.qiniucdn.com/2016/04/12/ge_shi_gong_han_zha_ran_shang_chuan_wu_hei_bian_.mp4");
+
+//                    SPQuestionListActivity.launch(MainActivity.this, SPQuestionListActivity.QTYPE.ERROR);
                     break;
                 case R.id.main_popup_window_item_2: {
-                    switch (currentTabID) {
-                        case 0:
-                            path = "q/C/real_exercise";
-                            title = "TCF 真题模考";
-                            break;
-                        case 1:
-                            path = "q/E/real_exercise";
-                            title = "TEF 真题模考";
-                            break;
-                        case 2:
-                            path = "q/S/real_exercise";
-                            title = "专四真题模考";
-                            break;
-                        default:
-                            break;
-                    }
-                    TestActivity.launch(MainActivity.this, path, title);
+
+                    ExoPlayerActivity.launch(MainActivity.this, "http://7xpe7l.com2.z0.glb.qiniucdn.com/2016/04/12/ge_shi_gong_han_zha_ran_shang_chuan_wu_hei_bian__tc.mp4");
+//                    switch (currentTabID) {
+//                        case 0:
+//                            path = "q/C/real_exercise";
+//                            title = "TCF 真题模考";
+//                            break;
+//                        case 1:
+//                            path = "q/E/real_exercise";
+//                            title = "TEF 真题模考";
+//                            break;
+//                        case 2:
+//                            path = "q/S/real_exercise";
+//                            title = "专四真题模考";
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                    TestActivity.launch(MainActivity.this, path, title);
                 }
                     break;
                 case R.id.main_popup_window_item_3: {
-                    switch (currentTabID) {
-                        case 0:
-                            path = "q/C/forecast_exercise";
-                            title = "TCF 押题宝典";
-                            break;
-                        case 1:
-                            path = "q/E/forecast_exercise";
-                            title = "TEF 押题宝典";
-                            break;
-                        case 2:
-                            path = "q/S/forecast_exercise";
-                            title = "专四押题宝典";
-                            break;
-                        default:
-                            break;
-                    }
-                    TestActivity.launch(MainActivity.this, path, title);
+                    ExoPlayerActivity.launch(MainActivity.this, "http://182.118.4.85/youku/6977D7A06AA4C824639C4A4212/0300080100570DDCE94991328DE3A0BC412887-4D54-09B6-FAC7-6E3998F0C92B.mp4");
+//                    switch (currentTabID) {
+//                        case 0:
+//                            path = "q/C/forecast_exercise";
+//                            title = "TCF 押题宝典";
+//                            break;
+//                        case 1:
+//                            path = "q/E/forecast_exercise";
+//                            title = "TEF 押题宝典";
+//                            break;
+//                        case 2:
+//                            path = "q/S/forecast_exercise";
+//                            title = "专四押题宝典";
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                    TestActivity.launch(MainActivity.this, path, title);
                 }
                     break;
                 case R.id.main_popup_window_item_4:
                     // 练习历史
-                    VideoCourseActivity.launch(MainActivity.this);
+//                    VideoCourseActivity.launch(MainActivity.this);
+                    ExoPlayerActivity.launch(MainActivity.this, "http://7xpe7l.com2.z0.glb.qiniucdn.com/2016/04/12/59.mp4");
                     break;
                 case R.id.main_popup_window_item_5:
                     // 收藏题目
-                    SPQuestionListActivity.launch(MainActivity.this, SPQuestionListActivity.QTYPE.FAV);
+//                    SPQuestionListActivity.launch(MainActivity.this, SPQuestionListActivity.QTYPE.FAV);
+                    ExoPlayerActivity.launch(MainActivity.this, "http://7xpe7l.com2.z0.glb.qiniucdn.com/2016/04/12/59_tc.mp4");
                     break;
                 case R.id.main_popup_window_item_6: {
-                    switch (currentTabID) {
-                        case 0:
-                            path = "q/C/exercise";
-                            title = "TCF 水平测试";
-                            break;
-                        case 1:
-                            path = "q/E/exercise";
-                            title = "TEF 水平测试";
-                            break;
-                        case 2:
-                            path = "q/S/exercise";
-                            title = "专四水平测试";
-                            break;
-                        default:
-                            break;
-                    }
-                    TestActivity.launch(MainActivity.this, path, title);
+                    ExoPlayerActivity.launch(MainActivity.this, "http://27.221.23.178/youku/676FB349FF3382C64306B3953/0300080100570DAFB59D0B328DE3A070C3CC6A-2E4D-59EA-29AD-D4E60E7280D7.mp4");
+//                    switch (currentTabID) {
+//                        case 0:
+//                            path = "q/C/exercise";
+//                            title = "TCF 水平测试";
+//                            break;
+//                        case 1:
+//                            path = "q/E/exercise";
+//                            title = "TEF 水平测试";
+//                            break;
+//                        case 2:
+//                            path = "q/S/exercise";
+//                            title = "专四水平测试";
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                    TestActivity.launch(MainActivity.this, path, title);
                 }
                     break;
                 default:
